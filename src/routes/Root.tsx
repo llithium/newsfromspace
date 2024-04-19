@@ -1,11 +1,7 @@
-import { NavLink, useLoaderData } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { NavLink } from "react-router-dom";
 
 const apiURL = "https://api.spaceflightnewsapi.net";
-
-export async function rootLoader() {
-  const apiRespons = await fetch(apiURL + "/v4/articles/?limit=20&offset=0");
-  return apiRespons.json();
-}
 
 export interface Articles {
   count: number;
@@ -39,7 +35,24 @@ export interface Launch {
 }
 
 function Root() {
-  const articles = useLoaderData() as Articles;
+  const [requestResponse, setRequestResponse] = useState<Articles>({
+    count: 0,
+    next: "",
+    previous: null,
+    results: [],
+  });
+
+  useEffect(() => {
+    async function request() {
+      const apiResponse = await fetch(
+        apiURL + "/v4/articles/?limit=20&offset=0"
+      );
+      const data = await apiResponse.json();
+      setRequestResponse(data);
+    }
+    request();
+  }, []);
+  const articles = requestResponse as Articles;
 
   return (
     <>
