@@ -10,7 +10,6 @@ function App() {
       <NextUIProvider navigate={navigate}>
         <Routes>
           <Route path="/" element={<Root />} />
-          {/* ... */}
         </Routes>
       </NextUIProvider>
     </>
