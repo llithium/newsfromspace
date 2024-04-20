@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
-import { NavLink } from "react-router-dom";
+import { Link as NavLink, Outlet } from "react-router-dom";
 import { Card, CardBody, Image, Link } from "@nextui-org/react";
 
-const apiURL = "https://api.spaceflightnewsapi.net";
+export const apiURL = "https://api.spaceflightnewsapi.net";
 
 export interface Articles {
   count: number;
@@ -57,7 +57,7 @@ function Root() {
 
   return (
     <>
-      <div className="w-4/5 mx-auto">
+      <div className="sm:w-4/5 sm:mx-auto">
         <nav className="flex flex-row justify-between items-center py-12">
           <h1 className=" ">
             <NavLink to={"/"}> News from Space</NavLink>
@@ -67,34 +67,44 @@ function Root() {
         <div className="grid lg:grid-cols-2 grid-cols-1 gap-3 ">
           {articles.results.map((article) => {
             return (
-              <Card key={article.id} className="py-2 flex flex-row min-h-44 ">
-                <Image
-                  alt="Card background"
-                  className="object-cover rounded-xl ml-2 flex-1 w-44 lg:w-56 h-full"
-                  src={article.image_url}
-                />
+              <Link
+                key={article.id}
+                href={`/article/${article.id}`}
+                className="sm:h-44 h-32 "
+              >
+                <Card
+                  key={article.id}
+                  className="m:min-h-44 sm:h-full py-2 flex flex-row h-32 s w-full "
+                >
+                  <Image
+                    alt="Card background"
+                    className="z-0 object-cover rounded-xl ml-2 flex-1 sm:w-44 lg:w-56 w-44 h-full"
+                    src={article.image_url}
+                  />
 
-                <CardBody className="overflow-visible py-2 flex-1 ">
-                  <h2 className="sm:text-large text-sm font-bold ">
-                    {article.title}
-                  </h2>
-                  {/* <p className="text-tiny uppercase font-semibold ">
+                  <CardBody className="overflow-visible py-2 flex-1 ">
+                    <h2 className="sm:text-large text-xs font-bold ">
+                      {article.title}
+                    </h2>
+                    {/* <p className="text-tiny font-semibold ">
                     {article.summary}
                   </p> */}
-                  <div className=" mt-auto">
-                    <p className="sm:text-medium text-sm ">
-                      <Link href={article.url}> {article.news_site}</Link>
-                    </p>
-                    <small className="text-default-500 ">
-                      {article.published_at}
-                    </small>
-                  </div>
-                </CardBody>
-              </Card>
+                    <div className=" mt-auto">
+                      <p className="sm:text-medium text-sm font italic">
+                        {article.news_site}
+                      </p>
+                      <small className="text-default-500 text-tiny">
+                        {article.published_at}
+                      </small>
+                    </div>
+                  </CardBody>
+                </Card>
+              </Link>
             );
           })}
         </div>
       </div>
+      <Outlet />
     </>
   );
 }
