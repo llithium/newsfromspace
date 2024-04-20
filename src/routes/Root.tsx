@@ -90,10 +90,10 @@ function Root() {
                     {article.summary}
                   </p> */}
                     <div className=" mt-auto">
-                      <p className="sm:text-medium text-sm font italic">
+                      <p className="sm:text-medium text-tiny font italic m-0">
                         {article.news_site}
                       </p>
-                      <small className="text-default-500 text-tiny">
+                      <small className="text-default-500 text-tiny m-0">
                         {article.published_at}
                       </small>
                     </div>

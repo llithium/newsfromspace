@@ -27,12 +27,9 @@ export default function Card() {
     async function request() {
       if (params.id) {
         try {
-          //   console.log(params);
-
           const apiResponse = await fetch(apiURL + `/v4/articles/${params.id}`);
           const data = await apiResponse.json();
           setArticle(data);
-          //   console.log(article);
         } catch (error) {
           console.log(error);
         }
@@ -68,15 +65,25 @@ export default function Card() {
               <p className="text-sm md:text-lg  font-semibold ">
                 {loadedArticle.summary}
               </p>
-              <div className=" mt-auto">
-                <p className="sm:text-medium text-sm italic">
-                  <Link href={loadedArticle.url}>
-                    {loadedArticle.news_site}
-                  </Link>
-                </p>
-                <small className="text-default-500 ">
-                  {loadedArticle.published_at}
-                </small>
+              <div className="mt-auto flex flex-row justify-between items-end">
+                <div className="  inline w-max">
+                  <p className="sm:text-medium text-sm italic">
+                    <Link href={loadedArticle.url} isExternal>
+                      {loadedArticle.news_site}
+                    </Link>
+                  </p>
+                  <small className="text-default-500 ">
+                    {loadedArticle.published_at}
+                  </small>
+                </div>
+                <Link
+                  className=""
+                  href={loadedArticle.url}
+                  isExternal
+                  showAnchorIcon
+                >
+                  Read More
+                </Link>
               </div>
             </CardBody>
           </CardElement>
