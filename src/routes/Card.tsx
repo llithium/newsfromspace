@@ -49,7 +49,7 @@ export default function Card() {
           className="modal relative sm:w-3/4 md:h-3/5 w-10/12 h-2/3 mx-auto m-y"
           onClick={(e) => e.stopPropagation()}
         >
-          <CardElement className="px-2 py-2 md:flex md:flex-row min-h-44 h-full flex flex-col overflow-y-scroll">
+          <CardElement className="px-2 py-2 md:flex md:flex-row min-h-44 h-full flex flex-col overflow-y-auto ">
             {/* <div className="mx-2 md:w-min md:h-96 lg:ml-2 flex-1"> */}
             <Image
               alt="Card background"

@@ -1,5 +1,6 @@
 import { Card, CardBody, Image, Link } from "@nextui-org/react";
-import { Outlet, useLoaderData } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Outlet } from "react-router-dom";
 
 export const apiURL = "https://api.spaceflightnewsapi.net";
 
@@ -34,57 +35,89 @@ export interface Launch {
   provider: string;
 }
 
-export async function articlesPageLoader() {
-  try {
-    const apiResponse = await fetch(apiURL + "/v4/articles/?limit=20&offset=0");
-    const data: Articles = await apiResponse.json();
-    return data;
-  } catch (error) {
-    console.log(error);
-  }
-}
+const pageLimit = 20;
 
 function ArticlesPage() {
-  const articles = useLoaderData() as Articles;
+  const [articles, setArticles] = useState<Result[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [offset, setOffset] = useState(0);
 
+  const fetchData = async () => {
+    setIsLoading(true);
+
+    try {
+      const apiResponse = await fetch(
+        apiURL + `/v4/articles/?limit=${pageLimit}&offset=${offset}`
+      );
+      const data: Articles = await apiResponse.json();
+      const dataResults = data.results;
+      setArticles((prevArticles) => [...prevArticles, ...dataResults]);
+      setOffset((prevOffset) => prevOffset + pageLimit);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  const handleScroll = () => {
+    if (
+      window.innerHeight + document.documentElement.scrollTop !==
+        document.documentElement.offsetHeight ||
+      isLoading
+    ) {
+      return;
+    }
+    fetchData();
+  };
+
+  useEffect(() => {
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [isLoading]);
   return (
     <>
       <div className="grid lg:grid-cols-2 grid-cols-1 gap-3 ">
-        {articles.results.map((article) => {
-          return (
-            <Link
-              key={article.id}
-              href={`/articles/${article.id}`}
-              className="sm:h-44 h-32"
-            >
-              <Card
-                key={article.id}
-                className="m:min-h-44 sm:h-full py-2 flex flex-row h-32 s w-full "
-              >
-                <Image
-                  alt="Card background"
-                  className="z-0 object-cover rounded-xl ml-2 flex-1 sm:w-44 lg:w-56 w-44 h-full"
-                  src={article.image_url}
-                />
+        {articles
+          ? articles.map((article) => {
+              return (
+                <Link
+                  key={article.id}
+                  href={`/articles/${article.id}`}
+                  className="sm:h-44 h-32"
+                >
+                  <Card
+                    key={article.id}
+                    className="m:min-h-44 sm:h-full py-2 flex flex-row h-32 s w-full "
+                  >
+                    <Image
+                      alt="Card background"
+                      className="z-0 object-cover rounded-xl ml-2 flex-1 sm:w-44 lg:w-56 w-44 h-full"
+                      src={article.image_url}
+                    />
 
-                <CardBody className="overflow-visible py-2 flex-1">
-                  <h2 className="sm:text-large text-xs font-bold ">
-                    {article.title}
-                  </h2>
-                  <div className=" mt-auto">
-                    <p className="sm:text-medium text-tiny font italic m-0">
-                      {article.news_site}
-                    </p>
+                    <CardBody className="overflow-visible py-2 flex-1">
+                      <h2 className="sm:text-large text-xs font-bold ">
+                        {article.title}
+                      </h2>
+                      <div className=" mt-auto">
+                        <p className="sm:text-medium text-tiny font italic m-0">
+                          {article.news_site}
+                        </p>
 
-                    <small className="text-default-500 text-tiny m-0">
-                      {article.published_at}
-                    </small>
-                  </div>
-                </CardBody>
-              </Card>
-            </Link>
-          );
-        })}
+                        <small className="text-default-500 text-tiny m-0">
+                          {article.published_at}
+                        </small>
+                      </div>
+                    </CardBody>
+                  </Card>
+                </Link>
+              );
+            })
+          : null}
       </div>
       <Outlet />
     </>
