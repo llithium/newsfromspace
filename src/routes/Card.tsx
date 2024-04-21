@@ -46,10 +46,10 @@ export default function Card() {
         onClick={() => navigate("/")}
       >
         <div
-          className="modal relative sm:w-3/4 md:h-96 w-10/12  h-2/3 mx-auto m-y"
+          className="modal relative sm:w-3/4 md:h-3/5 w-10/12 h-2/3 mx-auto m-y"
           onClick={(e) => e.stopPropagation()}
         >
-          <CardElement className="px-2 py-2 md:flex md:flex-row min-h-44 h-full flex flex-col">
+          <CardElement className="px-2 py-2 md:flex md:flex-row min-h-44 h-full flex flex-col overflow-y-scroll">
             {/* <div className="mx-2 md:w-min md:h-96 lg:ml-2 flex-1"> */}
             <Image
               alt="Card background"
@@ -58,12 +58,20 @@ export default function Card() {
             />
             {/* </div> */}
 
-            <CardBody className="overflow-visible py-2 flex-grow ">
+            <CardBody className="overflow-visible py-2 flex-grow">
               <h2 className="text-lg md:text-2xl font-extrabold ">
                 {loadedArticle.title}
               </h2>
-              <p className="text-sm md:text-lg  font-semibold ">
-                {loadedArticle.summary}
+              <p className="text-sm md:text-lg font-semibold">
+                {loadedArticle.summary}{" "}
+                <Link
+                  className=""
+                  href={loadedArticle.url}
+                  isExternal
+                  showAnchorIcon
+                >
+                  Read More
+                </Link>
               </p>
               <div className="mt-auto flex flex-row justify-between items-end">
                 <div className="  inline w-max">
@@ -76,14 +84,6 @@ export default function Card() {
                     {loadedArticle.published_at}
                   </small>
                 </div>
-                <Link
-                  className=""
-                  href={loadedArticle.url}
-                  isExternal
-                  showAnchorIcon
-                >
-                  Read More
-                </Link>
               </div>
             </CardBody>
           </CardElement>
