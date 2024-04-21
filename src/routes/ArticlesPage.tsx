@@ -1,6 +1,7 @@
 import { Card, CardBody, Image, Link, Spinner } from "@nextui-org/react";
 import { useEffect, useState } from "react";
 import { Outlet } from "react-router-dom";
+import ArticlesPageSkelton from "../Components/ArticlesPageSkelton";
 
 export const apiURL = "https://api.spaceflightnewsapi.net";
 
@@ -92,7 +93,7 @@ function ArticlesPage() {
                 >
                   <Card
                     key={article.id}
-                    className="m:min-h-44 sm:h-full py-2 flex flex-row h-32 s w-full "
+                    className="m:min-h-44 sm:h-full py-2 flex flex-row h-32 w-full "
                   >
                     <Image
                       alt="Card background"
@@ -119,6 +120,7 @@ function ArticlesPage() {
               );
             })
           : null}
+        {isLoading ? <ArticlesPageSkelton /> : null}
       </div>
       {isLoading && offset > 0 ? (
         <div className="fixed inset-0 w-screen h-screen flex justify-center items-end">

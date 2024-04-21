@@ -6,7 +6,7 @@ function Root() {
   return (
     <>
       <NextUIProvider navigate={navigate}>
-        <div className="sm:w-4/5 mx-auto w-11/12 ">
+        <div className="mx-auto w-11/12 ">
           <nav className="flex flex-row justify-between items-center py-12">
             <Link
               className="text-black scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl"
