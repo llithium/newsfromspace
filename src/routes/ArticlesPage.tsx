@@ -1,4 +1,4 @@
-import { Card, CardBody, Image, Link } from "@nextui-org/react";
+import { Card, CardBody, Image, Link, Spinner } from "@nextui-org/react";
 import { useEffect, useState } from "react";
 import { Outlet } from "react-router-dom";
 
@@ -78,9 +78,10 @@ function ArticlesPage() {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, [isLoading]);
+
   return (
     <>
-      <div className="grid lg:grid-cols-2 grid-cols-1 gap-3 ">
+      <div className="grid xl:grid-cols-2 grid-cols-1 gap-3 ">
         {articles
           ? articles.map((article) => {
               return (
@@ -119,6 +120,16 @@ function ArticlesPage() {
             })
           : null}
       </div>
+      {isLoading && offset > 0 ? (
+        <div className="fixed inset-0 w-screen h-screen flex justify-center items-end">
+          <Spinner
+            className="z-50 relative bottom-10"
+            size="lg"
+            // label="Loading..."
+            // color="warning"
+          />
+        </div>
+      ) : null}
       <Outlet />
     </>
   );

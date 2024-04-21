@@ -22,7 +22,8 @@ export default function Card() {
 
   const navigate = useNavigate();
   const params = useParams();
-
+  {
+  }
   useEffect(() => {
     async function request() {
       if (params.id) {
@@ -50,14 +51,11 @@ export default function Card() {
           onClick={(e) => e.stopPropagation()}
         >
           <CardElement className="px-2 py-2 md:flex md:flex-row min-h-44 h-full flex flex-col overflow-y-auto ">
-            {/* <div className="mx-2 md:w-min md:h-96 lg:ml-2 flex-1"> */}
             <Image
               alt="Card background"
               className="md:w-full md:h-full max-h-full flex-shrink object-cover rounded-xl w-full h-full"
               src={loadedArticle.image_url}
             />
-            {/* </div> */}
-
             <CardBody className="overflow-visible py-2 flex-grow">
               <h2 className="text-lg md:text-2xl font-extrabold ">
                 {loadedArticle.title}
