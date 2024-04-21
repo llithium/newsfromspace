@@ -1,7 +1,7 @@
 import { useNavigate, useParams } from "react-router-dom";
 import { Card as CardElement, CardBody, Image, Link } from "@nextui-org/react";
 import { useEffect, useState } from "react";
-import { apiURL, Launch, Event } from "./Root";
+import { apiURL, Launch, Event } from "./ArticlesPage";
 
 interface Article {
   id: number;
@@ -43,7 +43,7 @@ export default function Card() {
     return (
       <div
         className="modalWrapper fixed inset-0 w-screen h-screen bg-white/40 backdrop-blur-sm flex items-center"
-        onClick={() => navigate("/")}
+        onClick={() => navigate(-1)}
       >
         <div
           className="modal relative sm:w-3/4 md:h-3/5 w-10/12 h-2/3 mx-auto m-y"
