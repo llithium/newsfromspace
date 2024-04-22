@@ -2,6 +2,7 @@ import { Card, CardBody, Image, Link, Spinner } from "@nextui-org/react";
 import { useEffect, useState } from "react";
 import { Outlet } from "react-router-dom";
 import ArticlesPageSkelton from "../Components/ArticlesPageSkelton";
+import formatDate from "../utils/formatDate";
 
 export const apiURL = "https://api.spaceflightnewsapi.net";
 
@@ -101,17 +102,17 @@ function ArticlesPage() {
                       src={article.image_url}
                     />
 
-                    <CardBody className="overflow-visible py-2 flex-1">
-                      <h2 className="sm:text-large text-xs font-bold ">
+                    <CardBody className="overflow-visible pt-2 pb-0 flex-1">
+                      <h2 className="sm:text-large text-xs font-bold pb-0 scroll-m-20 border-b tracking-tight transition-colors first:mt-0">
                         {article.title}
                       </h2>
                       <div className=" mt-auto">
-                        <p className="sm:text-medium text-tiny font italic m-0">
+                        <p className="sm:text-medium sm:top-0 text-tiny font italic m-0 top-2 relative">
                           {article.news_site}
                         </p>
 
                         <small className="text-default-500 text-tiny m-0">
-                          {article.published_at}
+                          {formatDate(article.published_at)}
                         </small>
                       </div>
                     </CardBody>

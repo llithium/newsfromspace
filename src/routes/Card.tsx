@@ -2,6 +2,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { Card as CardElement, CardBody, Image, Link } from "@nextui-org/react";
 import { useEffect, useState } from "react";
 import { apiURL, Launch, Event } from "./ArticlesPage";
+import formatDate from "../utils/formatDate";
 
 interface Article {
   id: number;
@@ -57,10 +58,10 @@ export default function Card() {
               src={loadedArticle.image_url}
             />
             <CardBody className="overflow-visible py-2 flex-grow">
-              <h2 className="text-lg md:text-2xl font-extrabold ">
+              <h2 className="text-lg md:text-2xl font-extrabold scroll-m-20 border-b pb-2 tracking-tight transition-colors first:mt-0">
                 {loadedArticle.title}
               </h2>
-              <p className="text-sm md:text-lg font-semibold">
+              <p className="text-sm md:text-lg font-semibold mt-2">
                 {loadedArticle.summary}{" "}
                 <Link
                   className=""
@@ -79,7 +80,7 @@ export default function Card() {
                     </Link>
                   </p>
                   <small className="text-default-500 ">
-                    {loadedArticle.published_at}
+                    {formatDate(loadedArticle.published_at)}
                   </small>
                 </div>
               </div>
