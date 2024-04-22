@@ -43,7 +43,7 @@ export default function Card() {
   if (loadedArticle) {
     return (
       <div
-        className="modalWrapper fixed inset-0 w-screen h-screen bg-white/40 backdrop-blur-sm flex items-center"
+        className="modalWrapper fixed inset-0 w-screen h-screen dark:bg-black/40 bg-white/40 backdrop-blur-sm flex items-center"
         onClick={() => navigate(-1)}
       >
         <div
