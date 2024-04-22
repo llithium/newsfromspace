@@ -49,7 +49,7 @@ function ArticlesPage() {
 
     try {
       const apiResponse = await fetch(
-        apiURL + `/v4/articles/?limit=${pageLimit}&offset=${offset}`
+        apiURL + `/v4/articles/?limit=${pageLimit}&offset=${offset}`,
       );
       const data: Articles = await apiResponse.json();
       const dataResults = data.results;
@@ -83,35 +83,35 @@ function ArticlesPage() {
 
   return (
     <>
-      <div className="grid xl:grid-cols-2 grid-cols-1 gap-3 ">
+      <div className="grid grid-cols-1 gap-3 xl:grid-cols-2 ">
         {articles
           ? articles.map((article) => {
               return (
                 <Link
                   key={article.id}
                   href={`/articles/${article.id}`}
-                  className="sm:h-44 h-32"
+                  className="h-32 sm:h-44"
                 >
                   <Card
                     key={article.id}
-                    className="m:min-h-44 sm:h-full py-2 flex flex-row h-32 w-full "
+                    className="flex h-32 w-full flex-row py-2 sm:h-full "
                   >
                     <Image
                       alt="Card background"
-                      className="z-0 object-cover rounded-xl ml-2 flex-1 sm:w-44 lg:w-56 w-44 h-full"
+                      className="z-0 ml-2 h-full w-44 flex-1 rounded-xl object-cover sm:w-44 lg:w-56"
                       src={article.image_url}
                     />
 
-                    <CardBody className="overflow-visible pt-2 pb-0 flex-1">
-                      <h2 className="sm:text-large text-xs font-bold pb-0 scroll-m-20 border-b tracking-tight transition-colors first:mt-0">
+                    <CardBody className="flex-1 overflow-visible pb-0 pt-2">
+                      <h2 className="scroll-m-20 border-b pb-0 text-xs font-bold tracking-tight transition-colors first:mt-0 sm:text-large">
                         {article.title}
                       </h2>
-                      <div className=" mt-auto">
-                        <p className="sm:text-medium sm:top-0 text-tiny font italic m-0 top-2 relative">
+                      <div className="mt-auto">
+                        <p className="relative top-2 m-0 text-tiny italic sm:top-0 sm:text-medium">
                           {article.news_site}
                         </p>
 
-                        <small className="text-default-500 text-tiny m-0">
+                        <small className="m-0 text-tiny text-default-500">
                           {formatDate(article.published_at)}
                         </small>
                       </div>
@@ -124,9 +124,9 @@ function ArticlesPage() {
         {isLoading ? <ArticlesPageSkelton /> : null}
       </div>
       {isLoading && offset > 0 ? (
-        <div className="fixed inset-0 w-screen h-screen flex justify-center items-end">
+        <div className="fixed inset-0 flex h-screen w-screen items-end justify-center">
           <Spinner
-            className="z-50 relative bottom-10"
+            className="relative bottom-10 z-50"
             size="lg"
             // label="Loading..."
             // color="warning"

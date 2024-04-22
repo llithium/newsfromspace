@@ -35,7 +35,7 @@ function Root() {
             </NavbarBrand>
           </NavbarContent>
 
-          <NavbarContent className="hidden sm:flex gap-4" justify="center">
+          <NavbarContent className="hidden gap-4 sm:flex" justify="center">
             <NavbarItem
               isActive={
                 location.pathname === "/articles" || location.pathname === "/"

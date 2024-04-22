@@ -23,8 +23,7 @@ export default function Card() {
 
   const navigate = useNavigate();
   const params = useParams();
-  {
-  }
+
   useEffect(() => {
     async function request() {
       if (params.id) {
@@ -44,24 +43,24 @@ export default function Card() {
   if (loadedArticle) {
     return (
       <div
-        className="modalWrapper fixed inset-0 w-screen h-screen dark:bg-black/40 bg-white/40 backdrop-blur-sm flex items-center"
+        className="modalWrapper fixed inset-0 flex h-screen w-screen items-center bg-white/40 backdrop-blur-sm dark:bg-black/40"
         onClick={() => navigate(-1)}
       >
         <div
-          className="modal relative sm:w-3/4 md:h-3/5 w-10/12 h-2/3 mx-auto m-y"
+          className="modal m-y relative mx-auto h-2/3 w-10/12 sm:w-3/4 md:h-3/5"
           onClick={(e) => e.stopPropagation()}
         >
-          <CardElement className="px-2 py-2 md:flex md:flex-row min-h-44 h-full flex flex-col overflow-y-auto ">
+          <CardElement className="flex h-full min-h-44 flex-col overflow-y-auto px-2 py-2 md:flex md:flex-row">
             <Image
               alt="Card background"
-              className="md:w-full md:h-full max-h-full flex-shrink object-cover rounded-xl w-full h-full"
+              className="h-full max-h-full w-full flex-shrink rounded-xl object-cover md:h-full md:w-full"
               src={loadedArticle.image_url}
             />
-            <CardBody className="overflow-visible py-2 flex-grow">
-              <h2 className="text-lg md:text-2xl font-extrabold scroll-m-20 border-b pb-2 tracking-tight transition-colors first:mt-0">
+            <CardBody className="flex-grow overflow-visible py-2">
+              <h2 className="scroll-m-20 border-b pb-2 text-lg font-extrabold tracking-tight transition-colors first:mt-0 md:text-2xl">
                 {loadedArticle.title}
               </h2>
-              <p className="text-sm md:text-lg font-semibold mt-2">
+              <p className="mt-2 text-sm font-semibold md:text-lg">
                 {loadedArticle.summary}{" "}
                 <Link
                   className=""
@@ -72,9 +71,9 @@ export default function Card() {
                   Read More
                 </Link>
               </p>
-              <div className="mt-auto flex flex-row justify-between items-end">
-                <div className="  inline w-max">
-                  <p className="sm:text-medium text-sm italic">
+              <div className="mt-auto flex flex-row items-end justify-between">
+                <div className="inline w-max">
+                  <p className="text-sm italic sm:text-medium">
                     <Link href={loadedArticle.url} isExternal>
                       {loadedArticle.news_site}
                     </Link>

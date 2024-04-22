@@ -9,24 +9,24 @@ export default function ArticlesPageSkelton() {
       {grid.map((_value, index) => (
         <Card
           key={index}
-          className="sm:min-h-44 sm:h-full py-2 flex flex-row h-32 w-full"
+          className="flex h-32 w-full flex-row py-2 sm:h-full sm:min-h-44"
         >
-          <Skeleton className="rounded-xl ml-2 sm:w-44 md:flex-none lg:w-56 w-44 h-full"></Skeleton>
-          <CardBody className="overflow-visible py-2 flex-1 ">
+          <Skeleton className="ml-2 h-full w-44 rounded-xl sm:w-44 md:flex-none lg:w-56"></Skeleton>
+          <CardBody className="flex-1 overflow-visible py-2 ">
             <Skeleton className="rounded-lg">
-              <h2 className="sm:text-large text-xs font-bold ">
+              <h2 className="text-xs font-bold sm:text-large ">
                 BlueHalo wins $24 million Air Force contract for research and
                 analysis of satellite vulnerabilities
               </h2>
             </Skeleton>
             <div className=" mt-auto">
-              <Skeleton className="rounded-lg w-fit mt-2">
-                <p className="sm:text-medium text-tiny font italic m-0">
+              <Skeleton className="mt-2 w-fit rounded-lg">
+                <p className="font m-0 text-tiny italic sm:text-medium">
                   Placehold
                 </p>
               </Skeleton>
-              <Skeleton className="rounded-lg w-fit mt-1">
-                <small className="text-default-500 text-tiny m-0">
+              <Skeleton className="mt-1 w-fit rounded-lg">
+                <small className="m-0 text-tiny text-default-500">
                   Placeholderplacehold
                 </small>
               </Skeleton>
