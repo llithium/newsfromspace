@@ -15,8 +15,8 @@ export default function ArticlesPageSkelton() {
           <CardBody className="flex-1 overflow-visible py-2 ">
             <Skeleton className="rounded-lg">
               <h2 className="text-xs font-bold sm:text-large ">
-                BlueHalo wins $24 million Air Force contract for research and
-                analysis of satellite vulnerabilities
+                PlaceholderPlaceholderPlaceholderPlaceholderPlaceholderPlaceh
+                PlaceholderPlaceholderPlaceholderPlac
               </h2>
             </Skeleton>
             <div className=" mt-auto">

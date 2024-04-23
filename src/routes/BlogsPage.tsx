@@ -3,44 +3,14 @@ import { useEffect, useState } from "react";
 import { Outlet } from "react-router-dom";
 import ArticlesPageSkelton from "../Components/ArticlesPageSkelton";
 import formatDate from "../utils/formatDate";
+import { ArticlesAndBlogs, Result } from "./ArticlesPage";
 
 export const apiURL = "https://api.spaceflightnewsapi.net/v4";
 
-export interface ArticlesAndBlogs {
-  count: number;
-  next: string;
-  previous: null;
-  results: Result[];
-}
-
-export interface Result {
-  id: number;
-  title: string;
-  url: string;
-  image_url: string;
-  news_site: string;
-  summary: string;
-  published_at: string;
-  updated_at: string;
-  featured: boolean;
-  launches: Launch[];
-  events: Event[];
-}
-
-export interface Event {
-  event_id: number;
-  provider: string;
-}
-
-export interface Launch {
-  launch_id: string;
-  provider: string;
-}
-
 const pageLimit = 20;
 
-function ArticlesPage() {
-  const [articles, setArticles] = useState<Result[]>([]);
+function BlogsPage() {
+  const [blogs, setBlogs] = useState<Result[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [offset, setOffset] = useState(0);
 
@@ -49,11 +19,11 @@ function ArticlesPage() {
 
     try {
       const apiResponse = await fetch(
-        apiURL + `/articles/?limit=${pageLimit}&offset=${offset}`,
+        apiURL + `/blogs/?limit=${pageLimit}&offset=${offset}`,
       );
       const data: ArticlesAndBlogs = await apiResponse.json();
       const dataResults = data.results;
-      setArticles((prevArticles) => [...prevArticles, ...dataResults]);
+      setBlogs((prevBlogs) => [...prevBlogs, ...dataResults]);
       setOffset((prevOffset) => prevOffset + pageLimit);
     } catch (error) {
       console.log(error);
@@ -84,35 +54,35 @@ function ArticlesPage() {
   return (
     <>
       <div className="grid grid-cols-1 gap-3 xl:grid-cols-2 ">
-        {articles
-          ? articles.map((article) => {
+        {blogs
+          ? blogs.map((blog) => {
               return (
                 <Link
-                  key={article.id}
-                  href={`/articles/${article.id}`}
+                  key={blog.id}
+                  href={`/blogs/${blog.id}`}
                   className="h-32 sm:h-44"
                 >
                   <Card
-                    key={article.id}
+                    key={blog.id}
                     className="flex h-32 w-full flex-row py-2 sm:h-full "
                   >
                     <Image
                       alt="Card background"
                       className="z-0 ml-2 h-full w-44 flex-1 rounded-xl object-cover sm:w-44 lg:w-56"
-                      src={article.image_url}
+                      src={blog.image_url}
                     />
 
                     <CardBody className="flex-1 overflow-visible pb-0 pt-2">
                       <h2 className="scroll-m-20 border-b pb-0 text-xs font-bold tracking-tight transition-colors first:mt-0 sm:text-large">
-                        {article.title}
+                        {blog.title}
                       </h2>
                       <div className="mt-auto">
                         <p className="relative top-2 m-0 text-tiny italic sm:top-0 sm:text-medium">
-                          {article.news_site}
+                          {blog.news_site}
                         </p>
 
                         <small className="m-0 text-tiny text-default-500">
-                          {formatDate(article.published_at)}
+                          {formatDate(blog.published_at)}
                         </small>
                       </div>
                     </CardBody>
@@ -127,9 +97,6 @@ function ArticlesPage() {
         <div className="fixed inset-0 flex h-screen w-screen items-end justify-center">
           <Spinner
             className="relative bottom-10 z-50"
-            classNames={{
-              wrapper: "w-24 h-24",
-            }}
             size="lg"
             // label="Loading..."
             // color="warning"
@@ -141,4 +108,4 @@ function ArticlesPage() {
   );
 }
 
-export default ArticlesPage;
+export default BlogsPage;

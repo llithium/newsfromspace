@@ -17,8 +17,6 @@ function Root() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
-  console.log(location);
-  console.log(location.pathname === "/articles" || location.pathname === "/");
 
   return (
     <>
@@ -31,22 +29,27 @@ function Root() {
             />
             <NavbarBrand>
               {/* <Logo /> */}
-              <p className="font-bold text-inherit">News From Space</p>
+              <p className="font-bold text-inherit">
+                <Link color="foreground" href="/">
+                  News From Space
+                </Link>
+              </p>
             </NavbarBrand>
           </NavbarContent>
 
           <NavbarContent className="hidden gap-4 sm:flex" justify="center">
             <NavbarItem
               isActive={
-                location.pathname === "/articles" || location.pathname === "/"
+                location.pathname.startsWith("/articles") ||
+                location.pathname === "/"
               }
             >
               <Link color="foreground" href="/articles">
                 Articles
               </Link>
             </NavbarItem>
-            <NavbarItem isActive={location.pathname == "/blogs"}>
-              <Link color="foreground" href="#">
+            <NavbarItem isActive={location.pathname.startsWith("/blogs")}>
+              <Link color="foreground" href="/blogs">
                 Blogs
               </Link>
             </NavbarItem>

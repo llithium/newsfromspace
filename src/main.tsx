@@ -3,9 +3,11 @@ import "./index.css";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
 import Root from "./routes/Root.tsx";
-import Card from "./routes/Card.tsx";
+import ArticleCard from "./routes/ArticleCard.tsx";
 import ErrorPage from "./Components/ErrorPage.tsx";
 import ArticlesPage from "./routes/ArticlesPage.tsx";
+import BlogsPage from "./routes/BlogsPage.tsx";
+import BlogCard from "./routes/BlogCard.tsx";
 
 const router = createBrowserRouter([
   {
@@ -28,7 +30,17 @@ const router = createBrowserRouter([
             children: [
               {
                 path: "/articles/:id",
-                element: <Card />,
+                element: <ArticleCard />,
+              },
+            ],
+          },
+          {
+            path: "/blogs",
+            element: <BlogsPage />,
+            children: [
+              {
+                path: "/blogs/:id",
+                element: <BlogCard />,
               },
             ],
           },
@@ -39,5 +51,5 @@ const router = createBrowserRouter([
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
-  <RouterProvider router={router} />
+  <RouterProvider router={router} />,
 );
