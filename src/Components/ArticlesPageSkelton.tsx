@@ -22,7 +22,7 @@ export default function ArticlesPageSkelton() {
             <div className=" mt-auto">
               <Skeleton className="mt-2 w-fit rounded-lg">
                 <p className="font m-0 text-tiny italic sm:text-medium">
-                  Placehold
+                  Placeholderpla
                 </p>
               </Skeleton>
               <Skeleton className="mt-1 w-fit rounded-lg">

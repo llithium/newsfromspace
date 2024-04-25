@@ -121,7 +121,7 @@ function ArticlesPage() {
               );
             })
           : null}
-        {isLoading ? <ArticlesPageSkelton /> : null}
+        {isLoading && <ArticlesPageSkelton />}
       </div>
       {isLoading && offset > 0 ? (
         <div className="fixed inset-0 flex h-screen w-screen items-end justify-center">

@@ -29,9 +29,9 @@ export default function BlogCard() {
   return loadedBlog ? (
     <ArticleAndBlogCard card={loadedBlog} />
   ) : (
-    <div className="fixed inset-0 flex h-screen w-screen items-end justify-center">
+    <div className="fixed inset-0 flex h-screen w-screen items-center justify-center">
       <Spinner
-        className="relative bottom-1/2 z-50"
+        className="relative z-50"
         classNames={{
           wrapper: "w-44 h-44",
         }}

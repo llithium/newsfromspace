@@ -91,12 +91,15 @@ function BlogsPage() {
               );
             })
           : null}
-        {isLoading ? <ArticlesPageSkelton /> : null}
+        {isLoading && <ArticlesPageSkelton />}
       </div>
       {isLoading && offset > 0 ? (
         <div className="fixed inset-0 flex h-screen w-screen items-end justify-center">
           <Spinner
             className="relative bottom-10 z-50"
+            classNames={{
+              wrapper: "w-24 h-24",
+            }}
             size="lg"
             // label="Loading..."
             // color="warning"
