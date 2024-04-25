@@ -97,7 +97,7 @@ function Root() {
             </NavbarMenuItem>
           </NavbarMenu>
         </Navbar>
-        <div className="mx-auto w-11/12 ">
+        <div className="mx-auto w-11/12">
           <Outlet />
         </div>
       </NextUIProvider>

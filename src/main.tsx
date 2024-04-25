@@ -8,6 +8,7 @@ import ErrorPage from "./Components/ErrorPage.tsx";
 import ArticlesPage from "./routes/ArticlesPage.tsx";
 import BlogsPage from "./routes/BlogsPage.tsx";
 import BlogCard from "./routes/BlogCard.tsx";
+import NoMatch from "./routes/NoMatch.tsx";
 
 const router = createBrowserRouter([
   {
@@ -15,6 +16,7 @@ const router = createBrowserRouter([
     element: <Root />,
     errorElement: <ErrorPage />,
     children: [
+      { path: "*", element: <NoMatch /> },
       {
         errorElement: <ErrorPage />,
         children: [
