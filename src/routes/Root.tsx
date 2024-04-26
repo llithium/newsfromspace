@@ -53,9 +53,9 @@ function Root() {
                 Blogs
               </Link>
             </NavbarItem>
-            <NavbarItem isActive={location.pathname == "/reports"}>
-              <Link color="foreground" href="#">
-                Reports
+            <NavbarItem isActive={location.pathname == "/launches"}>
+              <Link color="foreground" href="/launches">
+                Launches
               </Link>
             </NavbarItem>
           </NavbarContent>
@@ -95,6 +95,16 @@ function Root() {
                 size="lg"
               >
                 Blogs
+              </Link>
+            </NavbarMenuItem>
+            <NavbarMenuItem isActive={location.pathname === "/launches"}>
+              <Link
+                color="foreground"
+                className="w-full"
+                href="/launches"
+                size="lg"
+              >
+                Launches
               </Link>
             </NavbarMenuItem>
           </NavbarMenu>

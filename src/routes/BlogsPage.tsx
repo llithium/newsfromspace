@@ -85,11 +85,11 @@ function BlogsPage() {
                   >
                     <Image
                       alt="Card background"
-                      className="z-0 ml-2 h-full w-44 flex-1 rounded-xl object-cover sm:w-44 lg:w-56"
+                      className="z-0 ml-2 h-full w-44 flex-shrink rounded-xl object-cover sm:w-44 sm:flex-1 lg:w-56"
                       src={blog.image_url}
                     />
 
-                    <CardBody className="flex-1 overflow-visible pb-0 pt-2">
+                    <CardBody className="flex-grow overflow-visible overflow-y-auto pb-0 pt-2 sm:flex-1">
                       <h2 className="scroll-m-20 border-b pb-0 text-xs font-bold tracking-tight transition-colors first:mt-0 sm:text-large">
                         {blog.title}
                       </h2>
