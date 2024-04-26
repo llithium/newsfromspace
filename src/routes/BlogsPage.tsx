@@ -9,12 +9,14 @@ export const apiURL = "https://api.spaceflightnewsapi.net/v4";
 
 function BlogsPage() {
   const [blogs, setBlogs] = useState<Result[]>([]);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [offset, setOffset] = useState(0);
 
-  const fetchData = async () => {
+  const fetchMoreData = async () => {
+    if (blogs.length < pageLimit) {
+      return;
+    }
     setIsLoading(true);
-
     try {
       const apiResponse = await fetch(
         apiURL + `/blogs/?limit=${pageLimit}&offset=${offset}`,
@@ -25,22 +27,39 @@ function BlogsPage() {
       setOffset((prevOffset) => prevOffset + pageLimit);
     } catch (error) {
       console.log(error);
-    } finally {
+    }
+    setIsLoading(false);
+  };
+
+  useEffect(() => {
+    async function fetchData() {
+      setIsLoading(true);
+      try {
+        const apiResponse = await fetch(
+          apiURL + `/blogs/?limit=${pageLimit}&offset=0`,
+        );
+        const data: ArticlesAndBlogs = await apiResponse.json();
+        const dataResults = data.results;
+        setBlogs(dataResults);
+        setOffset((prevOffset) => prevOffset + pageLimit);
+      } catch (error) {
+        console.log(error);
+      }
       setIsLoading(false);
     }
-  };
-  useEffect(() => {
     fetchData();
   }, []);
 
   const handleScroll = () => {
+    if (isLoading) {
+      return;
+    }
     const scrollHeight = document.documentElement.scrollHeight;
     const clientHeight = document.documentElement.clientHeight;
     const scrollTop =
       document.documentElement.scrollTop || document.body.scrollTop;
-
     if (clientHeight + scrollTop >= scrollHeight) {
-      fetchData();
+      fetchMoreData();
     }
   };
 
