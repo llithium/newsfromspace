@@ -37,7 +37,7 @@ export interface Launch {
   provider: string;
 }
 
-const pageLimit = 20;
+export const pageLimit = 40;
 
 function ArticlesPage() {
   const [articles, setArticles] = useState<Result[]>([]);
@@ -66,14 +66,14 @@ function ArticlesPage() {
   }, []);
 
   const handleScroll = () => {
-    if (
-      window.innerHeight + document.documentElement.scrollTop !==
-        document.documentElement.offsetHeight ||
-      isLoading
-    ) {
-      return;
+    const scrollHeight = document.documentElement.scrollHeight;
+    const clientHeight = document.documentElement.clientHeight;
+    const scrollTop =
+      document.documentElement.scrollTop || document.body.scrollTop;
+
+    if (clientHeight + scrollTop >= scrollHeight) {
+      fetchData();
     }
-    fetchData();
   };
 
   useEffect(() => {

@@ -53,23 +53,25 @@ function Root() {
                 Blogs
               </Link>
             </NavbarItem>
-            {/* <NavbarItem isActive={location.pathname == "/"}>
+            <NavbarItem isActive={location.pathname == "/reports"}>
               <Link color="foreground" href="#">
-                Integrations
+                Reports
               </Link>
-            </NavbarItem> */}
+            </NavbarItem>
           </NavbarContent>
-          {/* Loging/Sign Up */}
-          {/* <NavbarContent justify="end">
+          {/* Login/Sign Up */}
+          <NavbarContent justify="end">
             <NavbarItem className="hidden lg:flex">
-              <Link href="#">Login</Link>
+              <Link color="foreground" href="#">
+                Login
+              </Link>
             </NavbarItem>
             <NavbarItem>
-              <Button as={Link} color="primary" href="#" variant="flat">
+              <Button as={Link} color="default" href="#" variant="flat">
                 Sign Up
               </Button>
             </NavbarItem>
-          </NavbarContent> */}
+          </NavbarContent>
           <NavbarMenu>
             <NavbarMenuItem
               isActive={

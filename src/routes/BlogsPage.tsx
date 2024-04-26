@@ -3,11 +3,9 @@ import { useEffect, useState } from "react";
 import { Outlet } from "react-router-dom";
 import ArticlesPageSkelton from "../Components/ArticlesPageSkelton";
 import formatDate from "../utils/formatDate";
-import { ArticlesAndBlogs, Result } from "./ArticlesPage";
+import { ArticlesAndBlogs, Result, pageLimit } from "./ArticlesPage";
 
 export const apiURL = "https://api.spaceflightnewsapi.net/v4";
-
-const pageLimit = 20;
 
 function BlogsPage() {
   const [blogs, setBlogs] = useState<Result[]>([]);
@@ -36,14 +34,14 @@ function BlogsPage() {
   }, []);
 
   const handleScroll = () => {
-    if (
-      window.innerHeight + document.documentElement.scrollTop !==
-        document.documentElement.offsetHeight ||
-      isLoading
-    ) {
-      return;
+    const scrollHeight = document.documentElement.scrollHeight;
+    const clientHeight = document.documentElement.clientHeight;
+    const scrollTop =
+      document.documentElement.scrollTop || document.body.scrollTop;
+
+    if (clientHeight + scrollTop >= scrollHeight) {
+      fetchData();
     }
-    fetchData();
   };
 
   useEffect(() => {
