@@ -87,7 +87,7 @@ function BlogsPage() {
                     />
 
                     <CardBody className="flex-grow overflow-visible overflow-y-auto pb-0 pt-2 sm:flex-1">
-                      <h2 className="scroll-m-20 border-b pb-0 text-xs font-bold tracking-tight transition-colors first:mt-0 sm:text-large">
+                      <h2 className="scroll-m-20 border-b pb-0 text-xs font-bold tracking-tight transition-colors first:mt-0 sm:text-xl xl:text-2xl">
                         {blog.title}
                       </h2>
                       <div className="mt-auto">
@@ -110,6 +110,7 @@ function BlogsPage() {
       {isFetching ? (
         <div className="fixed inset-0 flex h-screen w-screen items-end justify-center">
           <Spinner
+            color="current"
             className="relative bottom-10 z-50"
             classNames={{
               wrapper: "w-24 h-24",

@@ -29,11 +29,11 @@ function Root() {
             />
             <NavbarBrand>
               {/* <Logo /> */}
-              <p className="font-bold text-inherit">
+              <h1 className="font-bold text-inherit">
                 <Link color="foreground" href="/">
                   News From Space
                 </Link>
-              </p>
+              </h1>
             </NavbarBrand>
           </NavbarContent>
 

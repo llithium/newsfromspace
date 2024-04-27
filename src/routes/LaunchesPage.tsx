@@ -8,6 +8,7 @@ import {
   Divider,
   Link,
   Image,
+  Spinner,
 } from "@nextui-org/react";
 import { testData } from "../testData";
 
@@ -76,46 +77,64 @@ export default function LaunchesPage() {
   // }, [isFetching, isLoading]);
 
   return (
-    <div className="grid grid-cols-1 gap-3 xl:grid-cols-2 ">
-      {}
-      {testData &&
-        testData.map((launch, Index) => {
-          return (
-            <Card key={launch.id} className="h-96">
-              <CardHeader className="flex gap-3">
-                <Image
-                  alt="nextui logo"
-                  height={40}
-                  radius="sm"
-                  src={
-                    launch.mission.agencies[0]
-                      ? launch.mission.agencies[0].logo_url
-                      : ""
-                  }
-                  width={40}
-                />
-                <div className="flex flex-col">
-                  <p className="text-md">{launch.name}</p>
-                  <p className="text-small text-default-500">
-                    {launch.launch_service_provider.name}
+    <>
+      <div className="grid grid-cols-1 gap-3 xl:grid-cols-2 ">
+        {}
+        {testData &&
+          testData.map((launch, Index) => {
+            return (
+              <Card key={launch.id} className="h-96">
+                <CardHeader className="flex gap-3">
+                  <Image
+                    alt="nextui logo"
+                    height={40}
+                    radius="sm"
+                    src={
+                      launch.mission.agencies[0]
+                        ? launch.mission.agencies[0].logo_url
+                        : ""
+                    }
+                    width={40}
+                  />
+                  <div className="flex flex-col">
+                    <h2 className="text-md font-bold">{launch.name}</h2>
+                    <p className="text-small text-default-500">
+                      {launch.launch_service_provider.name}
+                    </p>
+                  </div>
+                </CardHeader>
+                <Divider />
+                <CardBody>
+                  <p className={`w-fit font-semibold ${""}`}>
+                    Status: {launch.status.abbrev}
                   </p>
-                </div>
-              </CardHeader>
-              <Divider />
-              <CardBody>
-                <p className="inline w-fit">Status: {launch.status.abbrev}</p>
-                <p>{launch.status.description}</p>
-              </CardBody>
-              <Divider />
-              <CardFooter>
-                <Link showAnchorIcon href={`/launches/${launch.id}`}>
-                  More Information
-                </Link>
-              </CardFooter>
-            </Card>
-          );
-        })}
-    </div>
+                  <p>{launch.status.description}</p>
+                </CardBody>
+                <Divider />
+                <CardFooter>
+                  <Link showAnchorIcon href={`/launches/${launch.id}`}>
+                    More Information
+                  </Link>
+                </CardFooter>
+              </Card>
+            );
+          })}
+      </div>
+      {isFetching ? (
+        <div className="fixed inset-0 flex h-screen w-screen items-end justify-center">
+          <Spinner
+            color="current"
+            className="relative bottom-10 z-50"
+            classNames={{
+              wrapper: "h-24 w-24",
+            }}
+            size="lg"
+            // label="Loading..."
+            // color="warning"
+          />
+        </div>
+      ) : null}
+    </>
   );
 }
 
