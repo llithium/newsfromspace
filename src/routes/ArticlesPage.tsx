@@ -41,14 +41,15 @@ export const pageLimit = 40;
 
 function ArticlesPage() {
   const [articles, setArticles] = useState<Result[]>([]);
-  const [isLoading, setIsLoading] = useState(false);
-  const [offset, setOffset] = useState(0);
+  const [isLoading, setIsLoading] = useState(true);
+  const [isFetching, setIsFetching] = useState(false);
+  const [offset, setOffset] = useState(pageLimit);
 
   const fetchMoreData = async () => {
     if (articles.length < pageLimit) {
       return;
     }
-    setIsLoading(true);
+    setIsFetching(true);
     try {
       const apiResponse = await fetch(
         apiURL + `/articles/?limit=${pageLimit}&offset=${offset}`,
@@ -60,12 +61,11 @@ function ArticlesPage() {
     } catch (error) {
       console.log(error);
     }
-    setIsLoading(false);
+    setIsFetching(false);
   };
 
   useEffect(() => {
     async function fetchData() {
-      setIsLoading(true);
       try {
         const apiResponse = await fetch(
           apiURL + `/articles/?limit=${pageLimit}&offset=0`,
@@ -73,7 +73,6 @@ function ArticlesPage() {
         const data: ArticlesAndBlogs = await apiResponse.json();
         const dataResults = data.results;
         setArticles(dataResults);
-        setOffset((prevOffset) => prevOffset + pageLimit);
       } catch (error) {
         console.log(error);
       }
@@ -83,7 +82,7 @@ function ArticlesPage() {
   }, []);
 
   const handleScroll = () => {
-    if (isLoading) {
+    if (isFetching) {
       return;
     }
     const scrollHeight = document.documentElement.scrollHeight;
@@ -98,60 +97,60 @@ function ArticlesPage() {
   useEffect(() => {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
-  }, [isLoading]);
+  }, [isFetching, isLoading]);
 
   return (
     <>
       <div className="grid grid-cols-1 gap-3 xl:grid-cols-2 ">
         {articles
           ? articles.map((article) => {
-              return (
-                <Link
+            return (
+              <Link
+                key={article.id}
+                href={`/articles/${article.id}`}
+                className="h-32 sm:h-44"
+              >
+                <Card
                   key={article.id}
-                  href={`/articles/${article.id}`}
-                  className="h-32 sm:h-44"
+                  className="flex h-32 w-full flex-row py-2 sm:h-full "
                 >
-                  <Card
-                    key={article.id}
-                    className="flex h-32 w-full flex-row py-2 sm:h-full "
-                  >
-                    <Image
-                      alt="Card background"
-                      className="z-0 ml-2 h-full w-44 flex-shrink rounded-xl object-cover sm:w-44 sm:flex-1 lg:w-56"
-                      src={article.image_url}
-                    />
+                  <Image
+                    alt="Card background"
+                    className="z-0 ml-2 h-full w-44 flex-shrink rounded-xl object-cover sm:w-44 sm:flex-1 lg:w-56"
+                    src={article.image_url}
+                  />
 
-                    <CardBody className="flex-grow overflow-visible overflow-y-auto pb-0 pt-2 sm:flex-1">
-                      <h2 className="scroll-m-20 border-b pb-0 text-xs font-bold tracking-tight transition-colors first:mt-0 sm:text-large">
-                        {article.title}
-                      </h2>
-                      <div className="mt-auto">
-                        <p className="relative top-2 m-0 text-tiny italic sm:top-0 sm:text-medium">
-                          {article.news_site}
-                        </p>
+                  <CardBody className="flex-grow overflow-visible overflow-y-auto pb-0 pt-2 sm:flex-1">
+                    <h2 className="sm:text-large scroll-m-20 border-b pb-0 text-xs font-bold tracking-tight transition-colors first:mt-0">
+                      {article.title}
+                    </h2>
+                    <div className="mt-auto">
+                      <p className="text-tiny sm:text-medium relative top-2 m-0 italic sm:top-0">
+                        {article.news_site}
+                      </p>
 
-                        <small className="m-0 text-tiny text-default-500">
-                          {formatDate(article.published_at)}
-                        </small>
-                      </div>
-                    </CardBody>
-                  </Card>
-                </Link>
-              );
-            })
+                      <small className="text-tiny text-default-500 m-0">
+                        {formatDate(article.published_at)}
+                      </small>
+                    </div>
+                  </CardBody>
+                </Card>
+              </Link>
+            );
+          })
           : null}
         {isLoading && <ArticlesPageSkelton />}
       </div>
-      {isLoading && offset > 0 ? (
+      {isFetching ? (
         <div className="fixed inset-0 flex h-screen w-screen items-end justify-center">
           <Spinner
             className="relative bottom-10 z-50"
             classNames={{
-              wrapper: "w-24 h-24",
+              wrapper: "h-24 w-24",
             }}
             size="lg"
-            // label="Loading..."
-            // color="warning"
+          // label="Loading..."
+          // color="warning"
           />
         </div>
       ) : null}

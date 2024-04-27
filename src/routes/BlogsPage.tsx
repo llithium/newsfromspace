@@ -3,20 +3,19 @@ import { useEffect, useState } from "react";
 import { Outlet } from "react-router-dom";
 import ArticlesPageSkelton from "../Components/ArticlesPageSkelton";
 import formatDate from "../utils/formatDate";
-import { ArticlesAndBlogs, Result, pageLimit } from "./ArticlesPage";
-
-export const apiURL = "https://api.spaceflightnewsapi.net/v4";
+import { ArticlesAndBlogs, Result, apiURL, pageLimit } from "./ArticlesPage";
 
 function BlogsPage() {
   const [blogs, setBlogs] = useState<Result[]>([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [offset, setOffset] = useState(0);
+  const [isFetching, setIsFetching] = useState(false);
+  const [offset, setOffset] = useState(pageLimit);
 
   const fetchMoreData = async () => {
     if (blogs.length < pageLimit) {
       return;
     }
-    setIsLoading(true);
+    setIsFetching(true);
     try {
       const apiResponse = await fetch(
         apiURL + `/blogs/?limit=${pageLimit}&offset=${offset}`,
@@ -28,12 +27,11 @@ function BlogsPage() {
     } catch (error) {
       console.log(error);
     }
-    setIsLoading(false);
+    setIsFetching(false);
   };
 
   useEffect(() => {
     async function fetchData() {
-      setIsLoading(true);
       try {
         const apiResponse = await fetch(
           apiURL + `/blogs/?limit=${pageLimit}&offset=0`,
@@ -41,7 +39,6 @@ function BlogsPage() {
         const data: ArticlesAndBlogs = await apiResponse.json();
         const dataResults = data.results;
         setBlogs(dataResults);
-        setOffset((prevOffset) => prevOffset + pageLimit);
       } catch (error) {
         console.log(error);
       }
@@ -51,7 +48,7 @@ function BlogsPage() {
   }, []);
 
   const handleScroll = () => {
-    if (isLoading) {
+    if (isFetching) {
       return;
     }
     const scrollHeight = document.documentElement.scrollHeight;
@@ -66,7 +63,7 @@ function BlogsPage() {
   useEffect(() => {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
-  }, [isLoading]);
+  }, [isFetching, isLoading]);
 
   return (
     <>
@@ -110,7 +107,7 @@ function BlogsPage() {
           : null}
         {isLoading && <ArticlesPageSkelton />}
       </div>
-      {isLoading && offset > 0 ? (
+      {isFetching ? (
         <div className="fixed inset-0 flex h-screen w-screen items-end justify-center">
           <Spinner
             className="relative bottom-10 z-50"

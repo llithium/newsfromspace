@@ -4,11 +4,12 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
 import Root from "./routes/Root.tsx";
 import ArticleCard from "./routes/ArticleCard.tsx";
-import ErrorPage from "./Components/ErrorPage.tsx";
+import ErrorPage from "./routes/ErrorPage.tsx";
 import ArticlesPage from "./routes/ArticlesPage.tsx";
 import BlogsPage from "./routes/BlogsPage.tsx";
 import BlogCard from "./routes/BlogCard.tsx";
 import NoMatch from "./routes/NoMatch.tsx";
+import LaunchesPage from "./routes/LaunchesPage.tsx";
 
 const router = createBrowserRouter([
   {
@@ -46,7 +47,7 @@ const router = createBrowserRouter([
               },
             ],
           },
-        ],
+          { path: "/launches", element: <LaunchesPage /> }],
       },
     ],
   },
