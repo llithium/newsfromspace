@@ -10,9 +10,9 @@ import {
   Image,
   Spinner,
 } from "@nextui-org/react";
-import { testData } from "../testData";
 
-const launchApiUrl = "https://ll.thespacedevs.com/2.2.0";
+// const launchApiUrl = "https://ll.thespacedevs.com/2.2.0";
+const launchApiUrl = "https://lldev.thespacedevs.com/2.2.0"; // * For development
 
 export default function LaunchesPage() {
   const [upcomingLaunches, setUpcomingLaunches] = useState<Result[]>([]);
@@ -20,68 +20,67 @@ export default function LaunchesPage() {
   const [isFetching, setIsFetching] = useState(false);
   const [offset, setOffset] = useState(pageLimit);
 
-  // async function fetchMoreData() {
-  //   try {
-  //     setIsFetching(true);
-  //     const apiResponse = await fetch(
-  //       launchApiUrl + `/launch/upcoming/?limit=${pageLimit}&offset=${offset}`,
-  //     );
-  //     const data: LaunchesUpcoming = await apiResponse.json();
-  //     const dataResults = data.results;
-  //     setUpcomingLaunches((prevUpcomingLaunches) => [
-  //       ...prevUpcomingLaunches,
-  //       ...dataResults,
-  //     ]);
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const apiResponse = await fetch(
+          launchApiUrl + `/launch/upcoming/?limit=${pageLimit}&offset=0`,
+        );
+        const data: LaunchesUpcoming = await apiResponse.json();
+        const dataResults = data.results;
+        setUpcomingLaunches(dataResults);
+      } catch (error) {
+        console.log(error);
+      }
+      setIsLoading(false);
+    }
+    fetchData();
+  }, []);
 
-  //     setOffset((prevOffset) => prevOffset + pageLimit);
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  //   setIsFetching(false);
-  // }
+  async function fetchMoreData() {
+    try {
+      setIsFetching(true);
+      const apiResponse = await fetch(
+        launchApiUrl + `/launch/upcoming/?limit=${pageLimit}&offset=${offset}`,
+      );
+      const data: LaunchesUpcoming = await apiResponse.json();
+      const dataResults = data.results;
+      setUpcomingLaunches((prevUpcomingLaunches) => [
+        ...prevUpcomingLaunches,
+        ...dataResults,
+      ]);
 
-  // useEffect(() => {
-  //   async function fetchData() {
-  //     try {
-  //       const apiResponse = await fetch(
-  //         launchApiUrl +
-  //           `/launch/upcoming/?limit=${pageLimit}&offset=${offset}`,
-  //       );
-  //       const data: LaunchesUpcoming = await apiResponse.json();
-  //       const dataResults = data.results;
-  //       setUpcomingLaunches(dataResults);
-  //     } catch (error) {
-  //       console.log(error);
-  //     }
-  //     setIsLoading(false);
-  //   }
-  //   fetchData();
-  // }, []);
+      setOffset((prevOffset) => prevOffset + pageLimit);
+    } catch (error) {
+      console.log(error);
+    }
+    setIsFetching(false);
+  }
 
-  // const handleScroll = () => {
-  //   if (isFetching) {
-  //     return;
-  //   }
-  //   const scrollHeight = document.documentElement.scrollHeight;
-  //   const clientHeight = document.documentElement.clientHeight;
-  //   const scrollTop =
-  //     document.documentElement.scrollTop || document.body.scrollTop;
-  //   if (clientHeight + scrollTop >= scrollHeight) {
-  //     fetchMoreData();
-  //   }
-  // };
+  const handleScroll = () => {
+    if (isFetching) {
+      return;
+    }
+    const scrollHeight = document.documentElement.scrollHeight;
+    const clientHeight = document.documentElement.clientHeight;
+    const scrollTop =
+      document.documentElement.scrollTop || document.body.scrollTop;
+    if (clientHeight + scrollTop >= scrollHeight) {
+      fetchMoreData();
+    }
+  };
 
-  // useEffect(() => {
-  //   window.addEventListener("scroll", handleScroll);
-  //   return () => window.removeEventListener("scroll", handleScroll);
-  // }, [isFetching, isLoading]);
+  useEffect(() => {
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [isFetching, isLoading]);
 
   return (
     <>
       <div className="grid grid-cols-1 gap-3 xl:grid-cols-2 ">
         {}
-        {testData &&
-          testData.map((launch, Index) => {
+        {upcomingLaunches &&
+          upcomingLaunches.map((launch, Index) => {
             return (
               <Card key={launch.id} className="h-96">
                 <CardHeader className="flex gap-3">

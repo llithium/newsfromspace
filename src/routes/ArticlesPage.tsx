@@ -45,25 +45,6 @@ function ArticlesPage() {
   const [isFetching, setIsFetching] = useState(false);
   const [offset, setOffset] = useState(pageLimit);
 
-  const fetchMoreData = async () => {
-    if (articles.length < pageLimit) {
-      return;
-    }
-    setIsFetching(true);
-    try {
-      const apiResponse = await fetch(
-        apiURL + `/articles/?limit=${pageLimit}&offset=${offset}`,
-      );
-      const data: ArticlesAndBlogs = await apiResponse.json();
-      const dataResults = data.results;
-      setArticles((prevArticles) => [...prevArticles, ...dataResults]);
-      setOffset((prevOffset) => prevOffset + pageLimit);
-    } catch (error) {
-      console.log(error);
-    }
-    setIsFetching(false);
-  };
-
   useEffect(() => {
     async function fetchData() {
       try {
@@ -92,6 +73,25 @@ function ArticlesPage() {
     if (clientHeight + scrollTop >= scrollHeight) {
       fetchMoreData();
     }
+  };
+
+  const fetchMoreData = async () => {
+    if (articles.length < pageLimit) {
+      return;
+    }
+    setIsFetching(true);
+    try {
+      const apiResponse = await fetch(
+        apiURL + `/articles/?limit=${pageLimit}&offset=${offset}`,
+      );
+      const data: ArticlesAndBlogs = await apiResponse.json();
+      const dataResults = data.results;
+      setArticles((prevArticles) => [...prevArticles, ...dataResults]);
+      setOffset((prevOffset) => prevOffset + pageLimit);
+    } catch (error) {
+      console.log(error);
+    }
+    setIsFetching(false);
   };
 
   useEffect(() => {

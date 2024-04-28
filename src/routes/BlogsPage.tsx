@@ -11,6 +11,23 @@ function BlogsPage() {
   const [isFetching, setIsFetching] = useState(false);
   const [offset, setOffset] = useState(pageLimit);
 
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const apiResponse = await fetch(
+          apiURL + `/blogs/?limit=${pageLimit}&offset=0`,
+        );
+        const data: ArticlesAndBlogs = await apiResponse.json();
+        const dataResults = data.results;
+        setBlogs(dataResults);
+      } catch (error) {
+        console.log(error);
+      }
+      setIsLoading(false);
+    }
+    fetchData();
+  }, []);
+
   const fetchMoreData = async () => {
     if (blogs.length < pageLimit) {
       return;
@@ -29,23 +46,6 @@ function BlogsPage() {
     }
     setIsFetching(false);
   };
-
-  useEffect(() => {
-    async function fetchData() {
-      try {
-        const apiResponse = await fetch(
-          apiURL + `/blogs/?limit=${pageLimit}&offset=0`,
-        );
-        const data: ArticlesAndBlogs = await apiResponse.json();
-        const dataResults = data.results;
-        setBlogs(dataResults);
-      } catch (error) {
-        console.log(error);
-      }
-      setIsLoading(false);
-    }
-    fetchData();
-  }, []);
 
   const handleScroll = () => {
     if (isFetching) {
