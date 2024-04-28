@@ -13,7 +13,7 @@ export default function ArticlesPageSkelton() {
           className="flex h-32 w-full flex-row py-2 sm:h-full sm:min-h-44"
         >
           <Skeleton className="sm:flex-0 ml-2 h-full w-44 flex-shrink rounded-xl object-cover sm:w-44 lg:w-56"></Skeleton>
-          <CardBody className="flex-grow overflow-visible overflow-y-auto pb-0 pt-2 sm:flex-1">
+          <CardBody className="flex-grow overflow-visible overflow-y-auto py-0 sm:flex-1">
             <Skeleton className="rounded-lg">
               <h2 className="text-xs font-bold sm:text-large ">
                 PlaceholderPlaceholderPlaceholderPlaceholderPlaceholderPlaceh

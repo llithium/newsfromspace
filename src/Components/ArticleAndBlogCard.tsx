@@ -25,12 +25,12 @@ export default function ArticleAndBlogCard({ card }: ArticleAndBlogCardProps) {
             className="h-full max-h-full w-full flex-shrink rounded-xl object-cover md:h-full md:w-full"
             src={card.image_url}
           />
-          <CardBody className="flex-grow overflow-visible py-2">
-            <h2 className="scroll-m-20 border-b pb-2 text-lg font-extrabold tracking-tight transition-colors first:mt-0 md:text-2xl">
+          <CardBody className="flex-grow overflow-visible py-0">
+            <h2 className="border-b pb-2 text-lg font-extrabold tracking-tight transition-colors first:mt-0 md:text-2xl">
               {card.title}
             </h2>
             <p className="mt-2 overflow-y-auto text-sm font-semibold md:text-lg">
-              {card.summary}{" "}
+              {card.summary}
               <Link className="" href={card.url} isExternal showAnchorIcon>
                 Read More
               </Link>

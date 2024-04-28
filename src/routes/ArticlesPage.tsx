@@ -1,4 +1,11 @@
-import { Card, CardBody, Image, Link, Spinner } from "@nextui-org/react";
+import {
+  Card,
+  CardBody,
+  Divider,
+  Image,
+  Link,
+  Spinner,
+} from "@nextui-org/react";
 import { useEffect, useState } from "react";
 import { Outlet } from "react-router-dom";
 import ArticlesPageSkelton from "../Components/ArticlesPageSkelton";
@@ -117,15 +124,15 @@ function ArticlesPage() {
                       src={article.image_url}
                     />
 
-                    <CardBody className="flex-grow overflow-visible overflow-y-auto pb-0 pt-2 sm:flex-1">
-                      <h2 className="scroll-m-20 border-b pb-0 text-xs font-bold tracking-tight transition-colors first:mt-0 sm:text-xl xl:text-2xl">
+                    <CardBody className="flex-grow overflow-visible overflow-y-auto py-0 sm:flex-1">
+                      <h2 className="pb-0 text-xs font-bold tracking-tight transition-colors first:mt-0 sm:text-xl 2xl:text-2xl">
                         {article.title}
                       </h2>
+                      <Divider />
                       <div className="mt-auto">
-                        <p className="relative top-2 m-0 text-tiny italic sm:top-0 sm:text-medium">
+                        <p className="relative top-2 m-0 text-tiny italic sm:top-1 sm:text-medium">
                           {article.news_site}
                         </p>
-
                         <small className="m-0 text-tiny text-default-500">
                           {formatDate(article.published_at)}
                         </small>
