@@ -38,9 +38,6 @@ export default function LaunchesPage() {
   }, []);
 
   async function fetchMoreData() {
-    if ((upcomingLaunches.length = 0)) {
-      return;
-    }
     try {
       setIsFetching(true);
       const apiResponse = await fetch(
@@ -88,7 +85,7 @@ export default function LaunchesPage() {
               <Card key={launch.id} className="h-96">
                 <CardHeader className="flex gap-3">
                   <Image
-                    alt="nextui logo"
+                    alt="Agency logo"
                     height={40}
                     radius="sm"
                     src={

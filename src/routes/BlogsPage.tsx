@@ -85,7 +85,7 @@ function BlogsPage() {
                     className="flex h-32 w-full flex-row py-2 sm:h-full "
                   >
                     <Image
-                      alt="Card background"
+                      alt="Blog image"
                       className="z-0 ml-2 h-full w-44 flex-shrink rounded-xl object-cover sm:w-44 sm:flex-1 lg:w-56"
                       src={blog.image_url}
                     />
