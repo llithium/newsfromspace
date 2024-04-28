@@ -38,7 +38,6 @@ export default function BlogCard() {
         }}
         size="lg"
         // label="Loading..."
-        // color="warning"
       />
     </div>
   );

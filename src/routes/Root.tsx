@@ -1,4 +1,9 @@
-import { Outlet, useLocation, useNavigate } from "react-router-dom";
+import {
+  Outlet,
+  ScrollRestoration,
+  useLocation,
+  useNavigate,
+} from "react-router-dom";
 import {
   Navbar,
   NavbarBrand,
@@ -17,6 +22,7 @@ function Root() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
+  console.log(location.pathname);
 
   return (
     <>
@@ -112,6 +118,11 @@ function Root() {
         <div className="mx-auto w-11/12">
           <Outlet />
         </div>
+        <ScrollRestoration
+          getKey={(location) => {
+            return location.key;
+          }}
+        />
       </NextUIProvider>
     </>
   );

@@ -51,7 +51,6 @@ export default function ArticleCard() {
         }}
         size="lg"
         // label="Loading..."
-        // color="warning"
       />
     </div>
   );

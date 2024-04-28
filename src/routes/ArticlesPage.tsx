@@ -76,9 +76,6 @@ function ArticlesPage() {
   };
 
   const fetchMoreData = async () => {
-    if (articles.length < pageLimit) {
-      return;
-    }
     setIsFetching(true);
     try {
       const apiResponse = await fetch(
@@ -141,7 +138,7 @@ function ArticlesPage() {
           : null}
         {isLoading && <ArticlesPageSkelton />}
       </div>
-      {isFetching ? (
+      {isFetching && (
         <div className="fixed inset-0 flex h-screen w-screen items-end justify-center">
           <Spinner
             color="current"
@@ -151,10 +148,9 @@ function ArticlesPage() {
             }}
             size="lg"
             // label="Loading..."
-            // color="warning"
           />
         </div>
-      ) : null}
+      )}
       <Outlet />
     </>
   );

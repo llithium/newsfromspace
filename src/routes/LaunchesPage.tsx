@@ -38,6 +38,9 @@ export default function LaunchesPage() {
   }, []);
 
   async function fetchMoreData() {
+    if ((upcomingLaunches.length = 0)) {
+      return;
+    }
     try {
       setIsFetching(true);
       const apiResponse = await fetch(
@@ -80,7 +83,7 @@ export default function LaunchesPage() {
       <div className="grid grid-cols-1 gap-3 xl:grid-cols-2 ">
         {}
         {upcomingLaunches &&
-          upcomingLaunches.map((launch, Index) => {
+          upcomingLaunches.map((launch) => {
             return (
               <Card key={launch.id} className="h-96">
                 <CardHeader className="flex gap-3">
@@ -118,8 +121,9 @@ export default function LaunchesPage() {
               </Card>
             );
           })}
+        {/* TODO Add Skeleton when card design is finalized */}
       </div>
-      {isFetching ? (
+      {isFetching && (
         <div className="fixed inset-0 flex h-screen w-screen items-end justify-center">
           <Spinner
             color="current"
@@ -129,10 +133,9 @@ export default function LaunchesPage() {
             }}
             size="lg"
             // label="Loading..."
-            // color="warning"
           />
         </div>
-      ) : null}
+      )}
     </>
   );
 }

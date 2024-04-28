@@ -29,9 +29,6 @@ function BlogsPage() {
   }, []);
 
   const fetchMoreData = async () => {
-    if (blogs.length < pageLimit) {
-      return;
-    }
     setIsFetching(true);
     try {
       const apiResponse = await fetch(
@@ -107,7 +104,7 @@ function BlogsPage() {
           : null}
         {isLoading && <ArticlesPageSkelton />}
       </div>
-      {isFetching ? (
+      {isFetching && (
         <div className="fixed inset-0 flex h-screen w-screen items-end justify-center">
           <Spinner
             color="current"
@@ -117,10 +114,9 @@ function BlogsPage() {
             }}
             size="lg"
             // label="Loading..."
-            // color="warning"
           />
         </div>
-      ) : null}
+      )}
       <Outlet />
     </>
   );
