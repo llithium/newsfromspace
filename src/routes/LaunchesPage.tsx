@@ -15,6 +15,7 @@ import { useInView } from "react-intersection-observer";
 import { fetchUpcomingLaunches } from "../utils/fetchUpcomingLaunches";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import formatDate from "../utils/formatDate";
+import LaunchesPageSkeleton from "../Components/LaunchesPageSkeleton";
 
 // const launchApiUrl = "https://ll.thespacedevs.com/2.2.0";
 const launchApiUrl = "https://lldev.thespacedevs.com/2.2.0"; // * For development
@@ -40,6 +41,7 @@ export default function LaunchesPage() {
   return (
     <>
       <div className="grid grid-cols-1 gap-3 xl:grid-cols-2 ">
+        {isPending && <LaunchesPageSkeleton />}
         {isError && <div>{error.message}</div>}
         {data &&
           data.pages.map((page) => {

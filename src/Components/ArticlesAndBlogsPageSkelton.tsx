@@ -1,11 +1,8 @@
-import { Card, CardBody, Skeleton } from "@nextui-org/react";
+import { Card, CardBody, Divider, Skeleton } from "@nextui-org/react";
 
 export default function ArticlesAndBlogsPageSkelton() {
-  const grid = [
-    0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20,
-    21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39,
-    40, 41,
-  ];
+  const grid = Array.from({ length: 42 }, (_, index) => index);
+
   return (
     <>
       {grid.map((_value, index) => (
@@ -15,12 +12,9 @@ export default function ArticlesAndBlogsPageSkelton() {
         >
           <Skeleton className="sm:flex-0 ml-2 h-full w-44 flex-shrink rounded-xl object-cover sm:w-44 lg:w-56"></Skeleton>
           <CardBody className="flex-grow overflow-visible overflow-y-auto py-0 sm:flex-1">
-            <Skeleton className="rounded-lg">
-              <h2 className="text-xs font-bold sm:text-large ">
-                PlaceholderPlaceholderPlaceholderPlaceholderPlaceholderPlaceh
-                PlaceholderPlaceholderPlaceholderPlac
-              </h2>
-            </Skeleton>
+            <Skeleton className="h-7 w-full rounded-lg"> </Skeleton>
+            <Skeleton className="mb-1 mt-1 h-7 w-2/5 rounded-lg"> </Skeleton>
+            <Divider />
             <div className=" mt-auto">
               <Skeleton className="mt-2 w-fit rounded-lg">
                 <p className="font m-0 text-tiny italic sm:text-medium">
