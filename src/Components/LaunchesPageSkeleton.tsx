@@ -31,7 +31,7 @@ export default function LaunchesPageSkeleton() {
           </CardHeader>
           <Divider />
           <CardBody>
-            <div className="flex items-center justify-between gap-3">
+            <div className="flex items-center justify-between gap-3 pt-2">
               <Skeleton className="mb-2 rounded-lg">
                 <p className="h-5  w-fit font-semibold">Placeh: PLA</p>
               </Skeleton>
@@ -41,11 +41,11 @@ export default function LaunchesPageSkeleton() {
                 </p>
               </Skeleton>
             </div>
-            <div className="flex h-full flex-col">
+            <div className="flex h-full flex-col gap-2 pt-1">
               <Skeleton className="h-4 w-full rounded-lg"> </Skeleton>
-              <Skeleton className="mt-1 h-4 w-full rounded-lg"> </Skeleton>
-              <Skeleton className="mt-1 h-4 w-full rounded-lg"> </Skeleton>
-              <Skeleton className="mt-1 h-4 w-2/3 rounded-lg"> </Skeleton>
+              <Skeleton className=" h-4 w-full rounded-lg"> </Skeleton>
+              <Skeleton className=" h-4 w-full rounded-lg"> </Skeleton>
+              <Skeleton className=" h-4 w-2/3 rounded-lg"> </Skeleton>
               <Skeleton className="mt-auto w-fit rounded-lg">
                 <p className=" w-fit font-semibold">Placeholde PLA, PA, PLA</p>
               </Skeleton>

@@ -87,7 +87,7 @@ export default function LaunchesPage() {
                         {formatDate(launch.window_start)}
                       </p>
                     </div>
-                    <div className="flex h-full flex-col">
+                    <div className="flex h-full flex-col pt-2">
                       <p>{launch.mission.description}</p>
                       <Link
                         color="foreground"
