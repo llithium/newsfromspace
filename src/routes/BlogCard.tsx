@@ -8,6 +8,7 @@ export default function BlogCard() {
   const params = useParams();
   const { isPending, isError, data, error } = useQuery({
     queryKey: ["blog", params.id],
+    staleTime: 60 * 60 * 1000,
     queryFn: () => fetchBlog(params.id),
   });
 

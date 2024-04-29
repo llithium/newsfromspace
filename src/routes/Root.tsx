@@ -121,11 +121,6 @@ function Root() {
           <div className="mx-auto w-11/12">
             <Outlet />
           </div>
-          <ScrollRestoration
-            getKey={(location) => {
-              return location.key;
-            }}
-          />
           <ReactQueryDevtools initialIsOpen={false} />
         </QueryClientProvider>
       </NextUIProvider>

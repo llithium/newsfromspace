@@ -2,13 +2,11 @@ import { useNavigate } from "react-router-dom";
 import { ArticleAndBlog } from "./../routes/ArticleCard";
 import { Card, CardBody, Image, Link } from "@nextui-org/react";
 import formatDate from "../utils/formatDate";
+import { useLockBodyScroll } from "@uidotdev/usehooks";
 
-interface ArticleAndBlogCardProps {
-  card: ArticleAndBlog;
-}
-
-export default function ArticleAndBlogCard({ card }: ArticleAndBlogCardProps) {
+export default function ArticleAndBlogCard({ card }: { card: ArticleAndBlog }) {
   const navigate = useNavigate();
+  useLockBodyScroll();
 
   return (
     <div
@@ -26,10 +24,10 @@ export default function ArticleAndBlogCard({ card }: ArticleAndBlogCardProps) {
             src={card.image_url}
           />
           <CardBody className="flex-grow overflow-visible py-0">
-            <h2 className="border-b pb-2 text-lg font-extrabold tracking-tight transition-colors first:mt-0 md:text-2xl">
+            <h2 className="border-b pb-2 text-lg font-extrabold tracking-tight transition-colors first:mt-0 md:text-2xl lg:text-4xl">
               {card.title}
             </h2>
-            <p className="mt-2 overflow-y-auto text-sm font-semibold md:text-lg">
+            <p className="mt-2 overflow-y-auto text-sm font-semibold md:text-lg lg:text-xl">
               {card.summary}
               <Link className="" href={card.url} isExternal showAnchorIcon>
                 Read More

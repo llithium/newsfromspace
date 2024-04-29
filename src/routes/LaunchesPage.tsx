@@ -22,6 +22,7 @@ export default function LaunchesPage() {
     useInfiniteQuery({
       queryKey: ["launches/upcoming"],
       queryFn: fetchUpcomingLaunches,
+      staleTime: 10 * 60 * 1000,
       initialPageParam:
         launchApiUrl + `/launch/upcoming/?limit=${pageLimit}&offset=0`,
       getNextPageParam: (lastPage) => {
