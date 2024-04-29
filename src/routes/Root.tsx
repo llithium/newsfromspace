@@ -18,6 +18,7 @@ import {
 } from "@nextui-org/react";
 import { useState } from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
 function Root() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -125,6 +126,7 @@ function Root() {
               return location.key;
             }}
           />
+          <ReactQueryDevtools initialIsOpen={false} />
         </QueryClientProvider>
       </NextUIProvider>
     </>

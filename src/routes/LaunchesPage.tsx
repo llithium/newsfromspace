@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { pageLimit } from "./ArticlesPage";
 import {
   Card,
@@ -10,117 +10,80 @@ import {
   Image,
   Spinner,
 } from "@nextui-org/react";
+import { useInView } from "react-intersection-observer";
+import { fetchUpcomingLaunches } from "../utils/fetchUpcomingLaunches";
+import { useInfiniteQuery } from "@tanstack/react-query";
 
 // const launchApiUrl = "https://ll.thespacedevs.com/2.2.0";
 const launchApiUrl = "https://lldev.thespacedevs.com/2.2.0"; // * For development
 
 export default function LaunchesPage() {
-  const [upcomingLaunches, setUpcomingLaunches] = useState<Result[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [isFetching, setIsFetching] = useState(false);
-  const [offset, setOffset] = useState(pageLimit);
+  const { data, isPending, isError, error, fetchNextPage, isFetchingNextPage } =
+    useInfiniteQuery({
+      queryKey: ["launches/upcoming"],
+      queryFn: fetchUpcomingLaunches,
+      initialPageParam:
+        launchApiUrl + `/launch/upcoming/?limit=${pageLimit}&offset=0`,
+      getNextPageParam: (lastPage) => {
+        return lastPage.next;
+      },
+    });
+  const { ref, inView } = useInView();
 
   useEffect(() => {
-    async function fetchData() {
-      try {
-        const apiResponse = await fetch(
-          launchApiUrl + `/launch/upcoming/?limit=${pageLimit}&offset=0`,
-        );
-        const data: LaunchesUpcoming = await apiResponse.json();
-        const dataResults = data.results;
-        setUpcomingLaunches(dataResults);
-      } catch (error) {
-        console.log(error);
-      }
-      setIsLoading(false);
-    }
-    fetchData();
-  }, []);
-
-  async function fetchMoreData() {
-    try {
-      setIsFetching(true);
-      const apiResponse = await fetch(
-        launchApiUrl + `/launch/upcoming/?limit=${pageLimit}&offset=${offset}`,
-      );
-      const data: LaunchesUpcoming = await apiResponse.json();
-      const dataResults = data.results;
-      setUpcomingLaunches((prevUpcomingLaunches) => [
-        ...prevUpcomingLaunches,
-        ...dataResults,
-      ]);
-
-      setOffset((prevOffset) => prevOffset + pageLimit);
-    } catch (error) {
-      console.log(error);
-    }
-    setIsFetching(false);
-  }
-
-  const handleScroll = () => {
-    if (isFetching) {
-      return;
-    }
-    const scrollHeight = document.documentElement.scrollHeight;
-    const clientHeight = document.documentElement.clientHeight;
-    const scrollTop =
-      document.documentElement.scrollTop || document.body.scrollTop;
-    if (clientHeight + scrollTop >= scrollHeight) {
-      fetchMoreData();
-    }
-  };
-
-  useEffect(() => {
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, [isFetching, isLoading]);
+    inView && fetchNextPage();
+  }, [inView, fetchNextPage]);
 
   return (
     <>
       <div className="grid grid-cols-1 gap-3 xl:grid-cols-2 ">
-        {}
-        {upcomingLaunches &&
-          upcomingLaunches.map((launch) => {
-            return (
-              <Card key={launch.id} className="h-96">
-                <CardHeader className="flex gap-3">
-                  <Image
-                    alt="Agency logo"
-                    height={40}
-                    radius="sm"
-                    src={
-                      launch.mission.agencies[0]
-                        ? launch.mission.agencies[0].logo_url
-                        : ""
-                    }
-                    width={40}
-                  />
-                  <div className="flex flex-col">
-                    <h2 className="text-md font-bold">{launch.name}</h2>
-                    <p className="text-small text-default-500">
-                      {launch.launch_service_provider.name}
+        {isError && <div>{error.message}</div>}
+        {data &&
+          data.pages.map((page) => {
+            return page.results.map((launch) => {
+              return (
+                <Card key={launch.id} className="h-96">
+                  <CardHeader className="flex gap-3">
+                    <Image
+                      alt="Agency logo"
+                      height={40}
+                      radius="sm"
+                      src={
+                        launch.mission &&
+                        launch.mission.agencies[0] &&
+                        launch.mission.agencies[0].logo_url
+                          ? launch.mission.agencies[0].logo_url
+                          : ""
+                      }
+                      width={40}
+                    />
+                    <div className="flex flex-col">
+                      <h2 className="text-md font-bold">{launch.name}</h2>
+                      <p className="text-small text-default-500">
+                        {launch.launch_service_provider.name}
+                      </p>
+                    </div>
+                  </CardHeader>
+                  <Divider />
+                  <CardBody>
+                    <p className={`w-fit font-semibold ${""}`}>
+                      Status: {launch.status.abbrev}
                     </p>
-                  </div>
-                </CardHeader>
-                <Divider />
-                <CardBody>
-                  <p className={`w-fit font-semibold ${""}`}>
-                    Status: {launch.status.abbrev}
-                  </p>
-                  <p>{launch.status.description}</p>
-                </CardBody>
-                <Divider />
-                <CardFooter>
-                  <Link showAnchorIcon href={`/launches/${launch.id}`}>
-                    More Information
-                  </Link>
-                </CardFooter>
-              </Card>
-            );
+                    <p>{launch.status.description}</p>
+                  </CardBody>
+                  <Divider />
+                  <CardFooter>
+                    <Link showAnchorIcon href={`/launches/${launch.id}`}>
+                      More Information
+                    </Link>
+                  </CardFooter>
+                </Card>
+              );
+            });
           })}
-        {/* TODO Add Skeleton when card design is finalized */}
+        {/* TODO Add page Skeleton */}
       </div>
-      {isFetching && (
+      {isFetchingNextPage && (
         <div className="fixed inset-0 flex h-screen w-screen items-end justify-center">
           <Spinner
             color="current"
@@ -133,6 +96,7 @@ export default function LaunchesPage() {
           />
         </div>
       )}
+      <div ref={ref}></div>
     </>
   );
 }
@@ -229,7 +193,7 @@ export interface Agency {
   attempted_landings: number;
   info_url: string;
   wiki_url: string;
-  logo_url: string;
+  logo_url: null | string;
   image_url: null | string;
   nation_url: null | string;
 }

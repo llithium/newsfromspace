@@ -6,74 +6,40 @@ import {
   Link,
   Spinner,
 } from "@nextui-org/react";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { Outlet } from "react-router-dom";
-import ArticlesPageSkelton from "../Components/ArticlesPageSkelton";
+import ArticlesAndBlogsPageSkelton from "../Components/ArticlesAndBlogsPageSkelton";
 import formatDate from "../utils/formatDate";
-import { ArticlesAndBlogs, Result, apiURL, pageLimit } from "./ArticlesPage";
+import { apiURL, pageLimit } from "./ArticlesPage";
+import { useInView } from "react-intersection-observer";
+import { fetchArticlesAndBlogs } from "../utils/fetchArticlesAndBlogs";
+import { useInfiniteQuery } from "@tanstack/react-query";
 
 function BlogsPage() {
-  const [blogs, setBlogs] = useState<Result[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [isFetching, setIsFetching] = useState(false);
-  const [offset, setOffset] = useState(pageLimit);
+  const { data, isPending, isError, error, fetchNextPage, isFetchingNextPage } =
+    useInfiniteQuery({
+      queryKey: ["blogs"],
+      queryFn: fetchArticlesAndBlogs,
+      initialPageParam: apiURL + `/blogs/?limit=${pageLimit}&offset=0`,
+      getNextPageParam: (lastPage) => {
+        return lastPage.next;
+      },
+    });
+
+  const { ref, inView } = useInView();
 
   useEffect(() => {
-    async function fetchData() {
-      try {
-        const apiResponse = await fetch(
-          apiURL + `/blogs/?limit=${pageLimit}&offset=0`,
-        );
-        const data: ArticlesAndBlogs = await apiResponse.json();
-        const dataResults = data.results;
-        setBlogs(dataResults);
-      } catch (error) {
-        console.log(error);
-      }
-      setIsLoading(false);
-    }
-    fetchData();
-  }, []);
-
-  const fetchMoreData = async () => {
-    setIsFetching(true);
-    try {
-      const apiResponse = await fetch(
-        apiURL + `/blogs/?limit=${pageLimit}&offset=${offset}`,
-      );
-      const data: ArticlesAndBlogs = await apiResponse.json();
-      const dataResults = data.results;
-      setBlogs((prevBlogs) => [...prevBlogs, ...dataResults]);
-      setOffset((prevOffset) => prevOffset + pageLimit);
-    } catch (error) {
-      console.log(error);
-    }
-    setIsFetching(false);
-  };
-
-  const handleScroll = () => {
-    if (isFetching) {
-      return;
-    }
-    const scrollHeight = document.documentElement.scrollHeight;
-    const clientHeight = document.documentElement.clientHeight;
-    const scrollTop =
-      document.documentElement.scrollTop || document.body.scrollTop;
-    if (clientHeight + scrollTop >= scrollHeight) {
-      fetchMoreData();
-    }
-  };
-
-  useEffect(() => {
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, [isFetching, isLoading]);
+    inView && fetchNextPage();
+  }, [inView, fetchNextPage]);
 
   return (
     <>
       <div className="grid grid-cols-1 gap-3 xl:grid-cols-2 ">
-        {blogs
-          ? blogs.map((blog) => {
+        {isPending && <ArticlesAndBlogsPageSkelton />}
+        {isError && <div>{error.message}</div>}
+        {data &&
+          data.pages.map((page) => {
+            return page.results.map((blog) => {
               return (
                 <Link
                   key={blog.id}
@@ -108,11 +74,10 @@ function BlogsPage() {
                   </Card>
                 </Link>
               );
-            })
-          : null}
-        {isLoading && <ArticlesPageSkelton />}
+            });
+          })}
       </div>
-      {isFetching && (
+      {isFetchingNextPage && (
         <div className="fixed inset-0 flex h-screen w-screen items-end justify-center">
           <Spinner
             color="current"
@@ -126,6 +91,7 @@ function BlogsPage() {
         </div>
       )}
       <Outlet />
+      <div ref={ref}></div>
     </>
   );
 }

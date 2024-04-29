@@ -1,33 +1,32 @@
 import { useParams } from "react-router-dom";
-import { useEffect, useState } from "react";
 import ArticleAndBlogCard from "../Components/ArticleAndBlogCard";
 import { Spinner } from "@nextui-org/react";
-import { ArticleAndBlog } from "./ArticleCard";
 import { apiURL } from "./ArticlesPage";
+import { useQuery } from "@tanstack/react-query";
 
 export default function BlogCard() {
-  const [blog, setBlog] = useState<ArticleAndBlog>();
-
   const params = useParams();
+  const { isPending, isError, data, error } = useQuery({
+    queryKey: ["blog", params.id],
+    queryFn: () => fetchBlog(params.id),
+  });
 
-  useEffect(() => {
-    async function request() {
-      if (params.id) {
-        try {
-          const apiResponse = await fetch(apiURL + `/blogs/${params.id}`);
-          const data = await apiResponse.json();
-          setBlog(data);
-        } catch (error) {
-          console.log(error);
-        }
+  async function fetchBlog(id: string | undefined) {
+    if (id) {
+      try {
+        const apiResponse = await fetch(apiURL + `/blogs/${id}`);
+        const blog = await apiResponse.json();
+        return blog;
+      } catch (error) {
+        console.log(error);
+        throw new Error("API request failed");
       }
     }
-    request();
-  }, []);
+  }
 
-  const loadedBlog = blog as ArticleAndBlog;
-  return loadedBlog ? (
-    <ArticleAndBlogCard card={loadedBlog} />
+  isError && <div>{error.message}</div>;
+  return !isPending ? (
+    <ArticleAndBlogCard card={data} />
   ) : (
     <div className="fixed inset-0 flex h-screen w-screen items-center justify-center">
       <Spinner

@@ -1,8 +1,8 @@
 import { useParams } from "react-router-dom";
-import { useEffect, useState } from "react";
 import { apiURL, Launch, Event } from "./ArticlesPage";
 import ArticleAndBlogCard from "../Components/ArticleAndBlogCard";
 import { Spinner } from "@nextui-org/react";
+import { useQuery } from "@tanstack/react-query";
 
 export interface ArticleAndBlog {
   id: number;
@@ -19,28 +19,28 @@ export interface ArticleAndBlog {
 }
 
 export default function ArticleCard() {
-  const [article, setArticle] = useState<ArticleAndBlog>();
-
   const params = useParams();
+  const { isPending, isError, data, error } = useQuery({
+    queryKey: ["article", params.id],
+    queryFn: () => fetchArticle(params.id),
+  });
 
-  useEffect(() => {
-    async function request() {
-      if (params.id) {
-        try {
-          const apiResponse = await fetch(apiURL + `/articles/${params.id}`);
-          const data = await apiResponse.json();
-          setArticle(data);
-        } catch (error) {
-          console.log(error);
-        }
+  async function fetchArticle(id: string | undefined) {
+    if (id) {
+      try {
+        const apiResponse = await fetch(apiURL + `/articles/${id}`);
+        const article = await apiResponse.json();
+        return article;
+      } catch (error) {
+        console.log(error);
+        throw new Error("API request failed");
       }
     }
-    request();
-  }, []);
+  }
 
-  const loadedArticle = article as ArticleAndBlog;
-  return loadedArticle ? (
-    <ArticleAndBlogCard card={loadedArticle} />
+  isError && <div>{error.message}</div>;
+  return !isPending ? (
+    <ArticleAndBlogCard card={data} />
   ) : (
     <div className="fixed inset-0 flex h-screen w-screen items-center justify-center">
       <Spinner
