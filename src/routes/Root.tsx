@@ -1,9 +1,4 @@
-import {
-  Outlet,
-  ScrollRestoration,
-  useLocation,
-  useNavigate,
-} from "react-router-dom";
+import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import {
   Navbar,
   NavbarBrand,
@@ -57,14 +52,14 @@ function Root() {
                   Articles
                 </Link>
               </NavbarItem>
-              <NavbarItem isActive={location.pathname.startsWith("/blogs")}>
-                <Link color="foreground" href="/blogs">
-                  Blogs
-                </Link>
-              </NavbarItem>
               <NavbarItem isActive={location.pathname == "/launches"}>
                 <Link color="foreground" href="/launches">
                   Launches
+                </Link>
+              </NavbarItem>
+              <NavbarItem isActive={location.pathname.startsWith("/blogs")}>
+                <Link color="foreground" href="/blogs">
+                  Blogs
                 </Link>
               </NavbarItem>
             </NavbarContent>
@@ -96,16 +91,6 @@ function Root() {
                   Articles
                 </Link>
               </NavbarMenuItem>
-              <NavbarMenuItem isActive={location.pathname === "/blogs"}>
-                <Link
-                  color="foreground"
-                  className="w-full"
-                  href="/blogs"
-                  size="lg"
-                >
-                  Blogs
-                </Link>
-              </NavbarMenuItem>
               <NavbarMenuItem isActive={location.pathname === "/launches"}>
                 <Link
                   color="foreground"
@@ -114,6 +99,16 @@ function Root() {
                   size="lg"
                 >
                   Launches
+                </Link>
+              </NavbarMenuItem>
+              <NavbarMenuItem isActive={location.pathname === "/blogs"}>
+                <Link
+                  color="foreground"
+                  className="w-full"
+                  href="/blogs"
+                  size="lg"
+                >
+                  Blogs
                 </Link>
               </NavbarMenuItem>
             </NavbarMenu>

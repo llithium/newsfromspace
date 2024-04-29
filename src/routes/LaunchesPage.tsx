@@ -9,10 +9,12 @@ import {
   Link,
   Image,
   Spinner,
+  Tooltip,
 } from "@nextui-org/react";
 import { useInView } from "react-intersection-observer";
 import { fetchUpcomingLaunches } from "../utils/fetchUpcomingLaunches";
 import { useInfiniteQuery } from "@tanstack/react-query";
+import formatDate from "../utils/formatDate";
 
 // const launchApiUrl = "https://ll.thespacedevs.com/2.2.0";
 const launchApiUrl = "https://lldev.thespacedevs.com/2.2.0"; // * For development
@@ -67,16 +69,45 @@ export default function LaunchesPage() {
                   </CardHeader>
                   <Divider />
                   <CardBody>
-                    <p className={`w-fit font-semibold ${""}`}>
-                      Status: {launch.status.abbrev}
-                    </p>
-                    <p>{launch.status.description}</p>
+                    <div className="flex items-center justify-between gap-3">
+                      <Tooltip content={launch.status.description}>
+                        <p
+                          className={`w-fit font-semibold ${
+                            launch.status.abbrev === "Success"
+                              ? "text-success-500"
+                              : ""
+                          }`}
+                        >
+                          Status: {launch.status.abbrev}
+                        </p>
+                      </Tooltip>
+                      <p className="w-fit text-medium font-semibold">
+                        {formatDate(launch.window_start)}
+                      </p>
+                    </div>
+                    <div className="flex h-full flex-col">
+                      <p>{launch.mission.description}</p>
+                      <Link
+                        color="foreground"
+                        className="mt-auto"
+                        href={launch.pad.map_url}
+                      >
+                        <p className="font-semibold">
+                          {launch.pad.location.name}
+                        </p>
+                      </Link>
+                    </div>
                   </CardBody>
                   <Divider />
-                  <CardFooter>
-                    <Link showAnchorIcon href={`/launches/${launch.id}`}>
+                  <CardFooter className="flex justify-between">
+                    <Link
+                      className="font-bold tracking-wide"
+                      showAnchorIcon
+                      href={`/launches/${launch.id}`}
+                    >
                       More Information
                     </Link>
+                    <p className="w-fit font-semibold">{launch.mission.type}</p>
                   </CardFooter>
                 </Card>
               );
@@ -118,7 +149,7 @@ export interface Result {
   last_updated: Date;
   net: Date;
   window_end: Date;
-  window_start: Date;
+  window_start: string;
   net_precision: NetPrecision;
   probability: number | null;
   weather_concerns: null | string;
@@ -151,7 +182,7 @@ export interface LaunchServiceProvider {
   type: LaunchServiceProviderType;
 }
 
-export enum LaunchServiceProviderType {
+enum LaunchServiceProviderType {
   Commercial = "Commercial",
   Government = "Government",
   Multinational = "Multinational",
@@ -165,8 +196,8 @@ export interface Mission {
   type: string;
   orbit: NetPrecision;
   agencies: Agency[];
-  info_urls: any[];
-  vid_urls: any[];
+  info_urls: string[];
+  vid_urls: string[];
 }
 
 export interface Agency {
@@ -224,7 +255,7 @@ export interface Pad {
   orbital_launch_attempt_count: number;
 }
 
-export enum CountryCode {
+enum CountryCode {
   Chn = "CHN",
   Kaz = "KAZ",
   Usa = "USA",
@@ -284,12 +315,12 @@ export interface Configuration {
   variant: Variant;
 }
 
-export enum Variant {
+enum Variant {
   Block5 = "Block 5",
   Empty = "",
   VN22 = "V N22",
 }
 
-export enum ResultType {
+enum ResultType {
   Normal = "normal",
 }
