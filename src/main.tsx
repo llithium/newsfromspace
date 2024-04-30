@@ -11,6 +11,7 @@ import BlogCard from "./routes/BlogCard.tsx";
 import NoMatch from "./routes/NoMatch.tsx";
 import LaunchesPage from "./routes/LaunchesPage.tsx";
 import React from "react";
+import LaunchInformationPage from "./routes/LaunchInformationPage.tsx";
 
 const router = createBrowserRouter([
   {
@@ -36,7 +37,14 @@ const router = createBrowserRouter([
               },
             ],
           },
-          { path: "/launches", element: <LaunchesPage /> },
+          {
+            path: "/launches",
+            element: <LaunchesPage />,
+          },
+          {
+            path: "/launches/:id",
+            element: <LaunchInformationPage />,
+          },
           {
             path: "/blogs",
             element: <BlogsPage />,
@@ -55,6 +63,6 @@ const router = createBrowserRouter([
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
-    <RouterProvider router={router} />,
+    <RouterProvider router={router} />
   </React.StrictMode>,
 );
