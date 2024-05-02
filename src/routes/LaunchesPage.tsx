@@ -71,7 +71,7 @@ export default function LaunchesPage() {
                   <Divider />
                   <CardBody>
                     <div className="flex items-center justify-between gap-3">
-                      <Tooltip content={launch.status.description}>
+                      <Tooltip delay={300} content={launch.status.description}>
                         <p
                           className={`w-fit font-semibold ${
                             launch.status.abbrev === "Success"
@@ -111,12 +111,11 @@ export default function LaunchesPage() {
                   <CardFooter className="flex justify-between">
                     <Link
                       className="font-bold tracking-wide"
-                      showAnchorIcon
                       href={`/launches/${launch.id}`}
                     >
                       More Information
                     </Link>
-                    <Tooltip content="Mission type">
+                    <Tooltip delay={300} content="Mission type">
                       <p className="w-fit font-semibold">
                         {launch.mission ? (
                           launch.mission.type
