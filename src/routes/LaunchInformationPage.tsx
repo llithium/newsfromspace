@@ -6,6 +6,7 @@ import {
   Divider,
   Image,
   Link,
+  Spinner,
   Tooltip,
 } from "@nextui-org/react";
 import formatDate from "../utils/formatDate";
@@ -35,10 +36,23 @@ export default function LaunchInformationPage() {
   }
   return (
     <div className="grid min-h-full grid-cols-1 gap-2 xl:grid-cols-2">
+      {isPending && (
+        <div className="fixed inset-0 flex h-screen w-screen items-center justify-center">
+          <Spinner
+            color="current"
+            className="relative z-50"
+            classNames={{
+              wrapper: "w-44 h-44",
+            }}
+            size="lg"
+            // label="Loading..."
+          />
+        </div>
+      )}
       {isError && <div>{error.message}</div>}
       {data && (
         <>
-          <Card className="w-full p-2">
+          <Card className="w-full p-3">
             <h2 className="text-4xl font-bold">{data.name}</h2>
             <div className="flex items-end py-2">
               <Image
@@ -57,7 +71,7 @@ export default function LaunchInformationPage() {
             </div>
             <div className="flex w-full flex-wrap md:flex-nowrap">
               <Image
-                className="flex-shrink object-cover md:max-w-xs"
+                className="h-full flex-shrink object-cover md:max-w-xs"
                 src={data.image}
               ></Image>
               <div className="flex flex-grow flex-col px-2 ">
@@ -73,11 +87,11 @@ export default function LaunchInformationPage() {
                     Status: {data.status.name}
                   </p>
                 </Tooltip>
-                <p className="pt-2">
+                <p className="py-2">
                   {data.mission ? (
                     data.mission.description
                   ) : (
-                    <span className="pt-2 opacity-60">
+                    <span className="py-2 opacity-60">
                       No description provided
                     </span>
                   )}
@@ -101,7 +115,7 @@ export default function LaunchInformationPage() {
           </Card>
           <Card>
             <CardHeader className="flex justify-center">
-              <h2 className="j text-4xl font-bold">
+              <h2 className="text-4xl font-bold">
                 {data.launch_service_provider.name}
               </h2>
               <Image
@@ -114,7 +128,7 @@ export default function LaunchInformationPage() {
             <CardBody>
               <p>{data.launch_service_provider.description}</p>
             </CardBody>
-            <CardFooter className="flex justify-between">
+            <CardFooter className="flex flex-wrap justify-between">
               <p>Founded: {data.launch_service_provider.founding_year}</p>
               <Link isExternal showAnchorIcon>
                 {data.launch_service_provider.info_url}
