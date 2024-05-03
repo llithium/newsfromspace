@@ -47,6 +47,7 @@ export default function LaunchInformationPage({
       {isError && <div>{error.message}</div>}
       {data && (
         <>
+          {/* Launch */}
           <Card className="launch w-full p-3">
             <h2 className="text-4xl font-bold">{data.name}</h2>
             <div className="flex items-end py-2">
@@ -68,6 +69,7 @@ export default function LaunchInformationPage({
               <Image
                 className="flex-shrink object-cover pb-1 md:h-full md:max-w-xs md:pb-0"
                 src={data.image}
+                alt="Launc image"
               ></Image>
               <div className="flex flex-grow flex-col px-2 ">
                 <div className="flex">
@@ -114,6 +116,7 @@ export default function LaunchInformationPage({
               </div>
             </div>
           </Card>
+          {/* Launch Service Provider */}
           <Card className="launchServiceProvider">
             <CardHeader className="flex justify-center">
               <h2 className="text-4xl font-bold">
@@ -124,6 +127,7 @@ export default function LaunchInformationPage({
                 height={200}
                 radius="sm"
                 src={data.launch_service_provider.logo_url}
+                alt="Launch service provider log"
               ></Image>
             </CardHeader>
             <CardBody>
@@ -149,6 +153,7 @@ export default function LaunchInformationPage({
               </p>
             </CardFooter>
           </Card>
+          {/* Misssion */}
           <Card className="mission">
             <CardHeader className="flex justify-center">
               <h2 className="text-4xl font-bold">{data.mission.name}</h2>
@@ -159,6 +164,7 @@ export default function LaunchInformationPage({
                 src={
                   data.mission_patches[0] && data.mission_patches[0].image_url
                 }
+                alt="Mission patch"
               ></Image>
             </CardHeader>
             <CardBody>
@@ -190,6 +196,7 @@ export default function LaunchInformationPage({
               )}
             </CardFooter>
           </Card>
+          {/*? Rocket */}
           <Card className="rocket">
             <CardHeader className="flex h-full w-full flex-wrap items-start md:flex-nowrap">
               <Image

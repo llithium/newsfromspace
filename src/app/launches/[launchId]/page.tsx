@@ -3,9 +3,28 @@ import {
   HydrationBoundary,
   QueryClient,
 } from "@tanstack/react-query";
-import LaunchInformationPage from "./components/Launch";
+import LaunchInformationPage, { Launch } from "./components/Launch";
 import fetchLaunch from "../utils/fetchLaunch";
 import { launchApiUrl } from "../page";
+import { Metadata } from "next";
+
+export async function generateMetadata({
+  params,
+}: {
+  params: { launchId: string };
+}): Promise<Metadata> {
+  // read route params
+  const launchId = params.launchId;
+
+  // fetch data
+  const launch: Launch = await fetch(launchApiUrl + `/launch/${launchId}`).then(
+    (res) => res.json(),
+  );
+
+  return {
+    title: launch.name,
+  };
+}
 
 export default async function Page({
   params,
