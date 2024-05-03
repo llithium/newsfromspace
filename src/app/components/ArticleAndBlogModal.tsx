@@ -1,4 +1,3 @@
-import { ArticleAndBlog } from "../articles/[articleId]/page";
 import {
   Button,
   Card,
@@ -10,6 +9,7 @@ import {
 import formatDate from "../utils/formatDate";
 import { useLockBodyScroll } from "@uidotdev/usehooks";
 import { useRouter } from "next/navigation";
+import { ArticleAndBlog } from "../articles/[articleId]/components/ArticleCard";
 
 export default function ArticleAndBlogModal({
   card,

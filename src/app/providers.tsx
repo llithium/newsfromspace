@@ -1,4 +1,3 @@
-// app/providers.tsx
 "use client";
 
 import { NextUIProvider } from "@nextui-org/react";
@@ -28,7 +27,7 @@ function getQueryClient() {
   }
 }
 
-export function Providers({ children }: { children: React.ReactNode }) {
+export default function Providers({ children }: { children: React.ReactNode }) {
   const router = useRouter();
   const queryClient = getQueryClient();
   return (

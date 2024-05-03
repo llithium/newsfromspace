@@ -1,4 +1,4 @@
-import { ArticlesAndBlogs } from "../articles/page";
+import { ArticlesAndBlogs } from "../articles/components/Articles";
 
 export async function fetchArticlesAndBlogs({
   pageParam,

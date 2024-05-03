@@ -12,14 +12,14 @@ import {
 } from "@nextui-org/react";
 import formatDate from "../../utils/formatDate";
 import { useQuery } from "@tanstack/react-query";
-import { launchApiUrl } from "../page";
+import { launchApiUrl } from "../components/Launches";
 import Countdown from "react-countdown";
 import { useParams } from "next/navigation";
 
 export default function LaunchInformationPage() {
   const params = useParams<{ launchId: string }>();
   const { isPending, isError, data, error } = useQuery({
-    queryKey: ["launch", params.launchId],
+    queryKey: ["launch", { launchId: params.launchId }],
     staleTime: 60 * 60 * 1000,
     queryFn: () => fetchLaunch(params.launchId),
   });

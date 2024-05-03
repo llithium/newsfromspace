@@ -1,6 +1,6 @@
 import { Metadata } from "next";
 import "./globals.css";
-import { Providers } from "./providers";
+import Providers from "./providers";
 import AppNavbar from "./components/AppNavbar";
 import { Manrope } from "next/font/google";
 

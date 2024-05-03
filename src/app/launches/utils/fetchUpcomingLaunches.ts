@@ -1,4 +1,4 @@
-import { LaunchesUpcoming } from "../page";
+import { LaunchesUpcoming } from "../components/Launches";
 
 export async function fetchUpcomingLaunches({
   pageParam,
