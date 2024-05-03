@@ -1,19 +1,13 @@
 "use client";
 
-import {
-  Card,
-  CardBody,
-  Divider,
-  Image,
-  Link,
-  Spinner,
-} from "@nextui-org/react";
+import { Card, CardBody, Divider, Image, Spinner } from "@nextui-org/react";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { useInView } from "react-intersection-observer";
 import { useEffect } from "react";
 import { fetchArticlesAndBlogs } from "../../utils/fetchArticlesAndBlogs";
 import formatDate from "../../utils/formatDate";
 import { apiURL, pageLimit } from "../page";
+import Link from "next/link";
 
 export default function Articles() {
   const { data, isError, error, fetchNextPage, isFetchingNextPage } =
@@ -40,9 +34,10 @@ export default function Articles() {
             return page.results.map((article) => {
               return (
                 <Link
+                  scroll={false}
                   key={article.id}
                   href={`/articles/${article.id}`}
-                  className="h-32 sm:h-44"
+                  className="h-32 transition-opacity hover:opacity-80 active:opacity-disabled sm:h-44"
                 >
                   <Card
                     key={article.id}

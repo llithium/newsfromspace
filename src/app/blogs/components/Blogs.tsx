@@ -1,18 +1,12 @@
 "use client";
-import {
-  Card,
-  CardBody,
-  Divider,
-  Image,
-  Link,
-  Spinner,
-} from "@nextui-org/react";
+import { Card, CardBody, Divider, Image, Spinner } from "@nextui-org/react";
 import { useEffect } from "react";
 import formatDate from "../../utils/formatDate";
 import { useInView } from "react-intersection-observer";
 import { fetchArticlesAndBlogs } from "../../utils/fetchArticlesAndBlogs";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { apiURL, pageLimit } from "../../articles/page";
+import Link from "next/link";
 
 export default function Blogs() {
   const { data, isError, error, fetchNextPage, isFetchingNextPage } =
@@ -40,9 +34,10 @@ export default function Blogs() {
             return page.results.map((blog) => {
               return (
                 <Link
+                  scroll={false}
                   key={blog.id}
                   href={`/blogs/${blog.id}`}
-                  className="h-32 sm:h-44"
+                  className="h-32 transition-opacity hover:opacity-80 active:opacity-disabled sm:h-44"
                 >
                   <Card
                     key={blog.id}
@@ -50,7 +45,7 @@ export default function Blogs() {
                   >
                     <Image
                       alt="Blog image"
-                      className="z-0 ml-2 h-full w-44 flex-shrink rounded-xl object-cover sm:w-44 sm:flex-1 lg:w-56"
+                      className="ho z-0 ml-2 h-full w-44 flex-shrink rounded-xl object-cover sm:w-44 sm:flex-1 lg:w-56"
                       src={blog.image_url}
                     />
 
