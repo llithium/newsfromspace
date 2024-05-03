@@ -1,12 +1,10 @@
 "use client";
-
 import { Spinner } from "@nextui-org/react";
 import { useQuery } from "@tanstack/react-query";
-
-import { useParams } from "next/navigation";
 import { Launch } from "../../components/Articles";
 import { apiURL } from "../../page";
 import ArticleAndBlogModal from "../../../components/ArticleAndBlogModal";
+import fetchArticle from "../../utils/fetchArticle";
 
 export interface ArticleAndBlog {
   id: number;
@@ -22,26 +20,16 @@ export interface ArticleAndBlog {
   events: Event[];
 }
 
-export default function ArticleCard() {
-  const params = useParams<{ articleId: string }>();
+export default function ArticleCard({
+  params,
+}: {
+  params: { articleId: string };
+}) {
   const { isPending, isError, data, error } = useQuery({
     queryKey: ["article", params.articleId],
     staleTime: 60 * 60 * 1000,
-    queryFn: () => fetchArticle(params.articleId),
+    queryFn: () => fetchArticle(params.articleId, apiURL),
   });
-
-  async function fetchArticle(articleId: string | undefined) {
-    if (articleId) {
-      try {
-        const apiResponse = await fetch(apiURL + `/articles/${articleId}`);
-        const article = await apiResponse.json();
-        return article;
-      } catch (error) {
-        console.log(error);
-        throw new Error("API request failed");
-      }
-    }
-  }
 
   isError && <div>{error.message}</div>;
   return !isPending ? (

@@ -1,3 +1,4 @@
+"use client";
 import {
   Button,
   Card,
@@ -55,7 +56,7 @@ export default function ArticleAndBlogModal({
                       {card.news_site}
                     </Link>
                   </p>
-                  <small className="text-default-500 ">
+                  <small className="text-default-500" suppressHydrationWarning>
                     {formatDate(card.published_at)}
                   </small>
                 </div>
