@@ -1,4 +1,4 @@
-import { ArticlesAndBlogs } from "../routes/ArticlesPage";
+import { ArticlesAndBlogs } from "../articles/page";
 
 export async function fetchArticlesAndBlogs({
   pageParam,

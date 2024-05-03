@@ -1,32 +1,33 @@
+"use client";
+
 import {
   Card,
   CardBody,
   CardFooter,
   CardHeader,
-  Divider,
   Image,
   Link,
   Spinner,
   Tooltip,
 } from "@nextui-org/react";
-import formatDate from "../utils/formatDate";
-import { useParams } from "react-router-dom";
+import formatDate from "../../utils/formatDate";
 import { useQuery } from "@tanstack/react-query";
-import { launchApiUrl } from "./LaunchesPage";
+import { launchApiUrl } from "../page";
 import Countdown from "react-countdown";
+import { useParams } from "next/navigation";
 
 export default function LaunchInformationPage() {
-  const params = useParams();
+  const params = useParams<{ launchId: string }>();
   const { isPending, isError, data, error } = useQuery({
-    queryKey: ["launch", params.id],
+    queryKey: ["launch", params.launchId],
     staleTime: 60 * 60 * 1000,
-    queryFn: () => fetchLaunch(params.id),
+    queryFn: () => fetchLaunch(params.launchId),
   });
 
-  async function fetchLaunch(id: string | undefined) {
-    if (id) {
+  async function fetchLaunch(launchId: string | undefined) {
+    if (launchId) {
       try {
-        const apiResponse = await fetch(launchApiUrl + `/launch/${id}`);
+        const apiResponse = await fetch(launchApiUrl + `/launch/${launchId}`);
         const launch: Launch = await apiResponse.json();
         return launch;
       } catch (error) {
@@ -72,7 +73,7 @@ export default function LaunchInformationPage() {
             </div>
             <div className="flex h-full w-full flex-wrap md:flex-nowrap">
               <Image
-                className="h-full flex-shrink object-cover md:max-w-xs"
+                className="flex-shrink object-cover pb-1 md:h-full md:max-w-xs md:pb-0"
                 src={data.image}
               ></Image>
               <div className="flex flex-grow flex-col px-2 ">
@@ -103,7 +104,7 @@ export default function LaunchInformationPage() {
                     </span>
                   )}
                 </p>
-                <div className="mt-auto flex justify-between">
+                <div className="mt-auto flex justify-between gap-2 py-2 font-semibold">
                   <Link color="foreground" href={data.pad.map_url}>
                     <p>{data.pad.location.name}</p>
                   </Link>
@@ -135,17 +136,24 @@ export default function LaunchInformationPage() {
             <CardBody>
               <p>{data.launch_service_provider.description}</p>
             </CardBody>
-            <CardFooter className="flex flex-wrap justify-between">
-              <p>Founded: {data.launch_service_provider.founding_year}</p>
+            <CardFooter className="flex flex-wrap justify-between gap-2">
+              <p className="font-semibold">
+                Founded: {data.launch_service_provider.founding_year}
+              </p>
               <Link
+                className="font-semibold"
                 href={data.launch_service_provider.info_url}
                 isExternal
                 showAnchorIcon
               >
                 <p>Website</p>
               </Link>
-              <p>{data.launch_service_provider.administrator}</p>
-              <p>{data.launch_service_provider.type}</p>
+              <p className="font-semibold">
+                {data.launch_service_provider.administrator}
+              </p>
+              <p className="font-semibold">
+                {data.launch_service_provider.type}
+              </p>
             </CardFooter>
           </Card>
           <Card className="mission">
@@ -163,11 +171,15 @@ export default function LaunchInformationPage() {
             <CardBody>
               <p>{data.mission.description}</p>
             </CardBody>
-            <CardFooter className="flex flex-wrap justify-between">
-              <p>{data.mission.orbit.name}</p>
-              <p>{data.mission.type}</p>
+            <CardFooter className="flex  flex-wrap justify-between">
+              <p className="font-semibold">{data.mission.orbit.name}</p>
+              <p className="font-semibold">{data.mission.type}</p>
               {data.infoURLs[0] && (
-                <Link className="" href={data.infoURLs[0].url} isExternal>
+                <Link
+                  className="font-semibold"
+                  href={data.infoURLs[0].url}
+                  isExternal
+                >
                   <svg
                     className="pr-1"
                     xmlns="http://www.w3.org/2000/svg"
@@ -185,31 +197,31 @@ export default function LaunchInformationPage() {
               )}
             </CardFooter>
           </Card>
-          <Card className="Rocket">
+          <Card className="rocket">
             <CardHeader className="flex h-full w-full flex-wrap items-start md:flex-nowrap">
               <Image
-                className="h-full flex-shrink object-cover md:max-w-xs"
+                className="flex-shrink object-cover pb-1 md:h-full md:max-w-xs md:pb-0"
                 alt="Rocket"
                 radius="sm"
                 removeWrapper
                 src={data.rocket.configuration.image_url}
               />
               <div className="flex h-full flex-col px-2">
-                <h2 className="text-4xl font-bold">
+                <h2 className="pb-2 text-4xl font-bold">
                   {data.rocket.configuration.full_name}
                 </h2>
                 <p className="px-1">{data.rocket.configuration.description}</p>
-                <div className="mt-auto flex justify-between">
+                <div className="mt-0 flex justify-between gap-2 pt-2 md:mt-auto">
                   <p className="font-semibold">
                     Maiden Flight: {data.rocket.configuration.maiden_flight}
                   </p>
-                  <p className="w-fit ">
+                  <p className="w-fit font-semibold">
                     Successful Launches:{" "}
                     {data.rocket.configuration.total_launch_count}
                   </p>
                   {data.rocket.configuration.wiki_url && (
                     <Link
-                      className=""
+                      className="font-semibold"
                       href={data.rocket.configuration.wiki_url}
                       isExternal
                     >
@@ -231,32 +243,8 @@ export default function LaunchInformationPage() {
                 </div>
               </div>
             </CardHeader>
-            <Divider />
-            <CardBody>
-              <div className="flex items-center justify-between gap-3"></div>
-              <div className="flex h-full flex-col pt-2">
-                {/* <p>
-             {data.rocket.configuration.manufacturer.}
-                </p>
-                <Link
-                  color="foreground"
-                  className="mt-auto"
-                  href={launch.pad.map_url ? launch.pad.map_url : ""}
-                >
-                  <p className="font-semibold">{launch.pad.location.name}</p>
-                </Link> */}
-              </div>
-            </CardBody>
-            <Divider />
-            <CardFooter className="flex justify-between">
-              {/* <Link
-                className="font-bold tracking-wide"
-                href={`/launches/${launch.id}`}
-              >
-                More Information
-              </Link> */}
-            </CardFooter>
           </Card>
+          {/* TODO: Add updates and related section*/}
         </>
       )}
     </div>

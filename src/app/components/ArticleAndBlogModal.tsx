@@ -1,5 +1,4 @@
-import { useNavigate } from "react-router-dom";
-import { ArticleAndBlog } from "./../routes/ArticleCard";
+import { ArticleAndBlog } from "../articles/[articleId]/page";
 import {
   Button,
   Card,
@@ -10,15 +9,20 @@ import {
 } from "@nextui-org/react";
 import formatDate from "../utils/formatDate";
 import { useLockBodyScroll } from "@uidotdev/usehooks";
+import { useRouter } from "next/navigation";
 
-export default function ArticleAndBlogCard({ card }: { card: ArticleAndBlog }) {
-  const navigate = useNavigate();
+export default function ArticleAndBlogModal({
+  card,
+}: {
+  card: ArticleAndBlog;
+}) {
+  const router = useRouter();
   useLockBodyScroll();
 
   return (
     <div
-      className="modalWrapper fixed inset-0 flex h-dvh w-screen flex-col items-center justify-center bg-white/40 backdrop-blur-sm dark:bg-black/40"
-      onClick={() => navigate(-1)}
+      className="modalWrapper fixed inset-0 z-50 flex h-dvh w-screen flex-col items-center justify-center bg-white/40 backdrop-blur-sm dark:bg-black/40"
+      onClick={() => router.back()}
     >
       <div
         className="modal max-h-4/5 relative top-6 mx-auto h-4/5 w-10/12 sm:w-3/4 md:h-3/5"
@@ -60,7 +64,7 @@ export default function ArticleAndBlogCard({ card }: { card: ArticleAndBlog }) {
                 className="mt-auto rounded-full bg-transparent sm:hidden"
                 size="sm"
                 isIconOnly
-                onClick={() => navigate(-1)}
+                onClick={() => router.back()}
                 aria-label="Close"
               >
                 <svg

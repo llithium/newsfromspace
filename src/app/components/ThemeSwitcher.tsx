@@ -1,19 +1,30 @@
-import { Button } from "@nextui-org/react";
-import { useEffect } from "react";
-import { useDarkMode } from "usehooks-ts";
+"use client";
 
-export const ThemeSwitcher = () => {
-  const { isDarkMode, toggle } = useDarkMode();
+import { Button } from "@nextui-org/react";
+import { useTheme } from "next-themes";
+import { useEffect, useState } from "react";
+
+export function ThemeSwitcher() {
+  const [mounted, setMounted] = useState(false);
+  const { theme, setTheme } = useTheme();
 
   useEffect(() => {
-    document.documentElement.classList.remove("dark", "light");
-    document.documentElement.classList.add(isDarkMode ? "dark" : "light");
-  }, [isDarkMode]);
+    setMounted(true);
+  }, []);
+
+  if (!mounted) return null;
 
   return (
     <div>
-      <Button className="bg-transparent" isIconOnly onClick={toggle}>
-        {isDarkMode ? (
+      <Button
+        className="bg-transparent"
+        isIconOnly
+        onClick={() => {
+          theme == "dark" && setTheme("light");
+          theme == "light" && setTheme("dark");
+        }}
+      >
+        {theme == "dark" ? (
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="1rem"
@@ -41,4 +52,4 @@ export const ThemeSwitcher = () => {
       </Button>
     </div>
   );
-};
+}

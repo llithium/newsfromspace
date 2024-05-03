@@ -1,21 +1,23 @@
-import { useParams } from "react-router-dom";
-import ArticleAndBlogCard from "../Components/ArticleAndBlogCard";
+"use client";
+
+import { useParams } from "next/navigation";
+import ArticleAndBlogModal from "../../components/ArticleAndBlogModal";
 import { Spinner } from "@nextui-org/react";
-import { apiURL } from "./ArticlesPage";
 import { useQuery } from "@tanstack/react-query";
+import { apiURL } from "../../articles/page";
 
 export default function BlogCard() {
-  const params = useParams();
+  const params = useParams<{ blogId: string }>();
   const { isPending, isError, data, error } = useQuery({
-    queryKey: ["blog", params.id],
+    queryKey: ["blog", params.blogId],
     staleTime: 60 * 60 * 1000,
-    queryFn: () => fetchBlog(params.id),
+    queryFn: () => fetchBlog(params.blogId),
   });
 
-  async function fetchBlog(id: string | undefined) {
-    if (id) {
+  async function fetchBlog(blogId: string | undefined) {
+    if (blogId) {
       try {
-        const apiResponse = await fetch(apiURL + `/blogs/${id}`);
+        const apiResponse = await fetch(apiURL + `/blogs/${blogId}`);
         const blog = await apiResponse.json();
         return blog;
       } catch (error) {
@@ -27,9 +29,9 @@ export default function BlogCard() {
 
   isError && <div>{error.message}</div>;
   return !isPending ? (
-    <ArticleAndBlogCard card={data} />
+    <ArticleAndBlogModal card={data} />
   ) : (
-    <div className="fixed inset-0 flex h-screen w-screen items-center justify-center">
+    <div className="fixed inset-0 z-50 flex h-screen w-screen items-center justify-center">
       <Spinner
         color="current"
         className="relative z-50"

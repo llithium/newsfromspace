@@ -1,3 +1,4 @@
+"use client";
 import {
   Card,
   CardBody,
@@ -7,13 +8,14 @@ import {
   Spinner,
 } from "@nextui-org/react";
 import { useEffect } from "react";
-import { Outlet } from "react-router-dom";
-import ArticlesAndBlogsPageSkelton from "../Components/ArticlesAndBlogsPageSkelton";
+
+import ArticlesAndBlogsPageSkelton from "../components/ArticlesAndBlogsPageSkelton";
 import formatDate from "../utils/formatDate";
-import { apiURL, pageLimit } from "./ArticlesPage";
+
 import { useInView } from "react-intersection-observer";
 import { fetchArticlesAndBlogs } from "../utils/fetchArticlesAndBlogs";
 import { useInfiniteQuery } from "@tanstack/react-query";
+import { apiURL, pageLimit } from "../articles/page";
 
 function BlogsPage() {
   const { data, isPending, isError, error, fetchNextPage, isFetchingNextPage } =
@@ -90,7 +92,7 @@ function BlogsPage() {
           />
         </div>
       )}
-      <Outlet />
+
       <div ref={ref}></div>
     </>
   );

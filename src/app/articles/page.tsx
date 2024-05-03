@@ -1,3 +1,5 @@
+"use client";
+
 import {
   Card,
   CardBody,
@@ -6,13 +8,13 @@ import {
   Link,
   Spinner,
 } from "@nextui-org/react";
-import { Outlet } from "react-router-dom";
-import ArticlesAndBlogsPageSkelton from "../Components/ArticlesAndBlogsPageSkelton";
-import formatDate from "../utils/formatDate";
+
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { useInView } from "react-intersection-observer";
-import { fetchArticlesAndBlogs } from "../utils/fetchArticlesAndBlogs";
 import { useEffect } from "react";
+import { fetchArticlesAndBlogs } from "../utils/fetchArticlesAndBlogs";
+import formatDate from "../utils/formatDate";
+import ArticlesAndBlogsPageSkelton from "../components/ArticlesAndBlogsPageSkelton";
 
 export const apiURL = "https://api.spaceflightnewsapi.net/v4";
 
@@ -91,7 +93,6 @@ function ArticlesPage() {
           />
         </div>
       )}
-      <Outlet />
       <div ref={ref}></div>
     </>
   );

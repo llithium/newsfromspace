@@ -1,5 +1,7 @@
+"use client";
+
 import { useEffect } from "react";
-import { pageLimit } from "./ArticlesPage";
+
 import {
   Card,
   CardHeader,
@@ -12,10 +14,12 @@ import {
   Tooltip,
 } from "@nextui-org/react";
 import { useInView } from "react-intersection-observer";
-import { fetchUpcomingLaunches } from "../utils/fetchUpcomingLaunches";
+
 import { useInfiniteQuery } from "@tanstack/react-query";
 import formatDate from "../utils/formatDate";
-import LaunchesPageSkeleton from "../Components/LaunchesPageSkeleton";
+import LaunchesPageSkeleton from "./components/LaunchesPageSkeleton";
+import { pageLimit } from "../articles/page";
+import { fetchUpcomingLaunches } from "./utils/fetchUpcomingLaunches";
 
 //export const launchApiUrl = "https://ll.thespacedevs.com/2.2.0";
 export const launchApiUrl = "https://lldev.thespacedevs.com/2.2.0"; // * For development

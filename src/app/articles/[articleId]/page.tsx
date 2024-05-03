@@ -1,8 +1,9 @@
-import { useParams } from "react-router-dom";
-import { apiURL, Launch, Event } from "./ArticlesPage";
-import ArticleAndBlogCard from "../Components/ArticleAndBlogCard";
+"use client";
+import ArticleAndBlogModal from "../../components/ArticleAndBlogModal";
 import { Spinner } from "@nextui-org/react";
 import { useQuery } from "@tanstack/react-query";
+import { Launch, apiURL } from "../page";
+import { useParams } from "next/navigation";
 
 export interface ArticleAndBlog {
   id: number;
@@ -19,17 +20,17 @@ export interface ArticleAndBlog {
 }
 
 export default function ArticleCard() {
-  const params = useParams();
+  const params = useParams<{ articleId: string }>();
   const { isPending, isError, data, error } = useQuery({
-    queryKey: ["article", params.id],
+    queryKey: ["article", params.articleId],
     staleTime: 60 * 60 * 1000,
-    queryFn: () => fetchArticle(params.id),
+    queryFn: () => fetchArticle(params.articleId),
   });
 
-  async function fetchArticle(id: string | undefined) {
-    if (id) {
+  async function fetchArticle(articleId: string | undefined) {
+    if (articleId) {
       try {
-        const apiResponse = await fetch(apiURL + `/articles/${id}`);
+        const apiResponse = await fetch(apiURL + `/articles/${articleId}`);
         const article = await apiResponse.json();
         return article;
       } catch (error) {
@@ -41,9 +42,9 @@ export default function ArticleCard() {
 
   isError && <div>{error.message}</div>;
   return !isPending ? (
-    <ArticleAndBlogCard card={data} />
+    <ArticleAndBlogModal card={data} />
   ) : (
-    <div className="fixed inset-0 flex h-screen w-screen items-center justify-center">
+    <div className="fixed inset-0 z-50 flex h-screen w-screen items-center justify-center">
       <Spinner
         color="current"
         className="relative z-50"
