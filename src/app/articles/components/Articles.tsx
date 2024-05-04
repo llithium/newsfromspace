@@ -58,10 +58,7 @@ export default function Articles() {
                         <p className="relative top-2 m-0 text-tiny italic sm:top-1 sm:text-medium">
                           {article.news_site}
                         </p>
-                        <small
-                          className="m-0 text-tiny text-default-500"
-                          suppressHydrationWarning
-                        >
+                        <small className="m-0 text-tiny text-default-500">
                           {formatDate(article.published_at)}
                         </small>
                       </div>

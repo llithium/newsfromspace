@@ -56,7 +56,7 @@ export default function ArticleAndBlogModal({
                       {card.news_site}
                     </Link>
                   </p>
-                  <small className="text-default-500" suppressHydrationWarning>
+                  <small className="text-default-500">
                     {formatDate(card.published_at)}
                   </small>
                 </div>

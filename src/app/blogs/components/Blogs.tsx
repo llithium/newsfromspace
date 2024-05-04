@@ -59,10 +59,7 @@ export default function Blogs() {
                           {blog.news_site}
                         </p>
 
-                        <small
-                          className="m-0 text-tiny text-default-500"
-                          suppressHydrationWarning
-                        >
+                        <small className="m-0 text-tiny text-default-500">
                           {formatDate(blog.published_at)}
                         </small>
                       </div>

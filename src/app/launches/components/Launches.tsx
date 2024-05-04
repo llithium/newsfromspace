@@ -80,10 +80,7 @@ export default function Launches() {
                           Status: {launch.status.abbrev}
                         </p>
                       </Tooltip>
-                      <p
-                        className="w-fit text-medium font-semibold"
-                        suppressHydrationWarning
-                      >
+                      <p className="w-fit text-medium font-semibold">
                         {formatDate(launch.window_start)}
                       </p>
                     </div>
