@@ -36,9 +36,7 @@ export default function AppNavbar() {
         </NavbarBrand>
       </NavbarContent>
       <NavbarContent className="hidden gap-4 sm:flex" justify="center">
-        <NavbarItem
-          isActive={pathname.startsWith("/articles") }
-        >
+        <NavbarItem isActive={pathname.startsWith("/articles")}>
           <Link color="foreground" href="/articles">
             Articles
           </Link>

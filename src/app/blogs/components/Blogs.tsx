@@ -7,6 +7,7 @@ import { fetchArticlesAndBlogs } from "../../utils/fetchArticlesAndBlogs";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { apiURL, pageLimit } from "../../articles/page";
 import Link from "next/link";
+import InfiniteScrollSpinner from "../../components/InfiniteScrollSpinner";
 
 export default function Blogs() {
   const { data, isError, error, fetchNextPage, isFetchingNextPage } =
@@ -70,20 +71,7 @@ export default function Blogs() {
             });
           })}
       </div>
-      {isFetchingNextPage && (
-        <div className="fixed inset-0 flex h-svh w-screen items-end justify-center sm:h-screen">
-          <Spinner
-            color="current"
-            className="relative bottom-10 z-50"
-            classNames={{
-              wrapper: "w-24 h-24",
-            }}
-            size="lg"
-            // label="Loading..."
-          />
-        </div>
-      )}
-
+      {isFetchingNextPage && <InfiniteScrollSpinner />}
       <div ref={ref}></div>
     </>
   );

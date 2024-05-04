@@ -1,6 +1,6 @@
 "use client";
 
-import { Card, CardBody, Divider, Image, Spinner } from "@nextui-org/react";
+import { Card, CardBody, Divider, Image } from "@nextui-org/react";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { useInView } from "react-intersection-observer";
 import { useEffect } from "react";
@@ -8,6 +8,7 @@ import { fetchArticlesAndBlogs } from "../../utils/fetchArticlesAndBlogs";
 import formatDate from "../../utils/formatDate";
 import { apiURL, pageLimit } from "../page";
 import Link from "next/link";
+import InfiniteScrollSpinner from "../../components/InfiniteScrollSpinner";
 
 export default function Articles() {
   const { data, isError, error, fetchNextPage, isFetchingNextPage } =
@@ -69,19 +70,7 @@ export default function Articles() {
             });
           })}
       </div>
-      {isFetchingNextPage && (
-        <div className="fixed inset-0 flex h-svh w-screen items-end justify-center sm:h-screen">
-          <Spinner
-            color="current"
-            className="relative bottom-10 z-50"
-            classNames={{
-              wrapper: "h-24 w-24",
-            }}
-            size="lg"
-            // label="Loading..."
-          />
-        </div>
-      )}
+      {isFetchingNextPage && <InfiniteScrollSpinner />}
       <div ref={ref}></div>
     </>
   );

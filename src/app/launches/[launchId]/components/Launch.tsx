@@ -28,7 +28,6 @@ export default function LaunchInformationPage({
     staleTime: 60 * 1000,
     queryFn: () => fetchLaunch(params.launchId, launchApiUrl),
   });
-
   return (
     <div className="grid min-h-full grid-cols-1 gap-2 pb-6 xl:grid-cols-2">
       {isPending && (
@@ -70,7 +69,7 @@ export default function LaunchInformationPage({
               <Image
                 className="flex-shrink object-cover pb-1 md:h-full md:max-w-xs md:pb-0"
                 src={data.image}
-                alt="Launc image"
+                alt="Launch image"
               ></Image>
               <div className="flex flex-grow flex-col px-2 ">
                 <div className="flex">
@@ -403,7 +402,7 @@ export default function LaunchInformationPage({
                 );
               }
             })}
-          {/* TODO: Add updates and related section*/}
+          {/*TODO: Add updates and related section*/}
         </>
       )}
     </div>
