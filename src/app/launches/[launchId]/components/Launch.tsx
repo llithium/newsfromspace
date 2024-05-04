@@ -30,7 +30,7 @@ export default function LaunchInformationPage({
   });
 
   return (
-    <div className="grid min-h-full grid-cols-1 gap-2 xl:grid-cols-2">
+    <div className="grid min-h-full grid-cols-1 gap-2 pb-6 xl:grid-cols-2">
       {isPending && (
         <div className="fixed inset-0 flex h-screen w-screen items-center justify-center">
           <Spinner
@@ -56,13 +56,14 @@ export default function LaunchInformationPage({
                 height={40}
                 radius="sm"
                 src={
-                  data.launch_service_provider.logo_url &&
+                  data.launch_service_provider &&
                   data.launch_service_provider.logo_url
                 }
                 width={40}
               />
               <h3 className="pl-2 text-lg font-semibold">
-                {data.launch_service_provider.name}
+                {data.launch_service_provider &&
+                  data.launch_service_provider.name}
               </h3>
             </div>
             <div className="flex h-full w-full flex-wrap md:flex-nowrap">
@@ -81,13 +82,18 @@ export default function LaunchInformationPage({
                     date={data.window_start}
                   ></Countdown>
                 </div>
-                <Tooltip delay={300} content={data.status.description}>
+                <Tooltip
+                  delay={300}
+                  content={data.status && data.status.description}
+                >
                   <p
                     className={`w-fit font-semibold ${
-                      data.status.abbrev === "Success" ? "text-success-500" : ""
+                      data.status && data.status.abbrev === "Success"
+                        ? "text-success-500"
+                        : ""
                     }`}
                   >
-                    Status: {data.status.name}
+                    Status: {data.status && data.status.name}
                   </p>
                 </Tooltip>
                 <p className="py-2">
@@ -100,8 +106,8 @@ export default function LaunchInformationPage({
                   )}
                 </p>
                 <div className="mt-auto flex justify-between gap-2 py-2 font-semibold">
-                  <Link color="foreground" href={data.pad.map_url}>
-                    <p>{data.pad.location.name}</p>
+                  <Link color="foreground" href={data.pad && data.pad.map_url}>
+                    <p>{data.pad && data.pad.location.name}</p>
                   </Link>
                   <Tooltip delay={300} content="Mission type">
                     <p className="w-fit ">
@@ -120,63 +126,85 @@ export default function LaunchInformationPage({
           <Card className="launchServiceProvider">
             <CardHeader className="flex justify-center">
               <h2 className="text-4xl font-bold">
-                {data.launch_service_provider.name}
+                {data.launch_service_provider &&
+                  data.launch_service_provider.name}
               </h2>
               <Image
                 width={200}
                 height={200}
                 radius="sm"
-                src={data.launch_service_provider.logo_url}
+                src={
+                  data.launch_service_provider &&
+                  data.launch_service_provider.logo_url
+                }
                 alt="Launch service provider log"
               ></Image>
             </CardHeader>
             <CardBody>
-              <p>{data.launch_service_provider.description}</p>
+              <p>
+                {data.launch_service_provider &&
+                  data.launch_service_provider.description}
+              </p>
             </CardBody>
             <CardFooter className="flex flex-wrap justify-between gap-2">
               <p className="font-semibold">
-                Founded: {data.launch_service_provider.founding_year}
+                Founded:{" "}
+                {data.launch_service_provider &&
+                  data.launch_service_provider.founding_year}
               </p>
               <Link
                 className="font-semibold"
-                href={data.launch_service_provider.info_url}
+                href={
+                  data.launch_service_provider &&
+                  data.launch_service_provider.info_url
+                }
                 isExternal
                 showAnchorIcon
               >
                 <p>Website</p>
               </Link>
               <p className="font-semibold">
-                {data.launch_service_provider.administrator}
+                {data.launch_service_provider &&
+                  data.launch_service_provider.administrator}
               </p>
               <p className="font-semibold">
-                {data.launch_service_provider.type}
+                {data.launch_service_provider &&
+                  data.launch_service_provider.type}
               </p>
             </CardFooter>
           </Card>
           {/* Misssion */}
           <Card className="mission">
             <CardHeader className="flex justify-center">
-              <h2 className="text-4xl font-bold">{data.mission.name}</h2>
+              <h2 className="text-4xl font-bold">
+                {data.mission && data.mission.name}
+              </h2>
               <Image
                 width={200}
                 height={200}
                 radius="sm"
                 src={
-                  data.mission_patches[0] && data.mission_patches[0].image_url
+                  data.mission_patches &&
+                  data.mission_patches[0] &&
+                  data.mission_patches[0].image_url
                 }
                 alt="Mission patch"
               ></Image>
             </CardHeader>
             <CardBody>
-              <p>{data.mission.description}</p>
+              <p>{data.mission && data.mission.description}</p>
             </CardBody>
             <CardFooter className="flex  flex-wrap justify-between">
-              <p className="font-semibold">{data.mission.orbit.name}</p>
-              <p className="font-semibold">{data.mission.type}</p>
-              {data.infoURLs[0] && (
+              <p className="font-semibold">
+                {data.mission && data.mission.orbit.name}
+              </p>
+              <p className="font-semibold">
+                {data.mission && data.mission.type}
+              </p>
+              {data.infoURLs && data.infoURLs[0] && (
                 <Link
                   className="font-semibold"
-                  href={data.infoURLs[0].url}
+                  href={data.infoURLs && data.infoURLs[0].url}
                   isExternal
                 >
                   <svg
@@ -204,25 +232,109 @@ export default function LaunchInformationPage({
                 alt="Rocket"
                 radius="sm"
                 removeWrapper
-                src={data.rocket.configuration.image_url}
+                src={
+                  data.rocket &&
+                  data.rocket.configuration &&
+                  data.rocket.configuration.image_url
+                }
               />
               <div className="flex h-full flex-col px-2">
                 <h2 className="pb-2 text-4xl font-bold">
-                  {data.rocket.configuration.full_name}
+                  {data.rocket &&
+                    data.rocket.configuration &&
+                    data.rocket.configuration.full_name}
                 </h2>
-                <p className="px-1">{data.rocket.configuration.description}</p>
+                <p>
+                  {data.rocket &&
+                    data.rocket.configuration &&
+                    data.rocket.configuration.description}
+                </p>
                 <div className="mt-0 flex justify-between gap-2 pt-2 md:mt-auto">
                   <p className="font-semibold">
-                    Maiden Flight: {data.rocket.configuration.maiden_flight}
+                    Maiden Flight:{" "}
+                    {data.rocket &&
+                      data.rocket.configuration &&
+                      data.rocket.configuration.maiden_flight}
                   </p>
                   <p className="w-fit font-semibold">
                     Successful Launches:{" "}
-                    {data.rocket.configuration.total_launch_count}
+                    {data.rocket &&
+                      data.rocket.configuration &&
+                      data.rocket.configuration.total_launch_count}
                   </p>
-                  {data.rocket.configuration.wiki_url && (
+                  {data.rocket &&
+                    data.rocket.configuration &&
+                    data.rocket.configuration.wiki_url && (
+                      <Link
+                        className="font-semibold"
+                        href={
+                          data.rocket &&
+                          data.rocket.configuration &&
+                          data.rocket.configuration.wiki_url
+                        }
+                        isExternal
+                      >
+                        <svg
+                          className="pr-1"
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="1.5em"
+                          height="1em"
+                          viewBox="0 0 2304 1536"
+                        >
+                          <path
+                            fill="currentColor"
+                            d="m1494 1511l-295-695q-25 49-158.5 305.5T842 1511q-1 1-27.5.5T788 1510q-82-193-255.5-587T273 327q-21-50-66.5-107.5T103 119T1 76q0-5-.5-24T0 25h583v50q-39 2-79.5 16T437 134t-10 64q26 59 216.5 499T879 1237q31-61 140-266.5T1150 723q-19-39-126-281T888 147q-38-69-201-71V26l513 1v47q-60 2-93.5 25t-12.5 69q33 70 87 189.5t86 187.5q110-214 173-363q24-55-10-79.5T1301 76q1-7 1-25V27q64 0 170.5-.5t180-1t92.5-.5v49q-62 2-119 33t-90 81l-213 442q13 33 127.5 290t121.5 274l441-1017q-14-38-49.5-62.5t-65-31.5t-55.5-8V25l460 4l1 2l-1 44q-139 4-201 145q-526 1216-559 1291z"
+                          />
+                        </svg>
+                        Wiki
+                      </Link>
+                    )}
+                </div>
+              </div>
+            </CardHeader>
+          </Card>
+          {/* Launch pad */}
+          <Card className="rocket">
+            <CardHeader className="flex h-full w-full flex-wrap items-start md:flex-nowrap">
+              <Link
+                className="flex-shrink md:h-full md:max-w-xs "
+                href={data.pad && data.pad.map_url ? data.pad.map_url : ""}
+                isExternal
+              >
+                <Image
+                  className="flex-shrink object-cover pb-1 md:h-full md:max-w-xs md:pb-0"
+                  alt="Rocket"
+                  radius="sm"
+                  removeWrapper
+                  src={data.pad && data.pad.map_image}
+                />
+              </Link>
+              <div className="flex h-full flex-col px-2">
+                <h2 className="pb-2 text-3xl font-bold">
+                  {data.pad && data.pad.location && data.pad.location.name}
+                </h2>
+                <p className="text-xl font-semibold">
+                  Pad: {data.pad && data.pad.name}
+                </p>
+                <p>
+                  {data.pad &&
+                    data.pad.location &&
+                    data.pad.location.description}
+                </p>
+                <div className="mt-0 flex justify-between gap-2 pt-2 md:mt-auto">
+                  <p className="font-semibold">
+                    Total Launches:{" "}
+                    {data.pad &&
+                      data.pad.location &&
+                      data.pad.location.total_launch_count}
+                  </p>
+                  <p className="w-fit font-semibold">
+                    Pad Launches: {data.pad && data.pad.total_launch_count}
+                  </p>
+                  {data.pad && data.pad.wiki_url && (
                     <Link
                       className="font-semibold"
-                      href={data.rocket.configuration.wiki_url}
+                      href={data.pad.wiki_url}
                       isExternal
                     >
                       <svg
@@ -244,6 +356,53 @@ export default function LaunchInformationPage({
               </div>
             </CardHeader>
           </Card>
+          {/* Videos */}
+          {data.vidURLs &&
+            data.vidURLs.map((video) => {
+              if (video.source === "youtube.com") {
+                const videoId = video.url.split("v=")[1];
+                const embedUrl = `https://www.youtube.com/embed/${videoId}`;
+                return (
+                  <Card key={videoId}>
+                    <CardHeader className="flex flex-col items-start">
+                      <h2 className="text-xl font-semibold">{video.title}</h2>
+                      <div className="flex w-full justify-between pt-1">
+                        <p className="w-fit">{video.publisher}</p>
+                        <p className="w-fit">{video.type.name}</p>
+                      </div>
+                    </CardHeader>
+                    <CardBody>
+                      <iframe
+                        className="h-96 w-full rounded-small"
+                        title={video.title}
+                        src={embedUrl}
+                        allowFullScreen
+                      ></iframe>
+                    </CardBody>
+                  </Card>
+                );
+              } else {
+                return (
+                  <Card key={video.title + video.url}>
+                    <CardHeader className="flex flex-col items-start">
+                      <h2 className="text-xl font-semibold">{video.title}</h2>
+                      <div className="flex w-full justify-between pt-1">
+                        <p className="w-fit">{video.publisher}</p>
+                        <p className="w-fit">{video.type.name}</p>
+                      </div>
+                    </CardHeader>
+                    <CardBody>
+                      <iframe
+                        className="h-96 w-full rounded-small"
+                        title={video.title}
+                        src={video.url}
+                        allowFullScreen
+                      ></iframe>
+                    </CardBody>
+                  </Card>
+                );
+              }
+            })}
           {/* TODO: Add updates and related section*/}
         </>
       )}
@@ -263,7 +422,7 @@ export interface Launch {
   net: Date;
   net_precision: NetPrecision;
   window_end: Date;
-  window_start: string;
+  window_start: Date;
   probability: null;
   weather_concerns: null;
   holdreason: string;

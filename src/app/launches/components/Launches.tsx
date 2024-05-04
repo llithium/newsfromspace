@@ -166,7 +166,7 @@ export interface Result {
   net: Date;
   net_precision: NetPrecision;
   window_end: Date;
-  window_start: string;
+  window_start: Date;
   probability: null;
   weather_concerns: null;
   holdreason: string;

@@ -7,7 +7,7 @@ import Launches, { LaunchesUpcoming } from "./components/Launches";
 import { fetchUpcomingLaunches } from "./utils/fetchUpcomingLaunches";
 import { pageLimit } from "../articles/page";
 
-//export const launchApiUrl = "https://ll.thespacedevs.com/2.2.0";
+// export const launchApiUrl = "https://ll.thespacedevs.com/2.2.0";
 export const launchApiUrl = "https://lldev.thespacedevs.com/2.2.0"; // * For development
 
 export default async function Page() {
