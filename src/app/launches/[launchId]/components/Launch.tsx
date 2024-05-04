@@ -25,7 +25,7 @@ export default function LaunchInformationPage({
 }) {
   const { isPending, isError, data, error } = useQuery({
     queryKey: ["launch", { launchId: params.launchId }],
-    staleTime: 60 * 60 * 1000,
+    staleTime: 60 * 1000,
     queryFn: () => fetchLaunch(params.launchId, launchApiUrl),
   });
 

@@ -24,7 +24,7 @@ export default function Launches() {
     useInfiniteQuery({
       queryKey: ["launches/upcoming"],
       queryFn: fetchUpcomingLaunches,
-      staleTime: 10 * 60 * 1000,
+      staleTime: 15 * 60 * 1000,
       initialPageParam:
         launchApiUrl +
         `/launch/upcoming/?mode=detailed&limit=${pageLimit}&offset=0`,
@@ -132,7 +132,7 @@ export default function Launches() {
           })}
       </div>
       {isFetchingNextPage && (
-        <div className="fixed inset-0 flex h-screen w-screen items-end justify-center">
+        <div className="fixed inset-0 flex h-svh w-screen items-end justify-center sm:h-screen">
           <Spinner
             color="current"
             className="relative bottom-10 z-50"

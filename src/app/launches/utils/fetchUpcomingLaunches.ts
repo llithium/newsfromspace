@@ -6,7 +6,7 @@ export async function fetchUpcomingLaunches({
   pageParam: string;
 }) {
   try {
-    const apiResponse = await fetch(pageParam);
+    const apiResponse = await fetch(pageParam, { next: { revalidate: 900 } });
     const LaunchesUpcoming: LaunchesUpcoming = await apiResponse.json();
     return LaunchesUpcoming;
   } catch (error) {

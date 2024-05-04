@@ -9,7 +9,7 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        sans: ["-apple-system", "BlinkMacSystemFont", "var(--font-manrope)", "sans-serif"],
+        sans: ["var(--font-manrope)", "sans-serif"],
       },
     },
   },

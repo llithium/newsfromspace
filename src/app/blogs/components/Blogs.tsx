@@ -74,7 +74,7 @@ export default function Blogs() {
           })}
       </div>
       {isFetchingNextPage && (
-        <div className="fixed inset-0 flex h-screen w-screen items-end justify-center">
+        <div className="fixed inset-0 flex h-svh w-screen items-end justify-center sm:h-screen">
           <Spinner
             color="current"
             className="relative bottom-10 z-50"

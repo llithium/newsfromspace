@@ -6,7 +6,9 @@ export default async function fetchLaunch(
 ) {
   if (launchId) {
     try {
-      const apiResponse = await fetch(launchApiUrl + `/launch/${launchId}`);
+      const apiResponse = await fetch(launchApiUrl + `/launch/${launchId}`, {
+        next: { revalidate: 60 },
+      });
       const launch: Launch = await apiResponse.json();
       return launch;
     } catch (error) {
