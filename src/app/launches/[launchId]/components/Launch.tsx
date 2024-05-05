@@ -401,7 +401,7 @@ export default function LaunchInformationPage({
               <CardBody className="flex flex-col gap-3">
                 {data.updates.map((update) => {
                   return (
-                    <Card key={update.id} className="min-h-32 w-full">
+                    <Card key={update.id} className="min-h-44 w-full">
                       <CardHeader className="justify-between">
                         <div className="flex gap-5">
                           <Avatar
@@ -422,7 +422,12 @@ export default function LaunchInformationPage({
                       </CardHeader>
                       <CardBody className="px-3 pt-0 text-default-500">
                         <p>{update.comment}</p>
-                        <Link href={update.info_url} isExternal showAnchorIcon>
+                        <Link
+                          className="mt-auto"
+                          href={update.info_url}
+                          isExternal
+                          showAnchorIcon
+                        >
                           More info
                         </Link>
                       </CardBody>
