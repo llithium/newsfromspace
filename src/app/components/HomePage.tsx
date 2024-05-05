@@ -5,12 +5,15 @@ import {
   Image,
   Tooltip,
   Link as NextUILink,
+  Divider,
 } from "@nextui-org/react";
 import Link from "next/link";
 import { launchApiUrl } from "../launches/page";
 import { LaunchesUpcoming } from "../launches/components/Launches";
 import formatDate from "../utils/formatDate";
 import dynamic from "next/dynamic";
+import { ArticlesAndBlogs } from "../articles/components/Articles";
+import { apiURL } from "../articles/page";
 const CountdownTimer = dynamic(() => import("../components/CountdownTimer"), {
   ssr: false,
 });
@@ -26,13 +29,36 @@ async function fetchUpcomingLaunches() {
   }
   return res.json();
 }
+async function fetchLatestArticles() {
+  const res = await fetch(
+    apiURL + `/articles/?mode=detailed&limit=6&offset=0`,
+    {
+      next: { revalidate: 60 },
+    },
+  );
+  if (!res.ok) {
+    throw new Error("Failed to fetch data for related articles");
+  }
+  return res.json();
+}
+async function fetchLatestBlogs() {
+  const res = await fetch(apiURL + `/blogs/?mode=detailed&limit=6&offset=0`, {
+    next: { revalidate: 60 },
+  });
+  if (!res.ok) {
+    throw new Error("Failed to fetch data for related articles");
+  }
+  return res.json();
+}
 
 export default async function HomePage() {
   const launches: LaunchesUpcoming = await fetchUpcomingLaunches();
+  const articles: ArticlesAndBlogs = await fetchLatestArticles();
+  const blogs: ArticlesAndBlogs = await fetchLatestBlogs();
   return (
     <>
-      <div className="flex h-[85rem] flex-col gap-4 pb-2 md:h-[calc(100dvh-5rem)] md:flex-row">
-        <Card className="h-full flex-1">
+      <div className="flex h-fit flex-col gap-4 pb-2 md:h-[calc(100dvh-5rem)] md:flex-row">
+        <Card className="h-fit flex-1 md:h-full">
           <CardHeader>
             <Link
               className="transition-opacity hover:opacity-80 active:opacity-disabled"
@@ -41,11 +67,11 @@ export default async function HomePage() {
               <h2 className="text-xl font-bold">Upcoming Launches</h2>
             </Link>
           </CardHeader>
-          <CardBody className="flex flex-col gap-2 overflow-y-auto">
+          <CardBody className="flex flex-col gap-2 overflow-y-auto ">
             {launches.results.map((launch) => {
               return (
                 <Card
-                  className="flex min-h-96 w-full  flex-col overflow-y-auto p-3"
+                  className="flex w-full flex-col overflow-y-auto p-3 md:min-h-96"
                   key={launch.id}
                 >
                   <h3 className="text-xl font-bold">{launch.name}</h3>
@@ -126,7 +152,7 @@ export default async function HomePage() {
             })}
           </CardBody>
         </Card>
-        <div className="flex h-full flex-1 flex-col gap-4">
+        <div className="flex h-fit flex-1 flex-col gap-4 md:h-full">
           <Card className="flex-1">
             <CardHeader>
               <Link
@@ -136,7 +162,36 @@ export default async function HomePage() {
                 <h2 className="text-xl font-bold">Latest Articles</h2>
               </Link>
             </CardHeader>
-            <CardBody></CardBody>
+            <CardBody className="flex flex-col gap-2 overflow-y-auto">
+              {articles.results.map((article) => {
+                return (
+                  <NextUILink key={article.id} href={article.url} isExternal>
+                    <Card className="flex min-h-52 w-full flex-row py-2 sm:h-full ">
+                      <Image
+                        alt="Article image"
+                        className="z-0 ml-2 h-full w-44 flex-shrink rounded-xl object-cover sm:w-44 sm:flex-1 lg:w-56"
+                        src={article.image_url}
+                      />
+
+                      <CardBody className="flex-grow overflow-visible overflow-y-auto py-0 sm:flex-1">
+                        <h2 className="pb-0 text-medium font-bold tracking-tight transition-colors first:mt-0 sm:text-xl 2xl:text-2xl">
+                          {article.title}
+                        </h2>
+                        <Divider />
+                        <div className="mt-auto">
+                          <p className="relative top-2 m-0 text-tiny italic sm:top-1 sm:text-medium">
+                            {article.news_site}
+                          </p>
+                          <small className="m-0 text-tiny text-default-500">
+                            {formatDate(article.published_at)}
+                          </small>
+                        </div>
+                      </CardBody>
+                    </Card>
+                  </NextUILink>
+                );
+              })}
+            </CardBody>
           </Card>
           <Card className="flex-1">
             <CardHeader>
@@ -147,7 +202,36 @@ export default async function HomePage() {
                 <h2 className="text-xl font-bold">Latest Blogs</h2>
               </Link>
             </CardHeader>
-            <CardBody></CardBody>
+            <CardBody className="flex flex-col gap-2 overflow-y-auto">
+              {blogs.results.map((blog) => {
+                return (
+                  <NextUILink key={blog.id} href={blog.url} isExternal>
+                    <Card className="flex min-h-52 w-full flex-row py-2 sm:h-full ">
+                      <Image
+                        alt="Blog image"
+                        className="z-0 ml-2 h-full w-44 flex-shrink rounded-xl object-cover sm:w-44 sm:flex-1 lg:w-56"
+                        src={blog.image_url}
+                      />
+
+                      <CardBody className="flex-grow overflow-visible overflow-y-auto py-0 sm:flex-1">
+                        <h2 className="pb-0 text-medium font-bold tracking-tight transition-colors first:mt-0 sm:text-xl 2xl:text-2xl">
+                          {blog.title}
+                        </h2>
+                        <Divider />
+                        <div className="mt-auto">
+                          <p className="relative top-2 m-0 text-tiny italic sm:top-1 sm:text-medium">
+                            {blog.news_site}
+                          </p>
+                          <small className="m-0 text-tiny text-default-500">
+                            {formatDate(blog.published_at)}
+                          </small>
+                        </div>
+                      </CardBody>
+                    </Card>
+                  </NextUILink>
+                );
+              })}
+            </CardBody>
           </Card>
         </div>
       </div>

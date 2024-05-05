@@ -12,12 +12,18 @@ import {
   Tooltip,
 } from "@nextui-org/react";
 import { useQuery } from "@tanstack/react-query";
-import Countdown from "react-countdown";
+
 import { launchApiUrl } from "../../page";
 import formatDate from "../../../utils/formatDate";
 import fetchLaunch from "../../utils/fetchLaunch";
 import { RelatedArticles } from "../page";
-
+import dynamic from "next/dynamic";
+const CountdownTimer = dynamic(
+  () => import("../../../components/CountdownTimer"),
+  {
+    ssr: false,
+  },
+);
 export default function LaunchInformationPage({
   params,
   relatedData,
@@ -66,10 +72,7 @@ export default function LaunchInformationPage({
                   <p className="max-w-1/2 w-fit pr-2 font-semibold">
                     {formatDate(data.window_start)}
                   </p>
-                  <Countdown
-                    className="font-semibold opacity-70"
-                    date={data.window_start}
-                  ></Countdown>
+                  <CountdownTimer date={data.window_start} />
                 </div>
                 <Tooltip
                   delay={300}
@@ -394,7 +397,7 @@ export default function LaunchInformationPage({
             })}
           {/* Updates */}
           {data.updates.length > 0 && (
-            <Card className="max-h-[600px]">
+            <Card className="md:max-h-[600px]">
               <CardHeader>
                 <h2 className="text-2xl font-bold">Updates</h2>
               </CardHeader>
@@ -439,7 +442,7 @@ export default function LaunchInformationPage({
           )}
           {/* Related articles */}
           {relatedData.results.length > 0 && (
-            <Card className="max-h-[600px] ">
+            <Card className="md:max-h-[600px] ">
               <CardHeader>
                 <h2 className="text-2xl font-bold">Releated News</h2>
               </CardHeader>
