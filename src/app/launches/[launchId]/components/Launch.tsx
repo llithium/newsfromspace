@@ -1,48 +1,38 @@
 "use client";
 
 import {
+  Avatar,
   Card,
   CardBody,
   CardFooter,
   CardHeader,
+  Divider,
   Image,
   Link,
-  Spinner,
   Tooltip,
 } from "@nextui-org/react";
-
 import { useQuery } from "@tanstack/react-query";
 import Countdown from "react-countdown";
-
 import { launchApiUrl } from "../../page";
 import formatDate from "../../../utils/formatDate";
 import fetchLaunch from "../../utils/fetchLaunch";
+import { RelatedArticles } from "../page";
 
 export default function LaunchInformationPage({
   params,
+  relatedData,
 }: {
   params: { launchId: string };
+  relatedData: RelatedArticles;
 }) {
-  const { isPending, isError, data, error } = useQuery({
+  const { isError, data, error } = useQuery({
     queryKey: ["launch", { launchId: params.launchId }],
     staleTime: 60 * 1000,
     queryFn: () => fetchLaunch(params.launchId, launchApiUrl),
   });
+
   return (
     <div className="grid min-h-full grid-cols-1 gap-2 pb-6 xl:grid-cols-2">
-      {isPending && (
-        <div className="fixed inset-0 flex h-screen w-screen items-center justify-center">
-          <Spinner
-            color="current"
-            className="relative z-50"
-            classNames={{
-              wrapper: "w-44 h-44",
-            }}
-            size="lg"
-            // label="Loading..."
-          />
-        </div>
-      )}
       {isError && <div>{error.message}</div>}
       {data && (
         <>
@@ -308,7 +298,7 @@ export default function LaunchInformationPage({
                   src={data.pad && data.pad.map_image}
                 />
               </Link>
-              <div className="flex h-full flex-col px-2">
+              <div className="flex h-full w-full flex-col px-2">
                 <h2 className="pb-2 text-3xl font-bold">
                   {data.pad && data.pad.location && data.pad.location.name}
                 </h2>
@@ -320,7 +310,7 @@ export default function LaunchInformationPage({
                     data.pad.location &&
                     data.pad.location.description}
                 </p>
-                <div className="mt-0 flex justify-between gap-2 pt-2 md:mt-auto">
+                <div className="mt-0 flex w-full  justify-between gap-2 pt-2 md:mt-auto">
                   <p className="font-semibold">
                     Total Launches:{" "}
                     {data.pad &&
@@ -402,7 +392,95 @@ export default function LaunchInformationPage({
                 );
               }
             })}
-          {/*TODO: Add updates and related section*/}
+          {/* Updates */}
+          {data.updates.length > 0 && (
+            <Card className="max-h-[600px]">
+              <CardHeader>
+                <h2 className="text-2xl font-bold">Updates</h2>
+              </CardHeader>
+              <CardBody className="flex flex-col gap-3">
+                {data.updates.map((update) => {
+                  return (
+                    <Card key={update.id} className="min-h-32 w-full">
+                      <CardHeader className="justify-between">
+                        <div className="flex gap-5">
+                          <Avatar
+                            isBordered
+                            radius="full"
+                            size="md"
+                            src={update.profile_image}
+                          />
+                          <div className="flex flex-col items-start justify-center gap-1">
+                            <h4 className="text-small font-semibold leading-none text-default-600">
+                              {update.created_by}
+                            </h4>
+                            <h5 className="text-small tracking-tight text-default-400">
+                              {formatDate(update.created_on)}
+                            </h5>
+                          </div>
+                        </div>
+                      </CardHeader>
+                      <CardBody className="px-3 pt-0 text-default-500">
+                        <p>{update.comment}</p>
+                        <Link href={update.info_url} isExternal showAnchorIcon>
+                          More info
+                        </Link>
+                      </CardBody>
+                    </Card>
+                  );
+                })}
+              </CardBody>
+            </Card>
+          )}
+          {/* Related articles */}
+          {relatedData.results.length > 0 && (
+            <Card className="max-h-[600px] ">
+              <CardHeader>
+                <h2 className="text-2xl font-bold">Releated News</h2>
+              </CardHeader>
+              <CardBody className="flex flex-col gap-3">
+                {relatedData.results.map((article) => {
+                  return (
+                    <Card
+                      key={article.id}
+                      className="flex min-h-44 w-full flex-row py-2 sm:h-full "
+                    >
+                      <Image
+                        alt="Article image"
+                        className="z-0 ml-2 h-full w-48 flex-shrink rounded-xl object-cover sm:w-44 sm:flex-1 lg:w-56"
+                        src={article.image_url}
+                      />
+
+                      <CardBody className="flex-grow overflow-visible overflow-y-auto py-0 sm:flex-1">
+                        <h2 className="pb-0 text-sm font-bold tracking-tight transition-colors first:mt-0 sm:text-xl 2xl:text-2xl">
+                          {article.title}
+                        </h2>
+                        <Divider />
+                        <div className="mt-auto flex flex-wrap justify-between">
+                          <div className="">
+                            <p className="relative top-2 m-0 text-tiny italic sm:top-1 sm:text-medium">
+                              {article.news_site}
+                            </p>
+                            <small className="m-0 text-tiny text-default-500">
+                              {formatDate(article.published_at)}
+                            </small>
+                          </div>
+                          <Link
+                            className=""
+                            href={article.url}
+                            isExternal
+                            showAnchorIcon
+                          >
+                            Read Article
+                          </Link>
+                        </div>
+                      </CardBody>
+                    </Card>
+                  );
+                })}
+              </CardBody>
+            </Card>
+          )}
         </>
       )}
     </div>
