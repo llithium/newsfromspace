@@ -8,13 +8,17 @@ import { useInfiniteQuery } from "@tanstack/react-query";
 import { apiURL, pageLimit } from "../../articles/page";
 import Link from "next/link";
 import InfiniteScrollSpinner from "../../components/InfiniteScrollSpinner";
+import { useSearchParams } from "next/navigation";
 
-export default function Blogs() {
+export default function BlogsSearchResults() {
+  const searchParams = useSearchParams();
+  const search = searchParams.get("q");
   const { data, isError, error, fetchNextPage, isFetchingNextPage } =
     useInfiniteQuery({
-      queryKey: ["blogs"],
+      queryKey: ["blogsSearch", search],
       queryFn: fetchArticlesAndBlogs,
-      initialPageParam: apiURL + `/blogs/?limit=${pageLimit}&offset=0`,
+      initialPageParam:
+        apiURL + `/blogs/?limit=${pageLimit}&offset=0&search=${search}`,
       getNextPageParam: (lastPage) => {
         return lastPage.next;
       },

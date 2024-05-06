@@ -7,8 +7,13 @@ import Blogs from "./components/Blogs";
 import { fetchArticlesAndBlogs } from "../utils/fetchArticlesAndBlogs";
 import { apiURL, pageLimit } from "../articles/page";
 import { ArticlesAndBlogs } from "../articles/components/Articles";
+import BlogsSearchResults from "./components/BlogsSearchResults";
 
-export default async function Page() {
+export default async function Page({
+  searchParams,
+}: {
+  searchParams: { q: string };
+}) {
   const queryClient = new QueryClient();
 
   await queryClient.prefetchInfiniteQuery({
@@ -19,9 +24,26 @@ export default async function Page() {
       return lastPage.next;
     },
   });
-  return (
-    <HydrationBoundary state={dehydrate(queryClient)}>
-      <Blogs />
-    </HydrationBoundary>
-  );
+  if (searchParams.q) {
+    await queryClient.prefetchInfiniteQuery({
+      queryKey: ["blogsSearch", searchParams.q],
+      queryFn: fetchArticlesAndBlogs,
+      initialPageParam:
+        apiURL + `/blogs/?limit=${pageLimit}&offset=0&search=${searchParams.q}`,
+      getNextPageParam: (lastPage: ArticlesAndBlogs) => {
+        return lastPage.next;
+      },
+    });
+    return (
+      <HydrationBoundary state={dehydrate(queryClient)}>
+        <BlogsSearchResults />
+      </HydrationBoundary>
+    );
+  } else {
+    return (
+      <HydrationBoundary state={dehydrate(queryClient)}>
+        <Blogs />
+      </HydrationBoundary>
+    );
+  }
 }

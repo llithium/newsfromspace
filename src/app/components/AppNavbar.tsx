@@ -15,6 +15,7 @@ import {
 import { useState } from "react";
 import { ThemeSwitcher } from "./ThemeSwitcher";
 import { usePathname } from "next/navigation";
+import SearchInput from "./SearchInput";
 
 export default function AppNavbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -52,7 +53,12 @@ export default function AppNavbar() {
           </Link>
         </NavbarItem>
       </NavbarContent>
-
+      <NavbarContent
+        className={`hidden sm:flex ${pathname === "/" ? "sm:hidden" : ""}`}
+        justify="end"
+      >
+        <SearchInput />
+      </NavbarContent>
       <NavbarContent justify="end">
         <NavbarItem>
           <ThemeSwitcher></ThemeSwitcher>
@@ -70,6 +76,9 @@ export default function AppNavbar() {
         </NavbarItem>
       </NavbarContent>
       <NavbarMenu>
+        <NavbarMenuItem>
+          <SearchInput />
+        </NavbarMenuItem>
         <NavbarMenuItem isActive={pathname === "/articles"}>
           <Link
             color="foreground"

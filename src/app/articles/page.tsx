@@ -6,12 +6,17 @@ import {
 import Articles from "./components/Articles";
 import { fetchArticlesAndBlogs } from "../utils/fetchArticlesAndBlogs";
 import { ArticlesAndBlogs } from "./components/Articles";
+import ArticlesSearchResults from "./components/ArticlesSearchResults";
 
 export const apiURL = "https://api.spaceflightnewsapi.net/v4";
 
 export const pageLimit = "40";
 
-export default async function Page() {
+export default async function Page({
+  searchParams,
+}: {
+  searchParams: { q: string };
+}) {
   const queryClient = new QueryClient();
 
   await queryClient.prefetchInfiniteQuery({
@@ -22,9 +27,27 @@ export default async function Page() {
       return lastPage.next;
     },
   });
-  return (
-    <HydrationBoundary state={dehydrate(queryClient)}>
-      <Articles />
-    </HydrationBoundary>
-  );
+  if (searchParams.q) {
+    await queryClient.prefetchInfiniteQuery({
+      queryKey: ["articlesSearch", searchParams.q],
+      queryFn: fetchArticlesAndBlogs,
+      initialPageParam:
+        apiURL +
+        `/articles/?limit=${pageLimit}&offset=0&search=${searchParams.q}`,
+      getNextPageParam: (lastPage: ArticlesAndBlogs) => {
+        return lastPage.next;
+      },
+    });
+    return (
+      <HydrationBoundary state={dehydrate(queryClient)}>
+        <ArticlesSearchResults />
+      </HydrationBoundary>
+    );
+  } else {
+    return (
+      <HydrationBoundary state={dehydrate(queryClient)}>
+        <Articles />
+      </HydrationBoundary>
+    );
+  }
 }

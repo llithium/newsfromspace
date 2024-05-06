@@ -1,25 +1,29 @@
 "use client";
+
 import { Card, CardBody, Divider, Image } from "@nextui-org/react";
-import { useEffect } from "react";
-import formatDate from "../../utils/formatDate";
-import { useInView } from "react-intersection-observer";
-import { fetchArticlesAndBlogs } from "../../utils/fetchArticlesAndBlogs";
 import { useInfiniteQuery } from "@tanstack/react-query";
-import { apiURL, pageLimit } from "../../articles/page";
+import { useInView } from "react-intersection-observer";
+import { useEffect } from "react";
+import { fetchArticlesAndBlogs } from "../../utils/fetchArticlesAndBlogs";
+import formatDate from "../../utils/formatDate";
+import { apiURL, pageLimit } from "../page";
 import Link from "next/link";
 import InfiniteScrollSpinner from "../../components/InfiniteScrollSpinner";
+import { useSearchParams } from "next/navigation";
 
-export default function Blogs() {
+export default function ArticlesSearchResults() {
+  const searchParams = useSearchParams();
+  const search = searchParams.get("q");
   const { data, isError, error, fetchNextPage, isFetchingNextPage } =
     useInfiniteQuery({
-      queryKey: ["blogs"],
+      queryKey: ["articlesSearch", search],
       queryFn: fetchArticlesAndBlogs,
-      initialPageParam: apiURL + `/blogs/?limit=${pageLimit}&offset=0`,
+      initialPageParam:
+        apiURL + `/articles/?limit=${pageLimit}&offset=0&search=${search}`,
       getNextPageParam: (lastPage) => {
         return lastPage.next;
       },
     });
-
   const { ref, inView } = useInView();
 
   useEffect(() => {
@@ -32,36 +36,35 @@ export default function Blogs() {
         {isError && <div>{error.message}</div>}
         {data &&
           data.pages.map((page) => {
-            return page.results.map((blog) => {
+            return page.results.map((article) => {
               return (
                 <Link
                   scroll={false}
-                  key={blog.id}
-                  href={`/blogs/${blog.id}`}
+                  key={article.id}
+                  href={`/articles/${article.id}`}
                   className="h-32 transition-opacity hover:opacity-80 active:opacity-disabled sm:h-44"
                 >
                   <Card
-                    key={blog.id}
+                    key={article.id}
                     className="flex h-32 w-full flex-row py-2 sm:h-full "
                   >
                     <Image
-                      alt="Blog image"
-                      className="ho z-0 ml-2 h-full w-44 flex-shrink rounded-xl object-cover sm:w-44 sm:flex-1 lg:w-56"
-                      src={blog.image_url}
+                      alt="Article image"
+                      className="z-0 ml-2 h-full w-44 flex-shrink rounded-xl object-cover sm:w-44 sm:flex-1 lg:w-56"
+                      src={article.image_url}
                     />
 
                     <CardBody className="flex-grow overflow-visible overflow-y-auto py-0 sm:flex-1">
                       <h2 className="pb-0 text-xs font-bold tracking-tight transition-colors first:mt-0 sm:text-xl 2xl:text-2xl">
-                        {blog.title}
+                        {article.title}
                       </h2>
                       <Divider />
                       <div className="mt-auto">
                         <p className="relative top-2 m-0 text-tiny italic sm:top-1 sm:text-medium">
-                          {blog.news_site}
+                          {article.news_site}
                         </p>
-
                         <small className="m-0 text-tiny text-default-500">
-                          {formatDate(blog.published_at)}
+                          {formatDate(article.published_at)}
                         </small>
                       </div>
                     </CardBody>
@@ -75,4 +78,35 @@ export default function Blogs() {
       <div ref={ref}></div>
     </>
   );
+}
+
+export interface ArticlesAndBlogs {
+  count: number;
+  next: string;
+  previous: null;
+  results: Result[];
+}
+
+export interface Result {
+  id: number;
+  title: string;
+  url: string;
+  image_url: string;
+  news_site: string;
+  summary: string;
+  published_at: Date;
+  updated_at: Date;
+  featured: boolean;
+  launches: Launch[];
+  events: Event[];
+}
+
+export interface Event {
+  event_id: number;
+  provider: string;
+}
+
+export interface Launch {
+  launch_id: string;
+  provider: string;
 }
