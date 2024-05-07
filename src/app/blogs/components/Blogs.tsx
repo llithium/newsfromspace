@@ -8,6 +8,7 @@ import { useInfiniteQuery } from "@tanstack/react-query";
 import { apiURL, pageLimit } from "../../articles/page";
 import Link from "next/link";
 import InfiniteScrollSpinner from "../../components/InfiniteScrollSpinner";
+import SaveIcon from "../../components/SaveIcon";
 
 export default function Blogs() {
   const { data, isError, error, fetchNextPage, isFetchingNextPage } =
@@ -34,14 +35,14 @@ export default function Blogs() {
           data.pages.map((page) => {
             return page.results.map((blog) => {
               return (
-                <Link
-                  scroll={false}
+                <Card
                   key={blog.id}
-                  href={`/blogs/${blog.id}`}
-                  className="h-32 transition-opacity hover:opacity-80 active:opacity-disabled sm:h-44"
+                  className="flex h-32 flex-row justify-between transition-opacity hover:opacity-80 active:opacity-disabled sm:h-44 "
                 >
-                  <Card
+                  <Link
+                    scroll={false}
                     key={blog.id}
+                    href={`/blogs/${blog.id}`}
                     className="flex h-32 w-full flex-row py-2 sm:h-full "
                   >
                     <Image
@@ -65,8 +66,9 @@ export default function Blogs() {
                         </small>
                       </div>
                     </CardBody>
-                  </Card>
-                </Link>
+                  </Link>
+                  {/* <SaveIcon /> */}
+                </Card>
               );
             });
           })}

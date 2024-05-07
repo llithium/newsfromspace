@@ -39,12 +39,33 @@ export default function ArticleAndBlogModal({
             />
           </CardHeader>
           <CardBody className="flex-grow overflow-visible">
-            <h2 className="border-b pb-2 text-lg font-extrabold tracking-tight transition-colors first:mt-0 sm:text-2xl lg:text-4xl">
-              {card.title}
-            </h2>
+            <div className="flex flex-row justify-between">
+              <h2 className="border-b pb-2 text-lg font-extrabold tracking-tight transition-colors first:mt-0 sm:text-2xl lg:text-4xl">
+                {card.title}
+              </h2>
+              <div className="h-fit w-fit">
+                <svg
+                  className="transition-opacity hover:opacity-80 active:opacity-disabled"
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    fill="currentColor"
+                    d="M20 0v3h3v2h-3v3h-2V5h-3V3h3V0zM4 3h9v2H6v14.057l6-4.286l6 4.286V10h2v12.943l-8-5.714l-8 5.714z"
+                  />
+                </svg>
+              </div>
+            </div>
             <p className="mt-2 overflow-y-auto text-sm font-semibold sm:text-lg lg:text-xl">
-              {card.summary}
-              <Link className="" href={card.url} isExternal showAnchorIcon>
+              {card.summary}{" "}
+              <Link
+                className="text-xl font-bold"
+                href={card.url}
+                isExternal
+                showAnchorIcon
+              >
                 Read More
               </Link>
             </p>

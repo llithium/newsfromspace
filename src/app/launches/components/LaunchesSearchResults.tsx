@@ -50,24 +50,38 @@ export default function LaunchesSearchResults() {
             return page.results.map((launch) => {
               return (
                 <Card key={launch.id} className="h-96">
-                  <CardHeader className="flex gap-3">
-                    <Image
-                      alt="Agency logo"
-                      height={40}
-                      radius="sm"
-                      src={
-                        launch.launch_service_provider.logo_url
-                          ? launch.launch_service_provider.logo_url
-                          : ""
-                      }
-                      width={40}
-                    />
-                    <div className="flex flex-col">
-                      <h2 className="text-md font-bold">{launch.name}</h2>
-                      <p className="text-small text-default-500">
-                        {launch.launch_service_provider.name}
-                      </p>
+                  <CardHeader className="flex flex-row justify-between">
+                    <div className="flex items-center gap-3">
+                      <Image
+                        alt="Agency logo"
+                        height={40}
+                        radius="sm"
+                        src={
+                          launch.launch_service_provider.logo_url
+                            ? launch.launch_service_provider.logo_url
+                            : ""
+                        }
+                        width={40}
+                      />
+                      <div className="flex flex-col">
+                        <h2 className="text-md font-bold">{launch.name}</h2>
+                        <p className="text-small text-default-500">
+                          {launch.launch_service_provider.name}
+                        </p>
+                      </div>
                     </div>
+                    {/* <svg
+                      className="hidden transition-opacity hover:opacity-80 active:opacity-disabled md:inline"
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="24"
+                      height="24"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        fill="currentColor"
+                        d="M20 0v3h3v2h-3v3h-2V5h-3V3h3V0zM4 3h9v2H6v14.057l6-4.286l6 4.286V10h2v12.943l-8-5.714l-8 5.714z"
+                      />
+                    </svg> */}
                   </CardHeader>
                   <Divider />
                   <CardBody>

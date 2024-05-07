@@ -10,6 +10,7 @@ import { apiURL, pageLimit } from "../page";
 import Link from "next/link";
 import InfiniteScrollSpinner from "../../components/InfiniteScrollSpinner";
 import { useSearchParams } from "next/navigation";
+import SaveIcon from "../../components/SaveIcon";
 
 export default function ArticlesSearchResults() {
   const searchParams = useSearchParams();
@@ -38,14 +39,14 @@ export default function ArticlesSearchResults() {
           data.pages.map((page) => {
             return page.results.map((article) => {
               return (
-                <Link
-                  scroll={false}
+                <Card
                   key={article.id}
-                  href={`/articles/${article.id}`}
-                  className="h-32 transition-opacity hover:opacity-80 active:opacity-disabled sm:h-44"
+                  className="flex h-32 flex-row transition-opacity hover:opacity-80 active:opacity-disabled sm:h-44 "
                 >
-                  <Card
+                  <Link
+                    scroll={false}
                     key={article.id}
+                    href={`/articles/${article.id}`}
                     className="flex h-32 w-full flex-row py-2 sm:h-full "
                   >
                     <Image
@@ -53,11 +54,11 @@ export default function ArticlesSearchResults() {
                       className="z-0 ml-2 h-full w-44 flex-shrink rounded-xl object-cover sm:w-44 sm:flex-1 lg:w-56"
                       src={article.image_url}
                     />
-
                     <CardBody className="flex-grow overflow-visible overflow-y-auto py-0 sm:flex-1">
                       <h2 className="pb-0 text-xs font-bold tracking-tight transition-colors first:mt-0 sm:text-xl 2xl:text-2xl">
                         {article.title}
                       </h2>
+
                       <Divider />
                       <div className="mt-auto">
                         <p className="relative top-2 m-0 text-tiny italic sm:top-1 sm:text-medium">
@@ -68,8 +69,9 @@ export default function ArticlesSearchResults() {
                         </small>
                       </div>
                     </CardBody>
-                  </Card>
-                </Link>
+                  </Link>
+                  {/* <SaveIcon /> */}
+                </Card>
               );
             });
           })}
