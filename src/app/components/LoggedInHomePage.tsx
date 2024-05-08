@@ -25,7 +25,7 @@ async function fetchUpcomingLaunches() {
   const res = await fetch(
     launchApiUrl + `/launch/upcoming/?mode=detailed&limit=3&offset=0`,
     {
-      next: { revalidate: 180 },
+      next: { revalidate: 900 },
     },
   );
   if (!res.ok) {
@@ -57,7 +57,7 @@ async function fetchLatestBlogs() {
 
 export interface BookmarkData {
   id: number;
-  created_at: Date;
+  created_at: string;
   type: string;
   item_id: string;
   user_id: string;
@@ -76,6 +76,7 @@ export interface Bookmark {
   launches: Launch[];
   events: Event[];
   type: string;
+  created_at: string;
 }
 export default async function LoggedInHomePage() {
   const launches: LaunchesUpcoming = await fetchUpcomingLaunches();
@@ -97,11 +98,19 @@ export default async function LoggedInHomePage() {
           bookmark.item_id,
           apiURL,
         );
-        bookmarksArray.push({ ...article, type: bookmark.type });
+        bookmarksArray.push({
+          ...article,
+          type: bookmark.type,
+          created_at: bookmark.created_at,
+        });
       }
       if (bookmark.type === "blog") {
         const blog: ArticleAndBlog = await fetchBlog(bookmark.item_id, apiURL);
-        bookmarksArray.push({ ...blog, type: bookmark.type });
+        bookmarksArray.push({
+          ...blog,
+          type: bookmark.type,
+          created_at: bookmark.created_at,
+        });
       }
     }),
   );
@@ -118,64 +127,78 @@ export default async function LoggedInHomePage() {
             </Link>
           </CardHeader>
           <CardBody className="flex flex-col gap-2 overflow-y-auto ">
-            {bookmarksArray.map((bookmark) => {
-              if (bookmark.type === "article") {
-                return (
-                  <NextUILink key={bookmark.id} href={bookmark.url} isExternal>
-                    <Card className="flex min-h-52 w-full flex-row py-2 sm:h-full ">
-                      <Image
-                        alt="Article image"
-                        className="z-0 ml-2 h-full w-44 flex-shrink rounded-xl object-cover sm:w-44 sm:flex-1 lg:w-56"
-                        src={bookmark.image_url}
-                      />
+            {bookmarksArray
+              .sort(
+                (a, b) =>
+                  new Date(a.created_at).getTime() -
+                  new Date(b.created_at).getTime(),
+              )
+              .map((bookmark) => {
+                if (bookmark.type === "article") {
+                  return (
+                    <NextUILink
+                      key={bookmark.id}
+                      href={bookmark.url}
+                      isExternal
+                    >
+                      <Card className="flex min-h-52 w-full flex-row py-2 sm:h-full ">
+                        <Image
+                          alt="Article image"
+                          className="z-0 ml-2 h-full w-44 flex-shrink rounded-xl object-cover sm:w-44 sm:flex-1 lg:w-56"
+                          src={bookmark.image_url}
+                        />
 
-                      <CardBody className="flex-grow overflow-visible overflow-y-auto py-0 sm:flex-1">
-                        <h2 className="pb-0 text-medium font-bold tracking-tight transition-colors first:mt-0 sm:text-xl 2xl:text-2xl">
-                          {bookmark.title}
-                        </h2>
-                        <Divider />
-                        <div className="mt-auto">
-                          <p className="relative top-2 m-0 text-tiny italic sm:top-1 sm:text-medium">
-                            {bookmark.news_site}
-                          </p>
-                          <small className="m-0 text-tiny text-default-500">
-                            {formatDate(bookmark.published_at)}
-                          </small>
-                        </div>
-                      </CardBody>
-                    </Card>
-                  </NextUILink>
-                );
-              }
-              if (bookmark.type === "blog") {
-                return (
-                  <NextUILink key={bookmark.id} href={bookmark.url} isExternal>
-                    <Card className="flex min-h-52 w-full flex-row py-2 sm:h-full ">
-                      <Image
-                        alt="Blog image"
-                        className="z-0 ml-2 h-full w-44 flex-shrink rounded-xl object-cover sm:w-44 sm:flex-1 lg:w-56"
-                        src={bookmark.image_url}
-                      />
+                        <CardBody className="flex-grow overflow-visible overflow-y-auto py-0 sm:flex-1">
+                          <h2 className="pb-0 text-medium font-bold tracking-tight transition-colors first:mt-0 sm:text-xl 2xl:text-2xl">
+                            {bookmark.title}
+                          </h2>
+                          <Divider />
+                          <div className="mt-auto">
+                            <p className="relative top-2 m-0 text-tiny italic sm:top-1 sm:text-medium">
+                              {bookmark.news_site}
+                            </p>
+                            <small className="m-0 text-tiny text-default-500">
+                              {formatDate(bookmark.published_at)}
+                            </small>
+                          </div>
+                        </CardBody>
+                      </Card>
+                    </NextUILink>
+                  );
+                }
+                if (bookmark.type === "blog") {
+                  return (
+                    <NextUILink
+                      key={bookmark.id}
+                      href={bookmark.url}
+                      isExternal
+                    >
+                      <Card className="flex min-h-52 w-full flex-row py-2 sm:h-full ">
+                        <Image
+                          alt="Blog image"
+                          className="z-0 ml-2 h-full w-44 flex-shrink rounded-xl object-cover sm:w-44 sm:flex-1 lg:w-56"
+                          src={bookmark.image_url}
+                        />
 
-                      <CardBody className="flex-grow overflow-visible overflow-y-auto py-0 sm:flex-1">
-                        <h2 className="pb-0 text-medium font-bold tracking-tight transition-colors first:mt-0 sm:text-xl 2xl:text-2xl">
-                          {bookmark.title}
-                        </h2>
-                        <Divider />
-                        <div className="mt-auto">
-                          <p className="relative top-2 m-0 text-tiny italic sm:top-1 sm:text-medium">
-                            {bookmark.news_site}
-                          </p>
-                          <small className="m-0 text-tiny text-default-500">
-                            {formatDate(bookmark.published_at)}
-                          </small>
-                        </div>
-                      </CardBody>
-                    </Card>
-                  </NextUILink>
-                );
-              }
-            })}
+                        <CardBody className="flex-grow overflow-visible overflow-y-auto py-0 sm:flex-1">
+                          <h2 className="pb-0 text-medium font-bold tracking-tight transition-colors first:mt-0 sm:text-xl 2xl:text-2xl">
+                            {bookmark.title}
+                          </h2>
+                          <Divider />
+                          <div className="mt-auto">
+                            <p className="relative top-2 m-0 text-tiny italic sm:top-1 sm:text-medium">
+                              {bookmark.news_site}
+                            </p>
+                            <small className="m-0 text-tiny text-default-500">
+                              {formatDate(bookmark.published_at)}
+                            </small>
+                          </div>
+                        </CardBody>
+                      </Card>
+                    </NextUILink>
+                  );
+                }
+              })}
             {/* {launches.results.map((launch) => {
               return (
                 <Card

@@ -19,9 +19,9 @@ const CountdownTimer = dynamic(() => import("../components/CountdownTimer"), {
 });
 async function fetchUpcomingLaunches() {
   const res = await fetch(
-    launchApiUrl + `/launch/upcoming/?mode=detailed&limit=3&offset=0`,
+    launchApiUrl + `/launch/upcoming/?mode=detailed&limit=6&offset=0`,
     {
-      next: { revalidate: 180 },
+      next: { revalidate: 900 },
     },
   );
   if (!res.ok) {
