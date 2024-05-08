@@ -45,7 +45,7 @@ export default function LaunchesSearchResults() {
     <>
       <div className="grid grid-cols-1 gap-3 xl:grid-cols-2 ">
         {isError && <div>{error.message}</div>}
-        {data &&
+        {data && data.pages[0].count > 0 ? (
           data.pages.map((page) => {
             return page.results.map((launch) => {
               return (
@@ -143,7 +143,15 @@ export default function LaunchesSearchResults() {
                 </Card>
               );
             });
-          })}
+          })
+        ) : (
+          <div className="col-span-2 mt-auto flex w-full flex-row justify-center">
+            <h2 className="text-3xl ">
+              No results found for:{" "}
+              <span className="font-bold tracking-wider">{search}</span>
+            </h2>
+          </div>
+        )}
       </div>
       {isFetchingNextPage && <InfiniteScrollSpinner />}
       <div ref={ref}></div>
