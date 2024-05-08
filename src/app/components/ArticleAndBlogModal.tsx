@@ -1,8 +1,10 @@
+"use client";
 import {
   Button,
   Card,
   CardBody,
   CardHeader,
+  Divider,
   Image,
   Link,
 } from "@nextui-org/react";
@@ -10,6 +12,9 @@ import formatDate from "../utils/formatDate";
 import { useLockBodyScroll } from "@uidotdev/usehooks";
 import { useRouter } from "next/navigation";
 import { ArticleAndBlog } from "../articles/[articleId]/components/ArticleCard";
+import { createClient } from "@/utils/supabase/client";
+import { useEffect, useState } from "react";
+import { SessionData } from "./AppNavbar";
 
 export default function ArticleAndBlogModal({
   card,
@@ -19,6 +24,28 @@ export default function ArticleAndBlogModal({
   const router = useRouter();
   useLockBodyScroll();
 
+  const [sessionData, setSessionData] = useState<SessionData>({
+    session: null,
+  });
+  const [error, setError] = useState<unknown>(null);
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      const supabase = createClient();
+
+      try {
+        const { data, error } = await supabase.auth.getSession();
+        if (error) {
+          setError(error.message);
+        } else {
+          setSessionData(data as SessionData);
+        }
+      } catch (error: unknown) {
+        setError(error);
+      }
+    };
+    fetchUserData();
+  }, []);
   return (
     <div
       className="modalWrapper fixed inset-0 z-50 flex h-dvh w-screen flex-col items-center justify-center bg-white/40 backdrop-blur-sm dark:bg-black/40"
@@ -39,12 +66,12 @@ export default function ArticleAndBlogModal({
           </CardHeader>
           <CardBody className="flex-grow overflow-visible">
             <div className="flex flex-row justify-between">
-              <h2 className="border-b pb-2 text-lg font-extrabold tracking-tight transition-colors first:mt-0 sm:text-2xl lg:text-4xl">
+              <h2 className="pb-2 text-lg font-extrabold tracking-tight transition-colors first:mt-0 sm:text-2xl lg:text-4xl">
                 {card.title}
               </h2>
               <div className="h-fit w-fit">
                 <svg
-                  className="transition-opacity hover:opacity-80 active:opacity-disabled"
+                  className={`transition-opacity hover:opacity-80 active:opacity-disabled ${!sessionData.session ? "hidden" : ""}`}
                   xmlns="http://www.w3.org/2000/svg"
                   width="24"
                   height="24"
@@ -57,6 +84,7 @@ export default function ArticleAndBlogModal({
                 </svg>
               </div>
             </div>
+            <Divider />
             <p className="mt-2 overflow-y-auto text-sm font-semibold sm:text-lg lg:text-xl">
               {card.summary}{" "}
               <Link

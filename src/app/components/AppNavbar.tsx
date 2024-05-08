@@ -36,7 +36,6 @@ export default function AppNavbar() {
           setError(error.message);
         } else {
           setSessionData(data as SessionData);
-          console.log(data);
         }
       } catch (error: unknown) {
         setError(error);
@@ -123,8 +122,13 @@ export default function AppNavbar() {
             </NavbarItem>
           </>
         ) : (
-          <form action={signOutAction}>
-            <Button type="submit" color="default" variant="flat">
+          <form>
+            <Button
+              formAction={signOutAction}
+              type="submit"
+              color="default"
+              variant="flat"
+            >
               Sign Out
             </Button>
           </form>
