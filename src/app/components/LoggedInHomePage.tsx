@@ -12,8 +12,12 @@ import { launchApiUrl } from "../launches/page";
 import { LaunchesUpcoming } from "../launches/components/Launches";
 import formatDate from "../utils/formatDate";
 import dynamic from "next/dynamic";
-import { ArticlesAndBlogs } from "../articles/components/Articles";
+import { ArticlesAndBlogs, Launch } from "../articles/components/Articles";
 import { apiURL } from "../articles/page";
+import { createClient } from "@/utils/supabase/server";
+import fetchArticle from "@/articles/utils/fetchArticle";
+import { ArticleAndBlog } from "@/articles/[articleId]/components/ArticleCard";
+import fetchBlog from "@/blogs/utils/fetchblog";
 const CountdownTimer = dynamic(() => import("../components/CountdownTimer"), {
   ssr: false,
 });
@@ -25,7 +29,7 @@ async function fetchUpcomingLaunches() {
     },
   );
   if (!res.ok) {
-    throw new Error("Failed to fetch data for related articles");
+    throw new Error("Failed to fetch data for upcoming launches");
   }
   return res.json();
 }
@@ -37,7 +41,7 @@ async function fetchLatestArticles() {
     },
   );
   if (!res.ok) {
-    throw new Error("Failed to fetch data for related articles");
+    throw new Error("Failed to fetch data for lastest articles");
   }
   return res.json();
 }
@@ -46,15 +50,61 @@ async function fetchLatestBlogs() {
     next: { revalidate: 60 },
   });
   if (!res.ok) {
-    throw new Error("Failed to fetch data for related articles");
+    throw new Error("Failed to fetch data for latest blogs");
   }
   return res.json();
 }
 
+export interface BookmarkData {
+  id: number;
+  created_at: Date;
+  type: string;
+  item_id: string;
+  user_id: string;
+}
+
+export interface Bookmark {
+  id: number;
+  title: string;
+  url: string;
+  image_url: string;
+  news_site: string;
+  summary: string;
+  published_at: Date;
+  updated_at: Date;
+  featured: boolean;
+  launches: Launch[];
+  events: Event[];
+  type: string;
+}
 export default async function LoggedInHomePage() {
   const launches: LaunchesUpcoming = await fetchUpcomingLaunches();
   const articles: ArticlesAndBlogs = await fetchLatestArticles();
   const blogs: ArticlesAndBlogs = await fetchLatestBlogs();
+  const supabase = createClient();
+  const { data: userData, error: getUserError } = await supabase.auth.getUser();
+  let { data: bookmarks, error } = await supabase
+    .from("bookmarks")
+    .select("*")
+    .eq("user_id", userData.user?.id);
+
+  const bookmarksData = bookmarks as BookmarkData[];
+  let bookmarksArray: Bookmark[] = [];
+  await Promise.all(
+    bookmarksData.map(async (bookmark) => {
+      if (bookmark.type === "article") {
+        const article: ArticleAndBlog = await fetchArticle(
+          bookmark.item_id,
+          apiURL,
+        );
+        bookmarksArray.push({ ...article, type: bookmark.type });
+      }
+      if (bookmark.type === "blog") {
+        const blog: ArticleAndBlog = await fetchBlog(bookmark.item_id, apiURL);
+        bookmarksArray.push({ ...blog, type: bookmark.type });
+      }
+    }),
+  );
   return (
     <>
       <div className="flex h-fit flex-col gap-4 pb-2 md:h-[calc(100dvh-5rem)] md:flex-row">
@@ -68,6 +118,64 @@ export default async function LoggedInHomePage() {
             </Link>
           </CardHeader>
           <CardBody className="flex flex-col gap-2 overflow-y-auto ">
+            {bookmarksArray.map((bookmark) => {
+              if (bookmark.type === "article") {
+                return (
+                  <NextUILink key={bookmark.id} href={bookmark.url} isExternal>
+                    <Card className="flex min-h-52 w-full flex-row py-2 sm:h-full ">
+                      <Image
+                        alt="Article image"
+                        className="z-0 ml-2 h-full w-44 flex-shrink rounded-xl object-cover sm:w-44 sm:flex-1 lg:w-56"
+                        src={bookmark.image_url}
+                      />
+
+                      <CardBody className="flex-grow overflow-visible overflow-y-auto py-0 sm:flex-1">
+                        <h2 className="pb-0 text-medium font-bold tracking-tight transition-colors first:mt-0 sm:text-xl 2xl:text-2xl">
+                          {bookmark.title}
+                        </h2>
+                        <Divider />
+                        <div className="mt-auto">
+                          <p className="relative top-2 m-0 text-tiny italic sm:top-1 sm:text-medium">
+                            {bookmark.news_site}
+                          </p>
+                          <small className="m-0 text-tiny text-default-500">
+                            {formatDate(bookmark.published_at)}
+                          </small>
+                        </div>
+                      </CardBody>
+                    </Card>
+                  </NextUILink>
+                );
+              }
+              if (bookmark.type === "blog") {
+                return (
+                  <NextUILink key={bookmark.id} href={bookmark.url} isExternal>
+                    <Card className="flex min-h-52 w-full flex-row py-2 sm:h-full ">
+                      <Image
+                        alt="Blog image"
+                        className="z-0 ml-2 h-full w-44 flex-shrink rounded-xl object-cover sm:w-44 sm:flex-1 lg:w-56"
+                        src={bookmark.image_url}
+                      />
+
+                      <CardBody className="flex-grow overflow-visible overflow-y-auto py-0 sm:flex-1">
+                        <h2 className="pb-0 text-medium font-bold tracking-tight transition-colors first:mt-0 sm:text-xl 2xl:text-2xl">
+                          {bookmark.title}
+                        </h2>
+                        <Divider />
+                        <div className="mt-auto">
+                          <p className="relative top-2 m-0 text-tiny italic sm:top-1 sm:text-medium">
+                            {bookmark.news_site}
+                          </p>
+                          <small className="m-0 text-tiny text-default-500">
+                            {formatDate(bookmark.published_at)}
+                          </small>
+                        </div>
+                      </CardBody>
+                    </Card>
+                  </NextUILink>
+                );
+              }
+            })}
             {/* {launches.results.map((launch) => {
               return (
                 <Card
