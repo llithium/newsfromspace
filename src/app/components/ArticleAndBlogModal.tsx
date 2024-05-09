@@ -10,11 +10,13 @@ import {
 } from "@nextui-org/react";
 import formatDate from "../utils/formatDate";
 import { useLockBodyScroll } from "@uidotdev/usehooks";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { ArticleAndBlog } from "../articles/[articleId]/components/ArticleCard";
 import { createClient } from "@/utils/supabase/client";
 import { useEffect, useState } from "react";
 import { SessionData } from "./AppNavbar";
+import { addBookmark, checkBookmark, deleteBookmark } from "@/actions";
+import toast, { Toaster } from "react-hot-toast";
 
 export default function ArticleAndBlogModal({
   card,
@@ -22,17 +24,20 @@ export default function ArticleAndBlogModal({
   card: ArticleAndBlog;
 }) {
   const router = useRouter();
+  const pathname = usePathname();
   useLockBodyScroll();
 
   const [sessionData, setSessionData] = useState<SessionData>({
     session: null,
   });
+  const [bookmarked, setBookmarked] = useState(false);
   const [error, setError] = useState<unknown>(null);
-
+  const opts = pathname.split("/").filter((part) => part !== "");
   useEffect(() => {
     const fetchUserData = async () => {
       const supabase = createClient();
-
+      const success = await checkBookmark(opts[0], opts[1]);
+      success ? setBookmarked(true) : null;
       try {
         const { data, error } = await supabase.auth.getSession();
         if (error) {
@@ -51,6 +56,7 @@ export default function ArticleAndBlogModal({
       className="modalWrapper fixed inset-0 z-50 flex h-dvh w-screen flex-col items-center justify-center bg-white/40 backdrop-blur-sm dark:bg-black/40"
       onClick={() => router.back()}
     >
+      <Toaster />
       <div
         className="modal max-h-4/5 relative top-6 mx-auto h-4/5 w-10/12 sm:w-3/4 md:h-3/5"
         onClick={(e) => e.stopPropagation()}
@@ -70,18 +76,51 @@ export default function ArticleAndBlogModal({
                 {card.title}
               </h2>
               <div className="h-fit w-fit">
-                <svg
-                  className={`transition-opacity hover:opacity-80 active:opacity-disabled ${!sessionData.session ? "hidden" : ""}`}
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="24"
-                  height="24"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    fill="currentColor"
-                    d="M20 0v3h3v2h-3v3h-2V5h-3V3h3V0zM4 3h9v2H6v14.057l6-4.286l6 4.286V10h2v12.943l-8-5.714l-8 5.714z"
-                  />
-                </svg>
+                {bookmarked ? (
+                  <svg
+                    onClick={async () => {
+                      const success = await deleteBookmark(opts[0], opts[1]);
+                      if (success) {
+                        setBookmarked(false);
+                        toast.success("Bookmark deleted");
+                      } else {
+                        toast.error("Failed to delete bookmark");
+                      }
+                    }}
+                    className="transition-opacity hover:opacity-80 active:opacity-disabled "
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="32"
+                    height="32"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      className="fill-primary-500"
+                      d="M22.596 2.94L16.94 8.595L13.405 5.06l1.414-1.415l2.121 2.122l4.243-4.243zM4 3h8v2H6v14.057l6-4.286l6 4.286V10h2v12.943l-8-5.714l-8 5.714z"
+                    />
+                  </svg>
+                ) : (
+                  <svg
+                    onClick={async () => {
+                      const success = await addBookmark(opts[0], opts[1]);
+                      if (success) {
+                        setBookmarked(true);
+                        toast.success("Bookmarked");
+                      } else {
+                        toast.error("Failed to add bookmark");
+                      }
+                    }}
+                    className={`transition-opacity hover:opacity-80 active:opacity-disabled ${!sessionData.session ? "hidden" : ""}`}
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      fill="currentColor"
+                      d="M20 0v3h3v2h-3v3h-2V5h-3V3h3V0zM4 3h9v2H6v14.057l6-4.286l6 4.286V10h2v12.943l-8-5.714l-8 5.714z"
+                    />
+                  </svg>
+                )}
               </div>
             </div>
             <Divider />

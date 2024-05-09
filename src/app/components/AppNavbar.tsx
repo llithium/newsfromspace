@@ -74,7 +74,7 @@ export default function AppNavbar() {
             Articles
           </Link>
         </NavbarItem>
-        <NavbarItem isActive={pathname == "/launches"}>
+        <NavbarItem isActive={pathname.startsWith("/launches")}>
           <Link
             className="transition-opacity hover:opacity-80 active:opacity-disabled"
             color="foreground"
@@ -93,7 +93,7 @@ export default function AppNavbar() {
           </Link>
         </NavbarItem>
         {error || !sessionData.session ? null : (
-          <NavbarItem isActive={pathname.startsWith("/blogs")}>
+          <NavbarItem isActive={pathname.startsWith("/bookmarks")}>
             <Link
               className="transition-opacity hover:opacity-80 active:opacity-disabled"
               color="foreground"
@@ -149,7 +149,7 @@ export default function AppNavbar() {
         <NavbarMenuItem className={`${pathname === "/" ? "hidden" : ""}`}>
           <SearchInput />
         </NavbarMenuItem>
-        <NavbarMenuItem isActive={pathname === "/articles"}>
+        <NavbarMenuItem isActive={pathname.startsWith("/articles")}>
           <Link
             color="foreground"
             className="w-full transition-opacity hover:opacity-80 active:opacity-disabled"
@@ -158,7 +158,7 @@ export default function AppNavbar() {
             Articles
           </Link>
         </NavbarMenuItem>
-        <NavbarMenuItem isActive={pathname === "/launches"}>
+        <NavbarMenuItem isActive={pathname.startsWith("/launches")}>
           <Link
             color="foreground"
             className="w-full transition-opacity hover:opacity-80 active:opacity-disabled"
@@ -167,7 +167,7 @@ export default function AppNavbar() {
             Launches
           </Link>
         </NavbarMenuItem>
-        <NavbarMenuItem isActive={pathname === "/blogs"}>
+        <NavbarMenuItem isActive={pathname.startsWith("/blogs")}>
           <Link
             color="foreground"
             className="w-full transition-opacity hover:opacity-80 active:opacity-disabled"
@@ -176,6 +176,17 @@ export default function AppNavbar() {
             Blogs
           </Link>
         </NavbarMenuItem>
+        {error || !sessionData.session ? null : (
+          <NavbarMenuItem isActive={pathname.startsWith("/bookmarks")}>
+            <Link
+              color="foreground"
+              className="w-full transition-opacity hover:opacity-80 active:opacity-disabled"
+              href="/bookmarks"
+            >
+              Bookmarks
+            </Link>
+          </NavbarMenuItem>
+        )}
       </NavbarMenu>
     </Navbar>
   );
