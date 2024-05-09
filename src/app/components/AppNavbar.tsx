@@ -92,6 +92,17 @@ export default function AppNavbar() {
             Blogs
           </Link>
         </NavbarItem>
+        {error || !sessionData.session ? null : (
+          <NavbarItem isActive={pathname.startsWith("/blogs")}>
+            <Link
+              className="transition-opacity hover:opacity-80 active:opacity-disabled"
+              color="foreground"
+              href="/bookmarks"
+            >
+              Bookmarks
+            </Link>
+          </NavbarItem>
+        )}
       </NavbarContent>
       <NavbarContent
         className={`hidden sm:flex ${pathname === "/" ? "sm:hidden" : ""}`}

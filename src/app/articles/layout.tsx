@@ -1,13 +1,13 @@
 export default function Layout({
-  articlesCard,
+  articlesModal,
   children,
 }: {
-  articlesCard: React.ReactNode;
+  articlesModal: React.ReactNode;
   children: React.ReactNode;
 }) {
   return (
     <>
-      <div>{articlesCard}</div>
+      <div>{articlesModal}</div>
       <div>{children}</div>
     </>
   );

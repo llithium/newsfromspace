@@ -78,17 +78,8 @@ export interface Bookmark {
   type: string;
   created_at: string;
 }
-export default async function LoggedInHomePage() {
-  const launches: LaunchesUpcoming = await fetchUpcomingLaunches();
-  const articles: ArticlesAndBlogs = await fetchLatestArticles();
-  const blogs: ArticlesAndBlogs = await fetchLatestBlogs();
-  const supabase = createClient();
-  const { data: userData, error: getUserError } = await supabase.auth.getUser();
-  let { data: bookmarks, error } = await supabase
-    .from("bookmarks")
-    .select("*")
-    .eq("user_id", userData.user?.id);
 
+export async function getBookmarks(bookmarks: any[] | null) {
   const bookmarksData = bookmarks as BookmarkData[];
   let bookmarksArray: Bookmark[] = [];
   await Promise.all(
@@ -114,6 +105,22 @@ export default async function LoggedInHomePage() {
       }
     }),
   );
+  return bookmarksArray;
+}
+
+export default async function LoggedInHomePage() {
+  const launches: LaunchesUpcoming = await fetchUpcomingLaunches();
+  const articles: ArticlesAndBlogs = await fetchLatestArticles();
+  const blogs: ArticlesAndBlogs = await fetchLatestBlogs();
+  const supabase = createClient();
+  const { data: userData, error: getUserError } = await supabase.auth.getUser();
+  let { data: bookmarks, error: getBookmarksError } = await supabase
+    .from("bookmarks")
+    .select("*")
+    .eq("user_id", userData.user?.id);
+
+  const bookmarksArray = await getBookmarks(bookmarks);
+
   return (
     <>
       <div className="flex h-fit flex-col gap-4 pb-2 md:h-[calc(100dvh-5rem)] md:flex-row">
@@ -121,7 +128,7 @@ export default async function LoggedInHomePage() {
           <CardHeader>
             <Link
               className="transition-opacity hover:opacity-80 active:opacity-disabled"
-              href="/launches"
+              href="/bookmarks"
             >
               <h2 className="text-xl font-bold">Bookmarks</h2>
             </Link>

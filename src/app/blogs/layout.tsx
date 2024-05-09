@@ -1,13 +1,13 @@
 export default function Layout({
-  blogsCard,
+  blogsModal,
   children,
 }: {
-  blogsCard: React.ReactNode;
+  blogsModal: React.ReactNode;
   children: React.ReactNode;
 }) {
   return (
     <>
-      <div>{blogsCard}</div>
+      <div>{blogsModal}</div>
       <div>{children}</div>
     </>
   );
