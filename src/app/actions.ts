@@ -6,7 +6,7 @@ import { revalidatePath } from "next/cache";
 
 export async function signOutAction() {
   const supabase = createClient();
-  await supabase.auth.signOut();
+  await supabase.auth.signOut({ scope: "local" });
   revalidatePath("/");
   redirect("/login");
 }
@@ -18,14 +18,13 @@ export async function addBookmark(
   const supabase = createClient();
   const { data: userData, error: getUserError } = await supabase.auth.getUser();
   if (!getUserError) {
-    const { data, error } = await supabase.from("bookmarks").insert([
+    const { error } = await supabase.from("bookmarks").insert([
       {
         type: bookmarkRoute.slice(0, -1),
         item_id: bookmarkId,
-        user_id: userData.user?.id,
+        user_id: userData.user.id,
       },
     ]);
-    // .select();
     if (!error) {
       revalidatePath("/");
       return true;
@@ -47,7 +46,7 @@ export async function deleteBookmark(
     const { error } = await supabase
       .from("bookmarks")
       .delete()
-      .eq("user_id", userData.user?.id)
+      .eq("user_id", userData.user.id)
       .eq("type", bookmarkRoute.slice(0, -1))
       .eq("item_id", bookmarkId);
     if (!error) {
@@ -71,7 +70,7 @@ export async function checkBookmark(
     let { data: bookmarks, error: getBookmarksError } = await supabase
       .from("bookmarks")
       .select("*")
-      .eq("user_id", userData.user?.id)
+      .eq("user_id", userData.user.id)
       .eq("type", bookmarkRoute.slice(0, -1))
       .eq("item_id", bookmarkId);
     if (!getBookmarksError) {

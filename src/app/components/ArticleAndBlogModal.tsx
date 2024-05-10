@@ -56,7 +56,6 @@ export default function ArticleAndBlogModal({
       className="modalWrapper fixed inset-0 z-50 flex h-dvh w-screen flex-col items-center justify-center bg-white/40 backdrop-blur-sm dark:bg-black/40"
       onClick={() => router.back()}
     >
-      <Toaster />
       <div
         className="modal max-h-4/5 relative top-6 mx-auto h-4/5 w-10/12 sm:w-3/4 md:h-3/5"
         onClick={(e) => e.stopPropagation()}
