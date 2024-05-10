@@ -7,11 +7,12 @@ import {
   Divider,
   Input,
 } from "@nextui-org/react";
-import { login, oauthGoogle, signup } from "./actions";
+
 import { useState } from "react";
 import { EyeSlashFilledIcon } from "@/components/EyeSlashFilledIcon";
 import { EyeFilledIcon } from "@/components/EyeFilledIcon";
 import { z } from "zod";
+import { login, oauthGoogle, signup } from "@/login/actions";
 import Link from "next/link";
 
 const emailSchema = z
@@ -32,7 +33,7 @@ export default function LoginPage() {
   const [emailIsInvalid, setEmailIsInvalid] = useState(false);
   const [emailErrorMessage, setEmailErrorMessage] = useState("");
 
-  async function handlelogin(formData: FormData) {
+  async function handleSignUp(formData: FormData) {
     const data = {
       email: formData.get("email") as string,
       password: formData.get("password") as string,
@@ -48,11 +49,11 @@ export default function LoginPage() {
       setPasswordIsInvalid(true);
     }
     if (emailResult.success && passwordResult.success) {
-      const loginError = await login(formData);
-      if (loginError) {
-        setPasswordErrorMessage(loginError);
+      const signUpError = await signup(formData);
+      if (signUpError) {
+        setPasswordErrorMessage(signUpError);
         setPasswordIsInvalid(true);
-        setEmailErrorMessage(loginError);
+        setEmailErrorMessage(signUpError);
         setEmailIsInvalid(true);
       }
     } else {
@@ -143,16 +144,15 @@ export default function LoginPage() {
               color="primary"
               className="h-14 w-full"
               type="submit"
-              formAction={handlelogin}
+              formAction={handleSignUp}
             >
-              Log in
+              Sign up
             </Button>
-            <p className="text-sm opacity-60">Forgot your password?</p>
             <Link
               className="transition-opacity hover:opacity-80 active:opacity-disabled"
-              href="/signup"
+              href="/login"
             >
-              <p className="text-sm ">{"Don't have an account? Sign Up"}</p>
+              <p className="text-sm ">Already have an account? Log In</p>
             </Link>
           </form>
         </CardBody>

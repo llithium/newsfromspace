@@ -36,7 +36,8 @@ export default function Providers({ children }: { children: React.ReactNode }) {
       <NextThemesProvider attribute="class" defaultTheme="dark">
         <QueryClientProvider client={queryClient}>
           <Toaster position="bottom-center" />
-          {children} <ReactQueryDevtools initialIsOpen={false} />
+          {children}
+          <ReactQueryDevtools initialIsOpen={false} />
         </QueryClientProvider>
       </NextThemesProvider>
     </NextUIProvider>
