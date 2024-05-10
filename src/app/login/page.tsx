@@ -7,12 +7,16 @@ import {
   Divider,
   Input,
 } from "@nextui-org/react";
-import { login, oauthGoogle, signup } from "./actions";
-import { useState } from "react";
+import { login, oauthGoogle } from "./actions";
+import { useEffect, useState } from "react";
 import { EyeSlashFilledIcon } from "@/components/EyeSlashFilledIcon";
 import { EyeFilledIcon } from "@/components/EyeFilledIcon";
 import { z } from "zod";
 import Link from "next/link";
+import { createClient } from "@/utils/supabase/client";
+import { useRouter } from "next/navigation";
+
+const supabase = createClient();
 
 const emailSchema = z
   .string()
@@ -31,6 +35,18 @@ export default function LoginPage() {
   const [passwordErrorMessage, setPasswordErrorMessage] = useState("");
   const [emailIsInvalid, setEmailIsInvalid] = useState(false);
   const [emailErrorMessage, setEmailErrorMessage] = useState("");
+  const router = useRouter();
+
+  useEffect(() => {
+    const checkSession = async () => {
+      const supabase = createClient();
+      const { data } = await supabase.auth.getSession();
+      if (data.session) {
+        router.push("/account");
+      }
+    };
+    checkSession();
+  }, []);
 
   async function handlelogin(formData: FormData) {
     const data = {

@@ -16,7 +16,7 @@ import { createClient } from "@/utils/supabase/client";
 import { useEffect, useState } from "react";
 import { SessionData } from "./AppNavbar";
 import { addBookmark, checkBookmark, deleteBookmark } from "@/actions";
-import toast, { Toaster } from "react-hot-toast";
+import toast from "react-hot-toast";
 
 export default function ArticleAndBlogModal({
   card,

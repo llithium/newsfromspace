@@ -8,12 +8,14 @@ import {
   Input,
 } from "@nextui-org/react";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { EyeSlashFilledIcon } from "@/components/EyeSlashFilledIcon";
 import { EyeFilledIcon } from "@/components/EyeFilledIcon";
 import { z } from "zod";
-import { login, oauthGoogle, signup } from "@/login/actions";
+import { oauthGoogle, signup } from "@/login/actions";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { createClient } from "@/utils/supabase/client";
 
 const emailSchema = z
   .string()
@@ -32,6 +34,19 @@ export default function LoginPage() {
   const [passwordErrorMessage, setPasswordErrorMessage] = useState("");
   const [emailIsInvalid, setEmailIsInvalid] = useState(false);
   const [emailErrorMessage, setEmailErrorMessage] = useState("");
+
+  const router = useRouter();
+
+  useEffect(() => {
+    const checkSession = async () => {
+      const supabase = createClient();
+      const { data } = await supabase.auth.getSession();
+      if (data.session) {
+        router.push("/account");
+      }
+    };
+    checkSession();
+  }, []);
 
   async function handleSignUp(formData: FormData) {
     const data = {
@@ -61,8 +76,8 @@ export default function LoginPage() {
     }
   }
   return (
-    <div className="mx-auto w-fit">
-      <Card className="w-[400px] py-1">
+    <div className="mx-auto flex w-5/6 flex-row justify-center">
+      <Card className="w-full max-w-[400px] py-1">
         {/* OAuth logins */}
         <CardHeader className="flex gap-3">
           <Button
