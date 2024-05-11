@@ -14,7 +14,6 @@ import formatDate from "../utils/formatDate";
 import dynamic from "next/dynamic";
 import { ArticlesAndBlogs, Launch } from "../articles/components/Articles";
 import { apiURL } from "../articles/page";
-import { createClient } from "@/utils/supabase/server";
 import fetchArticle from "@/articles/utils/fetchArticle";
 import { ArticleAndBlog } from "@/articles/[articleId]/components/ArticleCard";
 import fetchBlog from "@/blogs/utils/fetchblog";
@@ -79,8 +78,7 @@ export interface Bookmark {
   created_at: string;
 }
 
-export async function getBookmarks(bookmarks: any[] | null) {
-  const bookmarksData = bookmarks as BookmarkData[];
+export async function getBookmarks(bookmarksData: BookmarkData[]) {
   let bookmarksArray: Bookmark[] = [];
   await Promise.all(
     bookmarksData.map(async (bookmark) => {
@@ -111,16 +109,14 @@ export async function getBookmarks(bookmarks: any[] | null) {
   );
 }
 
-export default async function LoggedInHomePage() {
+export default async function LoggedInHomePage({
+  bookmarks,
+}: {
+  bookmarks: BookmarkData[];
+}) {
   const launches: LaunchesUpcoming = await fetchUpcomingLaunches();
   const articles: ArticlesAndBlogs = await fetchLatestArticles();
   const blogs: ArticlesAndBlogs = await fetchLatestBlogs();
-  const supabase = createClient();
-  const { data: userData, error: getUserError } = await supabase.auth.getUser();
-  let { data: bookmarks, error: getBookmarksError } = await supabase
-    .from("bookmarks")
-    .select("*")
-    .eq("user_id", userData.user?.id);
 
   const bookmarksArray = await getBookmarks(bookmarks);
 
