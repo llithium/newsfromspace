@@ -13,6 +13,7 @@ export default async function Home() {
     let { data: bookmarks } = await supabase
       .from("bookmarks")
       .select("*")
+      .range(0, 9)
       .eq("user_id", data.user?.id);
     if (bookmarks?.length == 0) {
       return <HomePage />;

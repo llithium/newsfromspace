@@ -4,7 +4,9 @@ export default async function fetchArticle(
 ) {
   if (articleId) {
     try {
-      const apiResponse = await fetch(apiURL + `/articles/${articleId}`);
+      const apiResponse = await fetch(apiURL + `/articles/${articleId}`, {
+        next: { revalidate: 60 },
+      });
       const article = await apiResponse.json();
       return article;
     } catch (error) {

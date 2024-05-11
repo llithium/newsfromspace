@@ -9,7 +9,7 @@ import fetchBlog from "../../utils/fetchblog";
 export default function BlogCard({ params }: { params: { blogId: string } }) {
   const { isPending, isError, data, error } = useQuery({
     queryKey: ["blog", params.blogId],
-    staleTime: 60 * 60 * 1000,
+    staleTime: 3600 * 60 * 1000,
     queryFn: () => fetchBlog(params.blogId, apiURL),
   });
 

@@ -27,7 +27,7 @@ export default function ArticleCard({
 }) {
   const { isPending, isError, data, error } = useQuery({
     queryKey: ["article", params.articleId],
-    staleTime: 60 * 60 * 1000,
+    staleTime: 3600 * 60 * 1000,
     queryFn: () => fetchArticle(params.articleId, apiURL),
   });
 

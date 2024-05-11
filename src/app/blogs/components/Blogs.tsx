@@ -8,7 +8,6 @@ import { useInfiniteQuery } from "@tanstack/react-query";
 import { apiURL, pageLimit } from "../../articles/page";
 import Link from "next/link";
 import InfiniteScrollSpinner from "../../components/InfiniteScrollSpinner";
-import SaveIcon from "../../components/SaveIcon";
 
 export default function Blogs() {
   const { data, isError, error, fetchNextPage, isFetchingNextPage } =
