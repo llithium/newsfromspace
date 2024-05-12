@@ -5,6 +5,7 @@ import { Spinner } from "@nextui-org/react";
 import { useQuery } from "@tanstack/react-query";
 import { apiURL } from "../../../articles/page";
 import fetchBlog from "../../utils/fetchblog";
+import { notFound } from "next/navigation";
 
 export default function BlogCard({ params }: { params: { blogId: string } }) {
   const { isPending, isError, data, error } = useQuery({
@@ -12,6 +13,10 @@ export default function BlogCard({ params }: { params: { blogId: string } }) {
     staleTime: 3600 * 60 * 1000,
     queryFn: () => fetchBlog(params.blogId, apiURL),
   });
+
+  if (data.detail === "Not found.") {
+    notFound();
+  }
 
   isError && <div>{error.message}</div>;
   return !isPending ? (

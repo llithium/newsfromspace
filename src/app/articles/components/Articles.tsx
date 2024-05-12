@@ -9,7 +9,6 @@ import formatDate from "../../utils/formatDate";
 import { apiURL, pageLimit } from "../page";
 import Link from "next/link";
 import InfiniteScrollSpinner from "../../components/InfiniteScrollSpinner";
-import SaveIcon from "../../components/SaveIcon";
 
 export default function Articles() {
   const { data, isError, error, fetchNextPage, isFetchingNextPage } =

@@ -9,6 +9,7 @@ import { launchApiUrl } from "../page";
 import { Metadata } from "next";
 import { apiURL } from "../../articles/page";
 import { Result } from "../../articles/components/Articles";
+import { notFound } from "next/navigation";
 
 export async function generateMetadata({
   params,
@@ -20,11 +21,16 @@ export async function generateMetadata({
 
   // fetch data
   const launch: Launch = await fetch(launchApiUrl + `/launch/${launchId}`).then(
-    (res) => res.json(),
+    (res) => {
+      if (!res.ok) {
+        return;
+      }
+      return res.json();
+    },
   );
 
   return {
-    title: launch.name,
+    title: (launch && launch.name) || "",
   };
 }
 
@@ -46,7 +52,7 @@ export default async function Page({
       next: { revalidate: 180 },
     });
     if (!res.ok) {
-      throw new Error("Failed to fetch data for related articles");
+      notFound();
     }
     return res.json();
   }

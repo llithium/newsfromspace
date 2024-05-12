@@ -5,6 +5,7 @@ import { Launch } from "../../components/Articles";
 import { apiURL } from "../../page";
 import ArticleAndBlogModal from "../../../components/ArticleAndBlogModal";
 import fetchArticle from "../../utils/fetchArticle";
+import { notFound } from "next/navigation";
 
 export interface ArticleAndBlog {
   id: number;
@@ -30,6 +31,10 @@ export default function ArticleCard({
     staleTime: 3600 * 60 * 1000,
     queryFn: () => fetchArticle(params.articleId, apiURL),
   });
+
+  if (data.detail === "Not found.") {
+    notFound();
+  }
 
   isError && <div>{error.message}</div>;
   return !isPending ? (

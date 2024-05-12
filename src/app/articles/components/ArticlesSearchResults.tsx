@@ -10,7 +10,6 @@ import { apiURL, pageLimit } from "../page";
 import Link from "next/link";
 import InfiniteScrollSpinner from "../../components/InfiniteScrollSpinner";
 import { useSearchParams } from "next/navigation";
-import SaveIcon from "../../components/SaveIcon";
 
 export default function ArticlesSearchResults() {
   const searchParams = useSearchParams();

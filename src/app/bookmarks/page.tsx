@@ -1,5 +1,4 @@
 import { redirect } from "next/navigation";
-
 import { createClient } from "@/utils/supabase/server";
 import { BookmarkData, getBookmarks } from "@/components/LoggedInHomePage";
 import { Card, CardBody, Image, Divider } from "@nextui-org/react";
