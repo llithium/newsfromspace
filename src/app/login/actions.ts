@@ -5,6 +5,41 @@ import { redirect } from "next/navigation";
 import { createClient } from "@/utils/supabase/server";
 import { z } from "zod";
 
+const emailSchema = z
+  .string()
+  .email({ message: "Invalid Email" })
+  .toLowerCase()
+  .max(128, { message: "Email cannot exceed 128 characters" });
+const passwordSchema = z
+  .string()
+  .min(8, { message: "Password must be 8 or more characters long" })
+  .max(128, { message: "Password cannot exceed 128 characters" });
+
+export async function signInWithEmailLink(formData: FormData) {
+  const supabase = createClient();
+
+  const emailResult = emailSchema.safeParse(formData.get("email"));
+  if (!emailResult.success) {
+    console.log(emailResult.error.issues);
+    redirect("/error");
+  } else {
+    const { data, error } = await supabase.auth.signInWithOtp({
+      email: emailResult.data,
+      options: {
+        // set this to false if you do not want the user to be automatically signed up
+        // shouldCreateUser: false,
+        // emailRedirectTo: "https://example.com/welcome",
+      },
+    });
+    if (!error) {
+      revalidatePath("/", "layout");
+      redirect("/");
+    } else {
+      throw new Error(error.message);
+    }
+  }
+}
+
 export async function oauthGoogle() {
   const supabase = createClient();
   const { data, error } = await supabase.auth.signInWithOAuth({
@@ -23,7 +58,7 @@ export async function oauthGoogle() {
       redirect(data.url); // use the redirect API for your server framework
     }
   } else {
-    console.log(error);
+    throw new Error(error.message);
   }
 }
 
@@ -39,19 +74,9 @@ export async function oauthDiscord() {
       redirect(data.url); // use the redirect API for your server framework
     }
   } else {
-    console.log(error);
+    throw new Error(error.message);
   }
 }
-
-const emailSchema = z
-  .string()
-  .email({ message: "Invalid Email" })
-  .toLowerCase()
-  .max(128, { message: "Email cannot exceed 128 characters" });
-const passwordSchema = z
-  .string()
-  .min(8, { message: "Password must be 8 or more characters long" })
-  .max(128, { message: "Password cannot exceed 128 characters" });
 
 export async function login(formData: FormData) {
   const supabase = createClient();
@@ -79,7 +104,7 @@ export async function login(formData: FormData) {
       return error.message;
     }
     revalidatePath("/", "layout");
-    redirect("/");
+    redirect("/signup/confirm");
   }
 }
 
@@ -112,6 +137,6 @@ export async function signup(formData: FormData) {
     }
 
     revalidatePath("/", "layout");
-    redirect("/");
+    redirect("/signup/confirm");
   }
 }

@@ -9,11 +9,11 @@ import {
 } from "@nextui-org/react";
 import Link from "next/link";
 import { launchApiUrl } from "../launches/page";
-import { Launches } from "../launches/components/Launches";
 import formatDate from "../utils/formatDate";
 import dynamic from "next/dynamic";
 import { ArticlesAndBlogs } from "../articles/components/Articles";
 import { apiURL } from "../articles/page";
+import { LaunchesData } from "@/launches/components/Launches";
 const CountdownTimer = dynamic(() => import("../components/CountdownTimer"), {
   ssr: false,
 });
@@ -52,7 +52,7 @@ async function fetchLatestBlogs() {
 }
 
 export default async function HomePage() {
-  const launches: Launches = await fetchUpcomingLaunches();
+  const launches: LaunchesData = await fetchUpcomingLaunches();
   const articles: ArticlesAndBlogs = await fetchLatestArticles();
   const blogs: ArticlesAndBlogs = await fetchLatestBlogs();
   return (

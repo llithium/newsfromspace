@@ -9,14 +9,13 @@ import {
 } from "@nextui-org/react";
 import Link from "next/link";
 import { launchApiUrl } from "../launches/page";
-import { Launches } from "../launches/components/Launches";
+
 import formatDate from "../utils/formatDate";
 import dynamic from "next/dynamic";
 import { ArticlesAndBlogs, Launch } from "../articles/components/Articles";
 import { apiURL } from "../articles/page";
-import fetchArticle from "@/articles/utils/fetchArticle";
-import { ArticleAndBlog } from "@/articles/[articleId]/components/ArticleCard";
-import fetchBlog from "@/blogs/utils/fetchblog";
+import { LaunchesData } from "@/launches/components/Launches";
+import { getBookmarks } from "@/bookmarks/utils/getBookmarks";
 const CountdownTimer = dynamic(() => import("../components/CountdownTimer"), {
   ssr: false,
 });
@@ -78,43 +77,12 @@ export interface Bookmark {
   created_at: string;
 }
 
-export async function getBookmarks(bookmarksData: BookmarkData[]) {
-  let bookmarksArray: Bookmark[] = [];
-  await Promise.all(
-    bookmarksData.map(async (bookmark) => {
-      if (bookmark.type === "article") {
-        const article: ArticleAndBlog = await fetchArticle(
-          bookmark.item_id,
-          apiURL,
-        );
-        bookmarksArray.push({
-          ...article,
-          type: bookmark.type,
-          created_at: bookmark.created_at,
-        });
-      }
-      if (bookmark.type === "blog") {
-        const blog: ArticleAndBlog = await fetchBlog(bookmark.item_id, apiURL);
-        bookmarksArray.push({
-          ...blog,
-          type: bookmark.type,
-          created_at: bookmark.created_at,
-        });
-      }
-    }),
-  );
-  return bookmarksArray.sort(
-    (a, b) =>
-      new Date(a.created_at).getTime() - new Date(b.created_at).getTime(),
-  );
-}
-
 export default async function LoggedInHomePage({
   bookmarks,
 }: {
   bookmarks: BookmarkData[];
 }) {
-  const launches: Launches = await fetchUpcomingLaunches();
+  const launches: LaunchesData = await fetchUpcomingLaunches();
   const articles: ArticlesAndBlogs = await fetchLatestArticles();
   const blogs: ArticlesAndBlogs = await fetchLatestBlogs();
 
