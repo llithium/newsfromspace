@@ -1,16 +1,16 @@
-import { redirect } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 import { createClient } from "@/utils/supabase/server";
 import { BookmarkData, getBookmarks } from "@/components/LoggedInHomePage";
 import { Card, CardBody, Image, Divider } from "@nextui-org/react";
 import formatDate from "@/utils/formatDate";
 import Link from "next/link";
-import PageButtons from "./PageButtons";
+import PageButtons from "./components/PageButtons";
 import { pageLimit } from "@/articles/page";
 
 export default async function BookmrksPage({
   searchParams,
 }: {
-  searchParams: { page: number };
+  searchParams: { page: string };
 }) {
   const supabase = createClient();
   const { data: userData, error: getUserError } = await supabase.auth.getUser();
@@ -26,10 +26,17 @@ export default async function BookmrksPage({
     .from("bookmarks")
     .select("*", { count: "exact" })
     .range(
-      ((searchParams.page || 1) - 1) * parseInt(pageLimit),
-      (searchParams.page || 1) * parseInt(pageLimit) - 1,
+      ((parseInt(searchParams.page) || 1) - 1) * parseInt(pageLimit),
+      (parseInt(searchParams.page) || 1) * parseInt(pageLimit) - 1,
     )
     .eq("user_id", userData.user?.id);
+
+  if (
+    !count ||
+    parseInt(searchParams.page) > Math.ceil(count / parseInt(pageLimit))
+  ) {
+    redirect(`/bookmarks`);
+  }
 
   const bookmarksArray = await getBookmarks(bookmarks as BookmarkData[]);
 
@@ -131,7 +138,7 @@ export default async function BookmrksPage({
       </div>
       {count && (
         <div className="mx-auto w-fit py-4">
-          <PageButtons count={count} />
+          <PageButtons count={count} page={searchParams.page || "1"} />
         </div>
       )}
     </>

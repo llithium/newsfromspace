@@ -78,15 +78,68 @@ export default function AppNavbar() {
             Articles
           </Link>
         </NavbarItem>
-        <NavbarItem isActive={pathname.startsWith("/launches")}>
+        <Dropdown>
+          <NavbarItem isActive={pathname.startsWith("/launches")}>
+            <DropdownTrigger>
+              <Button
+                className={`flex items-center px-0 text-medium text-foreground transition-opacity hover:opacity-80 active:opacity-disabled ${pathname.startsWith("/launches") && "font-semibold"}`}
+                // color="foreground"
+                variant="light"
+                endContent={
+                  <svg
+                    className="px-0"
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="22"
+                    height="22"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      fill="#888888"
+                      d="m17.5 8.086l-5.5 5.5l-5.5-5.5L5.086 9.5L12 16.414L18.914 9.5z"
+                    />
+                  </svg>
+                }
+              >
+                Launches
+              </Button>
+            </DropdownTrigger>
+          </NavbarItem>
+          <DropdownMenu
+            aria-label="ACME features"
+            className="w-44"
+            itemClasses={{
+              base: "gap-4",
+              title: "text-center text-medium",
+            }}
+          >
+            <DropdownItem as={Link} href="/launches" key="upcoming">
+              Upcoming
+            </DropdownItem>
+            <DropdownItem as={Link} href="/launches/past" key="past">
+              Past
+            </DropdownItem>
+          </DropdownMenu>
+        </Dropdown>
+        {/* <NavbarItem isActive={pathname.startsWith("/launches")}>
           <Link
-            className="transition-opacity hover:opacity-80 active:opacity-disabled"
+            className="flex items-center transition-opacity hover:opacity-80 active:opacity-disabled"
             color="foreground"
             href="/launches"
           >
             Launches
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="22"
+              height="22"
+              viewBox="0 0 24 24"
+            >
+              <path
+                fill="#888888"
+                d="m17.5 8.086l-5.5 5.5l-5.5-5.5L5.086 9.5L12 16.414L18.914 9.5z"
+              />
+            </svg>
           </Link>
-        </NavbarItem>
+        </NavbarItem> */}
         <NavbarItem isActive={pathname.startsWith("/blogs")}>
           <Link
             className="transition-opacity hover:opacity-80 active:opacity-disabled"
@@ -120,7 +173,6 @@ export default function AppNavbar() {
             <ThemeSwitcher />
           </NavbarItem>
         ) : null}
-
         {/* Login/Sign Up */}
         {error || !sessionData.session ? (
           <>
@@ -182,7 +234,9 @@ export default function AppNavbar() {
         )}
       </NavbarContent>
       <NavbarMenu>
-        <NavbarMenuItem className={`${pathname === "/" ? "hidden" : ""}`}>
+        <NavbarMenuItem
+          className={`${pathname !== "/articles" && pathname !== "/launches" && pathname !== "/blogs" ? "hidden" : ""}`}
+        >
           <SearchInput />
         </NavbarMenuItem>
         <NavbarMenuItem isActive={pathname.startsWith("/articles")}>

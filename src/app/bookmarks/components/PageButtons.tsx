@@ -1,19 +1,21 @@
 "use client";
 import { pageLimit } from "@/articles/page";
 import { Pagination } from "@nextui-org/react";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 
-const PageButtons = ({ count }: { count: number }) => {
+const PageButtons = ({ count, page }: { count: number; page: string }) => {
   const router = useRouter();
+  const pathname = usePathname();
+
   return (
     <Pagination
       size="lg"
       isCompact
       showControls
       total={Math.ceil(count / parseInt(pageLimit))}
-      initialPage={1}
+      initialPage={parseInt(page)}
       onChange={(page) => {
-        router.push(`/bookmarks/?page=${page}`);
+        router.push(`${pathname}?page=${page}`);
       }}
     />
   );

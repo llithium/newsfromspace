@@ -415,7 +415,7 @@ export default function LaunchInformationPage({
             })}
           {/* Updates */}
           {data.updates.length > 0 && (
-            <Card className="md:max-h-[600px]">
+            <Card className="md:max-h-[400px]">
               <CardHeader>
                 <h2 className="text-2xl font-bold">Updates</h2>
               </CardHeader>

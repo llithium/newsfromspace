@@ -9,7 +9,7 @@ import {
 } from "@nextui-org/react";
 import Link from "next/link";
 import { launchApiUrl } from "../launches/page";
-import { LaunchesUpcoming } from "../launches/components/Launches";
+import { Launches } from "../launches/components/Launches";
 import formatDate from "../utils/formatDate";
 import dynamic from "next/dynamic";
 import { ArticlesAndBlogs, Launch } from "../articles/components/Articles";
@@ -114,7 +114,7 @@ export default async function LoggedInHomePage({
 }: {
   bookmarks: BookmarkData[];
 }) {
-  const launches: LaunchesUpcoming = await fetchUpcomingLaunches();
+  const launches: Launches = await fetchUpcomingLaunches();
   const articles: ArticlesAndBlogs = await fetchLatestArticles();
   const blogs: ArticlesAndBlogs = await fetchLatestBlogs();
 
@@ -137,7 +137,7 @@ export default async function LoggedInHomePage({
               if (bookmark.type === "article") {
                 return (
                   <NextUILink key={bookmark.id} href={bookmark.url} isExternal>
-                    <Card className="flex min-h-52 w-full flex-row py-2 sm:h-full ">
+                    <Card className="flex h-52 w-full flex-row py-2">
                       <Image
                         alt="Article image"
                         className="z-0 ml-2 h-full w-44 flex-shrink rounded-xl object-cover sm:w-44 sm:flex-1 lg:w-56"
@@ -165,7 +165,7 @@ export default async function LoggedInHomePage({
               if (bookmark.type === "blog") {
                 return (
                   <NextUILink key={bookmark.id} href={bookmark.url} isExternal>
-                    <Card className="flex min-h-52 w-full flex-row py-2 sm:h-full ">
+                    <Card className="flex h-52 w-full flex-row py-2 ">
                       <Image
                         alt="Blog image"
                         className="z-0 ml-2 h-full w-44 flex-shrink rounded-xl object-cover sm:w-44 sm:flex-1 lg:w-56"

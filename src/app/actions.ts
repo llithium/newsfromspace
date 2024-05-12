@@ -26,7 +26,6 @@ export async function addBookmark(
       },
     ]);
     if (!error) {
-      revalidatePath("/");
       return true;
     } else console.log(error);
     return false;
@@ -50,7 +49,6 @@ export async function deleteBookmark(
       .eq("type", bookmarkRoute.slice(0, -1))
       .eq("item_id", bookmarkId);
     if (!error) {
-      revalidatePath("/");
       return true;
     } else console.log(error);
     return false;

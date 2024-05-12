@@ -148,7 +148,7 @@ export default function Launches() {
   );
 }
 
-export interface LaunchesUpcoming {
+export interface LaunchesData {
   count: number;
   next: string;
   previous: null;

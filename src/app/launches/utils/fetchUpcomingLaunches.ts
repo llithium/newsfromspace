@@ -1,4 +1,4 @@
-import { LaunchesUpcoming } from "../components/Launches";
+import { LaunchesData } from "../components/Launches";
 
 export async function fetchUpcomingLaunches({
   pageParam,
@@ -7,7 +7,7 @@ export async function fetchUpcomingLaunches({
 }) {
   try {
     const apiResponse = await fetch(pageParam, { next: { revalidate: 900 } });
-    const LaunchesUpcoming: LaunchesUpcoming = await apiResponse.json();
+    const LaunchesUpcoming: LaunchesData = await apiResponse.json();
     return LaunchesUpcoming;
   } catch (error) {
     console.log(error);
