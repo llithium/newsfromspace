@@ -1,11 +1,10 @@
 import { redirect } from "next/navigation";
-
 import { createClient } from "@/utils/supabase/server";
-
 import DeleteAccountButton from "./components/DeleteAccountButton";
-import { Card, CardBody, Image, Spacer } from "@nextui-org/react";
+import { Button, Card, CardBody, Image, Spacer } from "@nextui-org/react";
+import Link from "next/link";
 
-export default async function PrivatePage() {
+export default async function AccountPage() {
   const supabase = createClient();
 
   const { data, error } = await supabase.auth.getUser();
@@ -15,29 +14,56 @@ export default async function PrivatePage() {
 
   return (
     <>
-      <Card className="mx-auto w-full min-w-fit max-w-[500px] pb-2 md:w-[500px]">
+      <Card className="mx-auto w-full min-w-fit max-w-[500px] pt-2 md:w-[500px]">
         <CardBody className="flex flex-col gap-2">
-          {data.user.app_metadata.providers[1] && (
+          <p>
+            Linked:{" "}
+            {data.user.app_metadata.providers.map((provider: string) => {
+              return provider.charAt(0).toUpperCase() + provider.slice(1);
+            })}
+          </p>
+
+          {data.user.app_metadata.providers[0] && (
             <div className="flex flex-wrap items-center  justify-between gap-3">
               <p>
-                Signed in with:{" "}
-                {data.user.app_metadata.providers[1].charAt(0).toUpperCase() +
-                  data.user.app_metadata.providers[1].slice(1)}
+                Account created with:{" "}
+                {data.user.app_metadata.providers[0].charAt(0).toUpperCase() +
+                  data.user.app_metadata.providers[0].slice(1)}
               </p>
               <div className="flex items-center gap-2">
                 <p>{data.user.user_metadata.name}</p>
                 <Image
                   height={40}
                   width={40}
-                  alt={`Avatar from ${data.user.app_metadata.providers[1]}`}
+                  alt={`Avatar from ${data.user.app_metadata.providers[0]}`}
                   src={data.user.user_metadata.avatar_url}
                 />
               </div>
             </div>
           )}
 
-          {data.user.email && <p>Email: {data.user.email}</p>}
-          {data.user.phone && <p>Email: {data.user.phone}</p>}
+          {data.user.email && (
+            <div className="flex flex-col gap-2">
+              <p className="w-fit">Email: {data.user.email}</p>
+              <Button
+                as={Link}
+                href="/account/email"
+                className="w-26 text-medium"
+                size="sm"
+              >
+                Change Email
+              </Button>
+            </div>
+          )}
+
+          {data.user.phone && (
+            <div className="flex flex-col gap-2">
+              <p>Email: {data.user.phone}</p>
+              <Button className="w-26 text-medium" size="sm">
+                Change Phone Number
+              </Button>
+            </div>
+          )}
           <Spacer y={2} />
 
           <DeleteAccountButton />

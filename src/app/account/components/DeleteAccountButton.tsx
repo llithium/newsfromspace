@@ -5,6 +5,9 @@ import { deleteUser } from "../actions";
 const DeleteAccountButton = () => {
   return (
     <Button
+      className="text-sm font-medium"
+      size="sm"
+      variant="light"
       onPress={() => {
         deleteUser();
       }}

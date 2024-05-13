@@ -20,10 +20,9 @@ export async function signInWithEmailLink(formData: FormData) {
 
   const emailResult = emailSchema.safeParse(formData.get("email"));
   if (!emailResult.success) {
-    console.log(emailResult.error.issues);
-    redirect("/error");
+    throw new Error(emailResult.error.message);
   } else {
-    const { data, error } = await supabase.auth.signInWithOtp({
+    const { error } = await supabase.auth.signInWithOtp({
       email: emailResult.data,
       options: {
         // set this to false if you do not want the user to be automatically signed up
@@ -40,8 +39,35 @@ export async function signInWithEmailLink(formData: FormData) {
   }
 }
 
+export async function changeEmail(formData: FormData) {
+  const supabase = createClient();
+
+  const { data } = await supabase.auth.getUser();
+  if (data.user?.email === formData.get("email")) {
+    console.log("here");
+    return `Your account Email is already set to ${data.user.email}`;
+  }
+
+  const emailResult = emailSchema.safeParse(formData.get("email"));
+  if (!emailResult.success) {
+    throw new Error(emailResult.error.message);
+  } else {
+    const { error } = await supabase.auth.updateUser({
+      email: emailResult.data,
+    });
+    if (!error) {
+      console.log(error);
+
+      redirect("/account/email/confirm");
+    } else {
+      return error.message;
+    }
+  }
+}
+
 export async function oauthGoogle() {
   const supabase = createClient();
+
   const { data, error } = await supabase.auth.signInWithOAuth({
     provider: "google",
     options: {
@@ -64,6 +90,7 @@ export async function oauthGoogle() {
 
 export async function oauthDiscord() {
   const supabase = createClient();
+
   const { data, error } = await supabase.auth.signInWithOAuth({
     provider: "discord",
   });
@@ -91,7 +118,6 @@ export async function login(formData: FormData) {
     console.log(passwordResult.error.issues);
     redirect("/error");
   }
-  console.log(passwordResult);
 
   if (emailResult.success && passwordResult.success) {
     const data = {
