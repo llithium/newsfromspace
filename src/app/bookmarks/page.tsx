@@ -52,6 +52,7 @@ export default async function BookmrksPage({
             if (bookmark.type === "article") {
               return (
                 <Link
+                  scroll={false}
                   className="transition-opacity hover:opacity-80 active:opacity-disabled"
                   key={bookmark.id}
                   href={`/articles/${bookmark.id}`}
@@ -83,6 +84,7 @@ export default async function BookmrksPage({
             if (bookmark.type === "blog") {
               return (
                 <Link
+                  scroll={false}
                   className="transition-opacity hover:opacity-80 active:opacity-disabled"
                   key={bookmark.id}
                   href={`/blogs/${bookmark.id}`}

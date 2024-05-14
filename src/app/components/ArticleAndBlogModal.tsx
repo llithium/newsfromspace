@@ -33,20 +33,21 @@ export default function ArticleAndBlogModal({
   const [bookmarked, setBookmarked] = useState(false);
 
   const opts = pathname.split("/").filter((part) => part !== "");
+  const type = opts[0];
+  const id = opts[1];
   useEffect(() => {
     const fetchUserData = async () => {
       const supabase = createClient();
-
-      const error = await checkBookmark(opts[0], opts[1]);
+      const error = await checkBookmark(type, id);
       !error ? setBookmarked(true) : null;
-
       const { data, error: getSessionError } = await supabase.auth.getSession();
       if (!getSessionError) {
         setSessionData(data as SessionData);
       }
     };
+
     fetchUserData();
-  });
+  }, [type, id]);
   return (
     <div
       className="modalWrapper fixed inset-0 z-50 flex h-dvh w-screen flex-col items-center justify-center bg-white/40 backdrop-blur-sm dark:bg-black/40"
