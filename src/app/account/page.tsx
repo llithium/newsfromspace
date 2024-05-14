@@ -18,11 +18,19 @@ export default async function AccountPage() {
         <CardBody className="flex flex-col gap-2">
           <p>
             Linked:{" "}
-            {data.user.app_metadata.providers.map((provider: string) => {
-              return provider.charAt(0).toUpperCase() + provider.slice(1);
-            })}
+            {data.user.app_metadata.providers.map(
+              (provider: string, index: number) => {
+                index++;
+                if (index === data.user.app_metadata.providers.length) {
+                  return provider.charAt(0).toUpperCase() + provider.slice(1);
+                } else {
+                  return (
+                    provider.charAt(0).toUpperCase() + provider.slice(1) + ", "
+                  );
+                }
+              },
+            )}
           </p>
-
           {data.user.app_metadata.providers[0] && (
             <div className="flex flex-wrap items-center  justify-between gap-3">
               <p>
@@ -58,14 +66,13 @@ export default async function AccountPage() {
 
           {data.user.phone && (
             <div className="flex flex-col gap-2">
-              <p>Email: {data.user.phone}</p>
+              <p>Phone Number: {data.user.phone}</p>
               <Button className="w-26 text-medium" size="sm">
                 Change Phone Number
               </Button>
             </div>
           )}
           <Spacer y={2} />
-
           <DeleteAccountButton />
         </CardBody>
       </Card>

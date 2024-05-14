@@ -16,7 +16,7 @@ const LogInEmailLink = () => {
   const [emailIsInvalid, setEmailIsInvalid] = useState(false);
   const [emailErrorMessage, setEmailErrorMessage] = useState("");
 
-  async function handlelogin(formData: FormData) {
+  async function handleLogin(formData: FormData) {
     const data = {
       email: formData.get("email"),
       password: formData.get("password"),
@@ -28,7 +28,11 @@ const LogInEmailLink = () => {
     }
 
     if (emailResult.success) {
-      await signInWithEmailLink(formData);
+      const error = await signInWithEmailLink(formData);
+      if (error) {
+        setEmailErrorMessage(error);
+        setEmailIsInvalid(true);
+      }
     }
   }
 
@@ -50,7 +54,7 @@ const LogInEmailLink = () => {
         color="primary"
         className="h-14 w-full text-xl"
         type="submit"
-        formAction={handlelogin}
+        formAction={handleLogin}
       >
         Log in
       </Button>

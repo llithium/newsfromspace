@@ -6,7 +6,10 @@ import { revalidatePath } from "next/cache";
 
 export async function signOutAction() {
   const supabase = createClient();
-  await supabase.auth.signOut({ scope: "local" });
+  const { error } = await supabase.auth.signOut({ scope: "local" });
+  if (error) {
+    throw new Error(error.message);
+  }
   revalidatePath("/");
   redirect("/login");
 }
@@ -14,7 +17,7 @@ export async function signOutAction() {
 export async function addBookmark(
   bookmarkRoute: string,
   bookmarkId: string,
-): Promise<boolean> {
+): Promise<string | null> {
   const supabase = createClient();
   const { data: userData, error: getUserError } = await supabase.auth.getUser();
   if (!getUserError) {
@@ -26,19 +29,18 @@ export async function addBookmark(
       },
     ]);
     if (!error) {
-      return true;
-    } else console.log(error);
-    return false;
+      return null;
+    }
+    return error.message;
   } else {
-    console.log(getUserError);
-    return false;
+    return getUserError.message;
   }
 }
 
 export async function deleteBookmark(
   bookmarkRoute: string,
   bookmarkId: string,
-): Promise<boolean> {
+): Promise<string | null> {
   const supabase = createClient();
   const { data: userData, error: getUserError } = await supabase.auth.getUser();
   if (!getUserError) {
@@ -49,19 +51,18 @@ export async function deleteBookmark(
       .eq("type", bookmarkRoute.slice(0, -1))
       .eq("item_id", bookmarkId);
     if (!error) {
-      return true;
-    } else console.log(error);
-    return false;
+      return null;
+    }
+    return error.message;
   } else {
-    console.log(getUserError);
-    return false;
+    return getUserError.message;
   }
 }
 
 export async function checkBookmark(
   bookmarkRoute: string,
   bookmarkId: string,
-): Promise<boolean> {
+): Promise<string | null> {
   const supabase = createClient();
   const { data: userData, error: getUserError } = await supabase.auth.getUser();
   if (!getUserError) {
@@ -74,19 +75,17 @@ export async function checkBookmark(
     if (!getBookmarksError) {
       if (bookmarks) {
         if (bookmarks.length > 0) {
-          return true;
+          return null;
         } else {
-          return false;
+          return "No bookmarks";
         }
       } else {
-        return false;
+        return "No bookmarks";
       }
     } else {
-      console.log(getBookmarksError);
-      return false;
+      return getBookmarksError.message;
     }
   } else {
-    console.log(getUserError);
-    return false;
+    return getUserError.message;
   }
 }

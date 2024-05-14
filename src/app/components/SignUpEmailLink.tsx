@@ -28,7 +28,11 @@ const SignUpEmailLink = () => {
     }
 
     if (emailResult.success) {
-      await signInWithEmailLink(formData);
+      const error = await signInWithEmailLink(formData);
+      if (error) {
+        setEmailErrorMessage(error);
+        setEmailIsInvalid(true);
+      }
     }
   }
 

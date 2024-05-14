@@ -32,9 +32,9 @@ export async function signInWithEmailLink(formData: FormData) {
     });
     if (!error) {
       revalidatePath("/", "layout");
-      redirect("/");
+      redirect("/login/confirm");
     } else {
-      throw new Error(error.message);
+      return error.message;
     }
   }
 }
@@ -44,8 +44,7 @@ export async function changeEmail(formData: FormData) {
 
   const { data } = await supabase.auth.getUser();
   if (data.user?.email === formData.get("email")) {
-    console.log("here");
-    return `Your account Email is already set to ${data.user.email}`;
+    return `Your account's Email is already set to ${data.user.email}`;
   }
 
   const emailResult = emailSchema.safeParse(formData.get("email"));
@@ -56,8 +55,6 @@ export async function changeEmail(formData: FormData) {
       email: emailResult.data,
     });
     if (!error) {
-      console.log(error);
-
       redirect("/account/email/confirm");
     } else {
       return error.message;
@@ -77,7 +74,6 @@ export async function oauthGoogle() {
       },
     },
   });
-  console.log(data.url);
 
   if (!error) {
     if (data.url) {
@@ -94,7 +90,6 @@ export async function oauthDiscord() {
   const { data, error } = await supabase.auth.signInWithOAuth({
     provider: "discord",
   });
-  console.log(data.url);
 
   if (!error) {
     if (data.url) {
@@ -110,13 +105,11 @@ export async function login(formData: FormData) {
 
   const emailResult = emailSchema.safeParse(formData.get("email"));
   if (!emailResult.success) {
-    console.log(emailResult.error.issues);
-    redirect("/error");
+    throw new Error(emailResult.error.message);
   }
   const passwordResult = passwordSchema.safeParse(formData.get("password"));
   if (!passwordResult.success) {
-    console.log(passwordResult.error.issues);
-    redirect("/error");
+    throw new Error(passwordResult.error.message);
   }
 
   if (emailResult.success && passwordResult.success) {
@@ -126,7 +119,6 @@ export async function login(formData: FormData) {
     };
     const { error } = await supabase.auth.signInWithPassword(data);
     if (error) {
-      console.log(error.message);
       return error.message;
     }
     revalidatePath("/", "layout");
@@ -139,13 +131,11 @@ export async function signup(formData: FormData) {
 
   const emailResult = emailSchema.safeParse(formData.get("email"));
   if (!emailResult.success) {
-    console.log(emailResult.error.issues);
-    redirect("/error");
+    throw new Error(emailResult.error.message);
   }
   const passwordResult = passwordSchema.safeParse(formData.get("password"));
   if (!passwordResult.success) {
-    console.log(passwordResult.error.issues);
-    redirect("/error");
+    throw new Error(passwordResult.error.message);
   }
 
   if (emailResult.success && passwordResult.success) {
@@ -158,7 +148,7 @@ export async function signup(formData: FormData) {
       console.log(error.message);
       return error.message;
     }
-    if (user.user?.identities?.length == +0) {
+    if (user.user?.identities?.length == 0) {
       return "User already exists";
     }
 

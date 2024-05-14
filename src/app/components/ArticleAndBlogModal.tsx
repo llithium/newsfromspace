@@ -36,8 +36,8 @@ export default function ArticleAndBlogModal({
   useEffect(() => {
     const fetchUserData = async () => {
       const supabase = createClient();
-      const success = await checkBookmark(opts[0], opts[1]);
-      success ? setBookmarked(true) : null;
+      const error = await checkBookmark(opts[0], opts[1]);
+      !error ? setBookmarked(true) : null;
       try {
         const { data, error } = await supabase.auth.getSession();
         if (error) {
@@ -78,12 +78,12 @@ export default function ArticleAndBlogModal({
                 {bookmarked ? (
                   <svg
                     onClick={async () => {
-                      const success = await deleteBookmark(opts[0], opts[1]);
-                      if (success) {
+                      const error = await deleteBookmark(opts[0], opts[1]);
+                      if (!error) {
                         setBookmarked(false);
                         toast.success("Bookmark deleted");
                       } else {
-                        toast.error("Failed to delete bookmark");
+                        toast.error(error);
                       }
                     }}
                     className="transition-opacity hover:opacity-80 active:opacity-disabled "
@@ -100,12 +100,12 @@ export default function ArticleAndBlogModal({
                 ) : (
                   <svg
                     onClick={async () => {
-                      const success = await addBookmark(opts[0], opts[1]);
-                      if (success) {
+                      const error = await addBookmark(opts[0], opts[1]);
+                      if (!error) {
                         setBookmarked(true);
                         toast.success("Bookmarked");
                       } else {
-                        toast.error("Failed to add bookmark");
+                        toast.error(error);
                       }
                     }}
                     className={`transition-opacity hover:opacity-80 active:opacity-disabled ${!sessionData.session ? "hidden" : ""}`}
