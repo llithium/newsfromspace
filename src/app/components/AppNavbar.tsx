@@ -14,7 +14,7 @@ import {
   DropdownItem,
 } from "@nextui-org/react";
 
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import ThemeSwitcher, { DropdownThemeSwitcher } from "./ThemeSwitcher";
 import { usePathname } from "next/navigation";
 import SearchInput from "./SearchInput";
@@ -165,7 +165,9 @@ export default function AppNavbar() {
         className={`hidden sm:flex ${pathname !== "/articles" && pathname !== "/launches" && pathname !== "/blogs" ? "sm:hidden" : ""}`}
         justify="end"
       >
-        <SearchInput />
+        <Suspense>
+          <SearchInput />
+        </Suspense>
       </NavbarContent>
       <NavbarContent justify="end">
         {error || !sessionData.session ? (
@@ -237,7 +239,9 @@ export default function AppNavbar() {
         <NavbarMenuItem
           className={`${pathname !== "/articles" && pathname !== "/launches" && pathname !== "/blogs" ? "hidden" : ""}`}
         >
-          <SearchInput />
+          <Suspense>
+            <SearchInput />
+          </Suspense>
         </NavbarMenuItem>
         <NavbarMenuItem isActive={pathname.startsWith("/articles")}>
           <Link

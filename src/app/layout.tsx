@@ -19,7 +19,7 @@ export default function RootLayout({
   bookmarksModal,
   children,
 }: {
-  bookmarksModal: React.ReactNode;
+  bookmarksModal: never; //?????
   children: React.ReactNode;
 }) {
   return (

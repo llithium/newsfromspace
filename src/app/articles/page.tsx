@@ -8,6 +8,7 @@ import { fetchArticlesAndBlogs } from "../utils/fetchArticlesAndBlogs";
 import { ArticlesAndBlogs } from "./components/Articles";
 import ArticlesSearchResults from "./components/ArticlesSearchResults";
 import { apiURL, pageLimit } from "@/utils/variables";
+import { Suspense } from "react";
 
 export default async function Page({
   searchParams,
@@ -37,7 +38,9 @@ export default async function Page({
     });
     return (
       <HydrationBoundary state={dehydrate(queryClient)}>
-        <ArticlesSearchResults />
+        <Suspense>
+          <ArticlesSearchResults />
+        </Suspense>
       </HydrationBoundary>
     );
   } else {

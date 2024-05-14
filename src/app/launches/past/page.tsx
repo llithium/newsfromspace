@@ -8,6 +8,7 @@ import { LaunchesData } from "../components/Launches";
 import PastLaunches from "./components/PastLaunches";
 import PastLaunchesSearchResults from "./components/PastLaunchesSearchResults";
 import { launchApiUrl, pageLimit } from "@/utils/variables";
+import { Suspense } from "react";
 
 export default async function Page({
   searchParams,
@@ -41,7 +42,9 @@ export default async function Page({
     });
     return (
       <HydrationBoundary state={dehydrate(queryClient)}>
-        <PastLaunchesSearchResults />
+        <Suspense>
+          <PastLaunchesSearchResults />
+        </Suspense>
       </HydrationBoundary>
     );
   } else {
