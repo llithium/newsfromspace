@@ -105,7 +105,7 @@ export default function AppNavbar() {
             </DropdownTrigger>
           </NavbarItem>
           <DropdownMenu
-            aria-label="ACME features"
+            aria-label="Launches"
             className="w-44"
             itemClasses={{
               base: "gap-4",
@@ -120,26 +120,6 @@ export default function AppNavbar() {
             </DropdownItem>
           </DropdownMenu>
         </Dropdown>
-        {/* <NavbarItem isActive={pathname.startsWith("/launches")}>
-          <Link
-            className="flex items-center transition-opacity hover:opacity-80 active:opacity-disabled"
-            color="foreground"
-            href="/launches"
-          >
-            Launches
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="22"
-              height="22"
-              viewBox="0 0 24 24"
-            >
-              <path
-                fill="#888888"
-                d="m17.5 8.086l-5.5 5.5l-5.5-5.5L5.086 9.5L12 16.414L18.914 9.5z"
-              />
-            </svg>
-          </Link>
-        </NavbarItem> */}
         <NavbarItem isActive={pathname.startsWith("/blogs")}>
           <Link
             className="transition-opacity hover:opacity-80 active:opacity-disabled"
@@ -196,7 +176,7 @@ export default function AppNavbar() {
         ) : (
           <>
             <NavbarItem>
-              <Dropdown shouldBlockScroll={false}>
+              <Dropdown>
                 <DropdownTrigger>
                   <Button variant="flat" isIconOnly>
                     <svg
@@ -252,15 +232,48 @@ export default function AppNavbar() {
             Articles
           </Link>
         </NavbarMenuItem>
-        <NavbarMenuItem isActive={pathname.startsWith("/launches")}>
-          <Link
-            color="foreground"
-            className="w-full transition-opacity hover:opacity-80 active:opacity-disabled"
-            href="/launches"
+        <Dropdown>
+          <NavbarMenuItem isActive={pathname.startsWith("/launches")}>
+            <DropdownTrigger>
+              <Button
+                className={`flex items-center px-0 text-lg text-foreground transition-opacity hover:opacity-80 active:opacity-disabled ${pathname.startsWith("/launches") && "font-semibold"}`}
+                // color="foreground"
+                variant="light"
+                endContent={
+                  <svg
+                    className="px-0"
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="22"
+                    height="22"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      fill="#888888"
+                      d="m17.5 8.086l-5.5 5.5l-5.5-5.5L5.086 9.5L12 16.414L18.914 9.5z"
+                    />
+                  </svg>
+                }
+              >
+                Launches
+              </Button>
+            </DropdownTrigger>
+          </NavbarMenuItem>
+          <DropdownMenu
+            aria-label="Launches"
+            className="w-44"
+            itemClasses={{
+              base: "gap-4",
+              title: "text-center text-medium",
+            }}
           >
-            Launches
-          </Link>
-        </NavbarMenuItem>
+            <DropdownItem as={Link} href="/launches" key="upcoming">
+              Upcoming
+            </DropdownItem>
+            <DropdownItem as={Link} href="/launches/past" key="past">
+              Past
+            </DropdownItem>
+          </DropdownMenu>
+        </Dropdown>
         <NavbarMenuItem isActive={pathname.startsWith("/blogs")}>
           <Link
             color="foreground"

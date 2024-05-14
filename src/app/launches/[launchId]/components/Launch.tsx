@@ -338,7 +338,8 @@ export default function LaunchInformationPage({
                       data.pad.location.total_launch_count}
                   </p>
                   <p className="w-fit font-semibold">
-                    Pad Launches: {data.pad && data.pad.total_launch_count}
+                    Launched From This Pad:{" "}
+                    {data.pad && data.pad.total_launch_count}
                   </p>
                   {data.pad && data.pad.wiki_url && (
                     <Link
