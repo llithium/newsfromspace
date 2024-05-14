@@ -5,11 +5,8 @@ import {
 } from "@tanstack/react-query";
 import Launches, { LaunchesData } from "./components/Launches";
 import { fetchUpcomingLaunches } from "./utils/fetchUpcomingLaunches";
-import { pageLimit } from "../articles/page";
 import LaunchesSearchResults from "./components/LaunchesSearchResults";
-
-// export const launchApiUrl = "https://ll.thespacedevs.com/2.2.0";
-export const launchApiUrl = "https://lldev.thespacedevs.com/2.2.0"; // * For development
+import { launchApiUrl, pageLimit } from "@/utils/variables";
 
 export default async function Page({
   searchParams,

@@ -3,9 +3,9 @@
 import ArticleAndBlogModal from "../../../components/ArticleAndBlogModal";
 import { Spinner } from "@nextui-org/react";
 import { useQuery } from "@tanstack/react-query";
-import { apiURL } from "../../../articles/page";
 import fetchBlog from "../../utils/fetchblog";
 import { notFound } from "next/navigation";
+import { apiURL } from "@/utils/variables";
 
 export default function BlogCard({ params }: { params: { blogId: string } }) {
   const { isPending, isError, data, error } = useQuery({

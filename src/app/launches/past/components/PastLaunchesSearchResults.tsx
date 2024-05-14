@@ -14,10 +14,9 @@ import { useInView } from "react-intersection-observer";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { fetchPastLaunches } from "../utils/fetchPastLaunches";
 import { useSearchParams } from "next/navigation";
-import { pageLimit } from "@/articles/page";
 import formatDate from "@/utils/formatDate";
 import InfiniteScrollSpinner from "@/components/InfiniteScrollSpinner";
-import { launchApiUrl } from "@/launches/page";
+import { launchApiUrl, pageLimit } from "@/utils/variables";
 
 export default function PastLaunchesSearchResults() {
   const searchParams = useSearchParams();

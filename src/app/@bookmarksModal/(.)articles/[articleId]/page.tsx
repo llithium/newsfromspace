@@ -1,8 +1,8 @@
 import ArticleCard, {
   ArticleAndBlog,
 } from "@/articles/[articleId]/components/ArticleCard";
-import { apiURL } from "@/articles/page";
 import fetchArticle from "@/articles/utils/fetchArticle";
+import { apiURL } from "@/utils/variables";
 import {
   dehydrate,
   HydrationBoundary,

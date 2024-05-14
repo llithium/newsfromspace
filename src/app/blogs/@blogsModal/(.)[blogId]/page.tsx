@@ -5,9 +5,9 @@ import {
 } from "@tanstack/react-query";
 import BlogCard from "../../[blogId]/components/BlogCard";
 import fetchBlog from "../../utils/fetchblog";
-import { apiURL } from "../../../articles/page";
 import { Metadata } from "next";
 import { ArticleAndBlog } from "../../../articles/[articleId]/components/ArticleCard";
+import { apiURL } from "@/utils/variables";
 
 export async function generateMetadata({
   params,

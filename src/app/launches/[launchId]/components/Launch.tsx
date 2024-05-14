@@ -12,12 +12,11 @@ import {
   Tooltip,
 } from "@nextui-org/react";
 import { useQuery } from "@tanstack/react-query";
-
-import { launchApiUrl } from "../../page";
 import formatDate from "../../../utils/formatDate";
 import fetchLaunch from "../../utils/fetchLaunch";
 import { RelatedArticles } from "../page";
 import dynamic from "next/dynamic";
+import { launchApiUrl } from "@/utils/variables";
 const CountdownTimer = dynamic(
   () => import("../../../components/CountdownTimer"),
   {

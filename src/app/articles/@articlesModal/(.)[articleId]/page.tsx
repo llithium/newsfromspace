@@ -7,8 +7,8 @@ import ArticleCard, {
   ArticleAndBlog,
 } from "../../[articleId]/components/ArticleCard.tsx";
 import fetchArticle from "../../utils/fetchArticle.ts";
-import { apiURL } from "../../page.tsx";
 import { Metadata } from "next";
+import { apiURL } from "@/utils/variables.ts";
 
 export async function generateMetadata({
   params,

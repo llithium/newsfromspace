@@ -8,12 +8,11 @@ import {
   Divider,
 } from "@nextui-org/react";
 import Link from "next/link";
-import { launchApiUrl } from "../launches/page";
 import formatDate from "../utils/formatDate";
 import dynamic from "next/dynamic";
 import { ArticlesAndBlogs } from "../articles/components/Articles";
-import { apiURL } from "../articles/page";
 import { LaunchesData } from "@/launches/components/Launches";
+import { apiURL, launchApiUrl } from "@/utils/variables";
 const CountdownTimer = dynamic(() => import("../components/CountdownTimer"), {
   ssr: false,
 });

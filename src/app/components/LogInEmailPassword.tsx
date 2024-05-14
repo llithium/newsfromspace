@@ -1,10 +1,6 @@
 "use client";
 import { Button, Input } from "@nextui-org/react";
-
 import { useState } from "react";
-import { EyeSlashFilledIcon } from "@/components/EyeSlashFilledIcon";
-import { EyeFilledIcon } from "@/components/EyeFilledIcon";
-
 import { login } from "@/login/actions";
 import Link from "next/link";
 import { z } from "zod";
@@ -14,10 +10,6 @@ const emailSchema = z
   .email({ message: "Invalid Email" })
   .toLowerCase()
   .max(128, { message: "Email cannot exceed 128 characters" });
-const passwordSchema = z
-  .string()
-  .min(8, { message: "Password must be 8 or more characters long" })
-  .max(128, { message: "Password cannot exceed 128 characters" });
 
 const LoginEmailPassword = () => {
   const [emailIsInvalid, setEmailIsInvalid] = useState(false);

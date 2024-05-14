@@ -31,26 +31,22 @@ export default function ArticleAndBlogModal({
     session: null,
   });
   const [bookmarked, setBookmarked] = useState(false);
-  const [error, setError] = useState<unknown>(null);
+
   const opts = pathname.split("/").filter((part) => part !== "");
   useEffect(() => {
     const fetchUserData = async () => {
       const supabase = createClient();
+
       const error = await checkBookmark(opts[0], opts[1]);
       !error ? setBookmarked(true) : null;
-      try {
-        const { data, error } = await supabase.auth.getSession();
-        if (error) {
-          setError(error.message);
-        } else {
-          setSessionData(data as SessionData);
-        }
-      } catch (error: unknown) {
-        setError(error);
+
+      const { data, error: getSessionError } = await supabase.auth.getSession();
+      if (!getSessionError) {
+        setSessionData(data as SessionData);
       }
     };
     fetchUserData();
-  }, []);
+  });
   return (
     <div
       className="modalWrapper fixed inset-0 z-50 flex h-dvh w-screen flex-col items-center justify-center bg-white/40 backdrop-blur-sm dark:bg-black/40"

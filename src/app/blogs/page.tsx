@@ -5,9 +5,9 @@ import {
 } from "@tanstack/react-query";
 import Blogs from "./components/Blogs";
 import { fetchArticlesAndBlogs } from "../utils/fetchArticlesAndBlogs";
-import { apiURL, pageLimit } from "../articles/page";
 import { ArticlesAndBlogs } from "../articles/components/Articles";
 import BlogsSearchResults from "./components/BlogsSearchResults";
+import { apiURL, pageLimit } from "@/utils/variables";
 
 export default async function Page({
   searchParams,

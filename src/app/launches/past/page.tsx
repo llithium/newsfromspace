@@ -5,10 +5,9 @@ import {
 } from "@tanstack/react-query";
 import { fetchPastLaunches } from "./utils/fetchPastLaunches";
 import { LaunchesData } from "../components/Launches";
-import { pageLimit } from "@/articles/page";
 import PastLaunches from "./components/PastLaunches";
 import PastLaunchesSearchResults from "./components/PastLaunchesSearchResults";
-import { launchApiUrl } from "../page";
+import { launchApiUrl, pageLimit } from "@/utils/variables";
 
 export default async function Page({
   searchParams,

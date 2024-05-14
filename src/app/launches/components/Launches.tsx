@@ -15,9 +15,8 @@ import { useInfiniteQuery } from "@tanstack/react-query";
 import formatDate from "../../utils/formatDate";
 
 import { fetchUpcomingLaunches } from "../utils/fetchUpcomingLaunches";
-import { pageLimit } from "../../articles/page";
-import { launchApiUrl } from "../page";
 import InfiniteScrollSpinner from "../../components/InfiniteScrollSpinner";
+import { launchApiUrl, pageLimit } from "@/utils/variables";
 
 export default function Launches() {
   const { data, isError, error, fetchNextPage, isFetchingNextPage } =

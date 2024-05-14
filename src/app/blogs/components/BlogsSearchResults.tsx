@@ -5,10 +5,10 @@ import formatDate from "../../utils/formatDate";
 import { useInView } from "react-intersection-observer";
 import { fetchArticlesAndBlogs } from "../../utils/fetchArticlesAndBlogs";
 import { useInfiniteQuery } from "@tanstack/react-query";
-import { apiURL, pageLimit } from "../../articles/page";
 import Link from "next/link";
 import InfiniteScrollSpinner from "../../components/InfiniteScrollSpinner";
 import { useSearchParams } from "next/navigation";
+import { apiURL, pageLimit } from "@/utils/variables";
 
 export default function BlogsSearchResults() {
   const searchParams = useSearchParams();

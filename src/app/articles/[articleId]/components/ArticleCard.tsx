@@ -2,10 +2,10 @@
 import { Spinner } from "@nextui-org/react";
 import { useQuery } from "@tanstack/react-query";
 import { Launch } from "../../components/Articles";
-import { apiURL } from "../../page";
 import ArticleAndBlogModal from "../../../components/ArticleAndBlogModal";
 import fetchArticle from "../../utils/fetchArticle";
 import { notFound } from "next/navigation";
+import { apiURL } from "@/utils/variables";
 
 export interface ArticleAndBlog {
   id: number;

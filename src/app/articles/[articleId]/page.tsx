@@ -5,8 +5,8 @@ import {
 } from "@tanstack/react-query";
 import ArticleCard, { ArticleAndBlog } from "./components/ArticleCard";
 import fetchArticle from "../utils/fetchArticle";
-import { apiURL } from "../page";
 import { Metadata } from "next";
+import { apiURL } from "@/utils/variables";
 
 export async function generateMetadata({
   params,

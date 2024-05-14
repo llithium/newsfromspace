@@ -7,10 +7,7 @@ import Articles from "./components/Articles";
 import { fetchArticlesAndBlogs } from "../utils/fetchArticlesAndBlogs";
 import { ArticlesAndBlogs } from "./components/Articles";
 import ArticlesSearchResults from "./components/ArticlesSearchResults";
-
-export const apiURL = "https://api.spaceflightnewsapi.net/v4";
-
-export const pageLimit = "40";
+import { apiURL, pageLimit } from "@/utils/variables";
 
 export default async function Page({
   searchParams,

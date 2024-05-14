@@ -5,11 +5,10 @@ import {
 } from "@tanstack/react-query";
 import LaunchInformationPage, { Launch } from "./components/Launch";
 import fetchLaunch from "../utils/fetchLaunch";
-import { launchApiUrl } from "../page";
 import { Metadata } from "next";
-import { apiURL } from "../../articles/page";
 import { Result } from "../../articles/components/Articles";
 import { notFound } from "next/navigation";
+import { apiURL, launchApiUrl } from "@/utils/variables";
 
 export async function generateMetadata({
   params,

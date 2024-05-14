@@ -1,5 +1,5 @@
 "use client";
-import { pageLimit } from "@/articles/page";
+import { pageLimit } from "@/utils/variables";
 import { Pagination } from "@nextui-org/react";
 import { usePathname, useRouter } from "next/navigation";
 

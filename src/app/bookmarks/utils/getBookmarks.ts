@@ -1,8 +1,8 @@
 import { ArticleAndBlog } from "@/articles/[articleId]/components/ArticleCard";
-import { apiURL } from "@/articles/page";
 import fetchArticle from "@/articles/utils/fetchArticle";
 import fetchBlog from "@/blogs/utils/fetchblog";
 import { Bookmark, BookmarkData } from "@/components/LoggedInHomePage";
+import { apiURL } from "@/utils/variables";
 
 export async function getBookmarks(
   bookmarksData: BookmarkData[],

@@ -5,8 +5,8 @@ import { Card, CardBody, Image, Divider } from "@nextui-org/react";
 import formatDate from "@/utils/formatDate";
 import Link from "next/link";
 import PageButtons from "./components/PageButtons";
-import { pageLimit } from "@/articles/page";
 import { getBookmarks } from "./utils/getBookmarks";
+import { pageLimit } from "@/utils/variables";
 
 export default async function BookmrksPage({
   searchParams,
@@ -33,10 +33,13 @@ export default async function BookmrksPage({
     .eq("user_id", userData.user?.id);
 
   if (
-    !count ||
-    parseInt(searchParams.page) > Math.ceil(count / parseInt(pageLimit))
+    parseInt(searchParams.page) > Math.ceil(count || 0 / parseInt(pageLimit))
   ) {
     redirect(`/bookmarks`);
+  }
+  if (getBookmarksError) {
+    console.log(getBookmarksError?.message);
+    throw new Error(getBookmarksError.message);
   }
 
   const bookmarksArray = await getBookmarks(bookmarks as BookmarkData[]);
@@ -59,7 +62,6 @@ export default async function BookmrksPage({
                       className="z-0 ml-2 h-full w-44 flex-shrink rounded-xl object-cover sm:w-44 sm:flex-1 lg:w-56"
                       src={bookmark.image_url}
                     />
-
                     <CardBody className="flex-grow overflow-visible overflow-y-auto py-0 sm:flex-1">
                       <h2 className="pb-0 text-medium font-bold tracking-tight transition-colors first:mt-0 sm:text-xl 2xl:text-2xl">
                         {bookmark.title}
@@ -113,35 +115,17 @@ export default async function BookmrksPage({
           })
         ) : (
           <Card className="flex min-h-52 w-full flex-row items-center justify-center p-3 sm:h-full">
-            {/* <h2 className="text-semibold font-bold sm:text-xl 2xl:text-2xl">
-            Add bookmarks with{" "}
-            <span>
-              <svg
-                className="inline transition-opacity hover:opacity-80 active:opacity-disabled"
-                xmlns="http://www.w3.org/2000/svg"
-                width="32"
-                height="32"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  fill="currentColor"
-                  d="M20 0v3h3v2h-3v3h-2V5h-3V3h3V0zM4 3h9v2H6v14.057l6-4.286l6 4.286V10h2v12.943l-8-5.714l-8 5.714z"
-                />
-              </svg>
-            </span>{" "}
-            to see them here
-          </h2> */}
             <h2 className="text-center text-2xl font-semibold">
-              No Bookmarks to show
+              You have 0 bookmarks
             </h2>
           </Card>
         )}
       </div>
-      {count && (
+      {count ? (
         <div className="mx-auto w-fit py-4">
           <PageButtons count={count} page={searchParams.page || "1"} />
         </div>
-      )}
+      ) : null}
     </>
   );
 }

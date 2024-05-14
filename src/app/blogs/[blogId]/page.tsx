@@ -4,10 +4,10 @@ import {
   QueryClient,
 } from "@tanstack/react-query";
 import BlogCard from "./components/BlogCard";
-import { apiURL } from "../../articles/page";
 import fetchBlog from "../utils/fetchblog";
 import { Metadata } from "next";
 import { ArticleAndBlog } from "../../articles/[articleId]/components/ArticleCard";
+import { apiURL } from "@/utils/variables";
 
 export async function generateMetadata({
   params,

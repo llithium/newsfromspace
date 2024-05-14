@@ -15,10 +15,9 @@ import { useInfiniteQuery } from "@tanstack/react-query";
 import formatDate from "../../utils/formatDate";
 
 import { fetchUpcomingLaunches } from "../utils/fetchUpcomingLaunches";
-import { pageLimit } from "../../articles/page";
-import { launchApiUrl } from "../page";
 import InfiniteScrollSpinner from "../../components/InfiniteScrollSpinner";
 import { useSearchParams } from "next/navigation";
+import { launchApiUrl, pageLimit } from "@/utils/variables";
 
 export default function LaunchesSearchResults() {
   const searchParams = useSearchParams();

@@ -6,10 +6,10 @@ import { useInView } from "react-intersection-observer";
 import { useEffect } from "react";
 import { fetchArticlesAndBlogs } from "../../utils/fetchArticlesAndBlogs";
 import formatDate from "../../utils/formatDate";
-import { apiURL, pageLimit } from "../page";
 import Link from "next/link";
 import InfiniteScrollSpinner from "../../components/InfiniteScrollSpinner";
 import { useSearchParams } from "next/navigation";
+import { apiURL, pageLimit } from "@/utils/variables";
 
 export default function ArticlesSearchResults() {
   const searchParams = useSearchParams();
