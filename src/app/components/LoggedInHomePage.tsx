@@ -100,7 +100,7 @@ export default async function LoggedInHomePage({
                     <Card className="flex h-fit min-h-52 w-full flex-row py-2 ">
                       <Image
                         alt="Blog image"
-                        className="z-0 ml-2 h-full w-44 flex-shrink rounded-xl object-cover sm:w-44 sm:flex-1 lg:w-56"
+                        className="z-0 ml-2 h-full max-h-48 w-44 flex-shrink rounded-xl object-cover sm:w-44 sm:flex-1 lg:w-56"
                         src={bookmark.image_url}
                       />
 

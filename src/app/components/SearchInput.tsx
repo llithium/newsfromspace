@@ -7,7 +7,6 @@ const SearchInput = () => {
   const searchParams = useSearchParams();
   const searchValue = searchParams.get("q");
   const search = (formData: FormData) => {
-    console.log(pathname);
     switch (pathname) {
       case "/articles":
         redirect(`/articles/?q=${formData.get("search")}`);

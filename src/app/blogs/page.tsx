@@ -9,6 +9,19 @@ import { ArticlesAndBlogs } from "../articles/components/Articles";
 import BlogsSearchResults from "./components/BlogsSearchResults";
 import { apiURL, pageLimit } from "@/utils/variables";
 import { Suspense } from "react";
+import { Metadata } from "next";
+
+export async function generateMetadata({
+  searchParams,
+}: {
+  searchParams: { [key: string]: string | undefined };
+}): Promise<Metadata> {
+  return {
+    title:
+      (searchParams.q && searchParams.q + " - News From Space") ||
+      "News From Space",
+  };
+}
 
 export default async function Page({
   searchParams,

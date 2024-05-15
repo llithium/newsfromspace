@@ -8,6 +8,19 @@ import { fetchUpcomingLaunches } from "./utils/fetchUpcomingLaunches";
 import LaunchesSearchResults from "./components/LaunchesSearchResults";
 import { launchApiUrl, pageLimit } from "@/utils/variables";
 import { Suspense } from "react";
+import { Metadata } from "next";
+
+export async function generateMetadata({
+  searchParams,
+}: {
+  searchParams: { [key: string]: string | undefined };
+}): Promise<Metadata> {
+  return {
+    title:
+      (searchParams.q && searchParams.q + " - News From Space") ||
+      "News From Space",
+  };
+}
 
 export default async function Page({
   searchParams,
