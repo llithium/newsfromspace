@@ -236,9 +236,10 @@ export default function AppNavbar() {
           <NavbarMenuItem isActive={pathname.startsWith("/launches")}>
             <DropdownTrigger>
               <Button
-                className={`flex items-center px-0 text-lg text-foreground transition-opacity hover:opacity-80 active:opacity-disabled ${pathname.startsWith("/launches") && "font-semibold"}`}
+                className={`flex h-7 items-center px-0 text-lg text-foreground transition-opacity hover:opacity-80 active:opacity-disabled ${pathname.startsWith("/launches") && "font-semibold"}`}
                 // color="foreground"
                 variant="light"
+                size="sm"
                 endContent={
                   <svg
                     className="px-0"

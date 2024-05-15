@@ -26,7 +26,7 @@ export default function Error({
       >
         <div className="mx-auto flex h-full w-fit flex-col items-center justify-center gap-2">
           <h2 className="text-xl font-bold">Something went wrong!</h2>
-          <p>Error loading blog</p>
+          <p>{error.message}</p>
           <Button color="default" onClick={reset}>
             Try again
           </Button>
