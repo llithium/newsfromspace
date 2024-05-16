@@ -37,7 +37,7 @@ const LogInEmailLink = () => {
   }
 
   return (
-    <form className="flex flex-col items-center gap-4">
+    <form className="flex w-full flex-col items-center gap-4">
       <Input
         isRequired
         isInvalid={emailIsInvalid}

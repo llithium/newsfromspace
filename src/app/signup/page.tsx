@@ -1,6 +1,8 @@
 import { createClient } from "@/utils/supabase/server";
 import { redirect } from "next/navigation";
-import SignUpPage from "./components/SignUpPage";
+import { Card, CardBody } from "@nextui-org/react";
+import OauthButtons from "@/components/OauthButtons";
+import SignUpTabs from "@/components/SignUpTabs";
 
 export default async function Page() {
   const supabase = createClient();
@@ -8,5 +10,14 @@ export default async function Page() {
   if (data.user) {
     redirect("/account");
   }
-  return <SignUpPage />;
+  return (
+    <div className="mx-auto flex w-5/6 flex-row justify-center">
+      <Card className="w-full max-w-[400px] py-1">
+        <OauthButtons />
+        <CardBody>
+          <SignUpTabs />
+        </CardBody>
+      </Card>
+    </div>
+  );
 }
