@@ -50,7 +50,7 @@ export default function ArticleAndBlogModal({
   }, [type, id]);
   return (
     <div
-      className="modalWrapper fixed inset-0 z-50 flex h-dvh w-screen flex-col items-center justify-center bg-white/40 backdrop-blur-sm dark:bg-black/40"
+      className="modalWrapper fixed inset-0 z-40 flex h-dvh w-screen flex-col items-center justify-center bg-white/40 backdrop-blur-sm dark:bg-black/40"
       onClick={() => router.back()}
     >
       <div

@@ -161,7 +161,6 @@ export async function signup(formData: FormData) {
     };
     const { data: user, error } = await supabase.auth.signUp(data);
     if (error) {
-      console.log(error.message);
       return error.message;
     }
     if (user.user?.identities?.length == 0) {

@@ -13,8 +13,7 @@ export async function deleteUser() {
 
   const { error } = await supabase.rpc("delete_user");
   if (error) {
-    console.log(error);
-    redirect("/");
+    throw new Error(error.message);
   }
   await supabase.auth.signOut();
   revalidatePath("/");

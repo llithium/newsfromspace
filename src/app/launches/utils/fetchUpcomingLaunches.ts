@@ -10,7 +10,6 @@ export async function fetchUpcomingLaunches({
     const LaunchesUpcoming: LaunchesData = await apiResponse.json();
     return LaunchesUpcoming;
   } catch (error) {
-    console.log(error);
     throw new Error("API request failed");
   }
 }

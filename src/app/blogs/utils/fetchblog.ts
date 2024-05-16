@@ -10,7 +10,6 @@ export default async function fetchBlog(
       const blog = await res.json();
       return blog;
     } catch (error) {
-      console.log(error);
       throw new Error("API request failed");
     }
   }

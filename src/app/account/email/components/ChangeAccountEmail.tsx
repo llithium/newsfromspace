@@ -27,7 +27,6 @@ const ChangeAccountEmail = () => {
       if (error) {
         setEmailIsInvalid(true);
         setEmailErrorMessage(error);
-        console.log(error);
       }
     }
   }

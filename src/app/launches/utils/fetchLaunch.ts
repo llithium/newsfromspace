@@ -12,7 +12,6 @@ export default async function fetchLaunch(
       const launch: Launch = await apiResponse.json();
       return launch;
     } catch (error) {
-      console.log(error);
       throw new Error("API request failed");
     }
   }

@@ -10,7 +10,6 @@ export default async function fetchArticle(
       const article = await apiResponse.json();
       return article;
     } catch (error) {
-      console.log(error);
       throw new Error("API request failed");
     }
   }

@@ -38,7 +38,6 @@ export default async function BookmrksPage({
     redirect(`/bookmarks`);
   }
   if (getBookmarksError) {
-    console.log(getBookmarksError?.message);
     throw new Error(getBookmarksError.message);
   }
 

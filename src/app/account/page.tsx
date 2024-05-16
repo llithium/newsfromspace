@@ -3,6 +3,11 @@ import { createClient } from "@/utils/supabase/server";
 import DeleteAccountButton from "./components/DeleteAccountButton";
 import { Button, Card, CardBody, Image, Spacer } from "@nextui-org/react";
 import Link from "next/link";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Account - News From Space",
+};
 
 export default async function AccountPage() {
   const supabase = createClient();

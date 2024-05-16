@@ -12,7 +12,6 @@ export async function fetchArticlesAndBlogs({
     const articlesAndBlogs: ArticlesAndBlogs = await apiResponse.json();
     return articlesAndBlogs;
   } catch (error) {
-    console.log(error);
     throw new Error("API request failed");
   }
 }

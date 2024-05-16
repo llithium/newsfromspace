@@ -49,7 +49,7 @@ export default function AppNavbar() {
   }, [pathname]);
 
   return (
-    <Navbar className="mb-3" onMenuOpenChange={setIsMenuOpen}>
+    <Navbar className="z-50 mb-3" onMenuOpenChange={setIsMenuOpen}>
       <NavbarContent>
         <NavbarMenuToggle
           aria-label={isMenuOpen ? "Close menu" : "Open menu"}

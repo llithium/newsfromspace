@@ -6,7 +6,6 @@ export async function fetchPastLaunches({ pageParam }: { pageParam: string }) {
     const pastLaunches: LaunchesData = await apiResponse.json();
     return pastLaunches;
   } catch (error) {
-    console.log(error);
     throw new Error("API request failed");
   }
 }

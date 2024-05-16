@@ -29,7 +29,6 @@ export default function ArticlesSearchResults() {
   useEffect(() => {
     inView && fetchNextPage();
   }, [inView, fetchNextPage]);
-  console.log(data);
 
   return (
     <>
