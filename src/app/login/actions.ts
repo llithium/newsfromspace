@@ -4,6 +4,7 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { createClient } from "@/utils/supabase/server";
 import { z } from "zod";
+import getURL from "@/utils/getURL";
 
 const emailSchema = z
   .string()
@@ -21,44 +22,84 @@ export async function signInWithEmailLink(formData: FormData) {
   const emailResult = emailSchema.safeParse(formData.get("email"));
   if (!emailResult.success) {
     throw new Error(emailResult.error.message);
+  }
+  const { error } = await supabase.auth.signInWithOtp({
+    email: emailResult.data,
+    options: {
+      // set this to false if you do not want the user to be automatically signed up
+      // shouldCreateUser: false,
+      // emailRedirectTo: "https://example.com/welcome",
+      emailRedirectTo: getURL(),
+    },
+  });
+  if (!error) {
+    revalidatePath("/", "layout");
+    redirect("/login/confirm");
   } else {
-    const { error } = await supabase.auth.signInWithOtp({
-      email: emailResult.data,
-      options: {
-        // set this to false if you do not want the user to be automatically signed up
-        // shouldCreateUser: false,
-        // emailRedirectTo: "https://example.com/welcome",
-      },
-    });
-    if (!error) {
-      revalidatePath("/", "layout");
-      redirect("/login/confirm");
-    } else {
-      return error.message;
-    }
+    return error.message;
   }
 }
 
 export async function changeEmail(formData: FormData) {
   const supabase = createClient();
+  const emailResult = emailSchema.safeParse(formData.get("email"));
+
+  if (!emailResult.success) {
+    throw new Error(emailResult.error.message);
+  }
 
   const { data } = await supabase.auth.getUser();
   if (data.user?.email === formData.get("email")) {
     return `Your account's Email is already set to ${data.user.email}`;
   }
 
+  const { error } = await supabase.auth.updateUser({
+    email: emailResult.data,
+  });
+  if (!error) {
+    redirect("/account/email/confirm");
+  } else {
+    return error.message;
+  }
+}
+
+export async function resetPassword(formData: FormData) {
+  const supabase = createClient();
+
   const emailResult = emailSchema.safeParse(formData.get("email"));
   if (!emailResult.success) {
     throw new Error(emailResult.error.message);
+  }
+
+  const { error } = await supabase.auth.resetPasswordForEmail(
+    emailResult.data,
+    {
+      redirectTo: `${getURL()}account/reset`,
+    },
+  );
+  if (!error) {
+    redirect("/login/reset/confirm");
   } else {
-    const { error } = await supabase.auth.updateUser({
-      email: emailResult.data,
-    });
-    if (!error) {
-      redirect("/account/email/confirm");
-    } else {
-      return error.message;
-    }
+    return error.message;
+  }
+}
+
+export async function updatePassword(formData: FormData) {
+  const supabase = createClient();
+  const passwordResult = passwordSchema.safeParse(formData.get("password"));
+
+  if (!passwordResult.success) {
+    throw new Error(passwordResult.error.message);
+  }
+
+  const { error } = await supabase.auth.updateUser({
+    password: passwordResult.data,
+  });
+
+  if (!error) {
+    redirect("/account/");
+  } else {
+    return error.message;
   }
 }
 
@@ -72,6 +113,7 @@ export async function oauthGoogle() {
         access_type: "offline",
         prompt: "consent",
       },
+      redirectTo: getURL(),
     },
   });
 
@@ -89,6 +131,7 @@ export async function oauthX() {
 
   const { data, error } = await supabase.auth.signInWithOAuth({
     provider: "twitter",
+    options: { redirectTo: getURL() },
   });
 
   if (!error) {
@@ -105,6 +148,7 @@ export async function oauthDiscord() {
 
   const { data, error } = await supabase.auth.signInWithOAuth({
     provider: "discord",
+    options: { redirectTo: getURL() },
   });
 
   if (!error) {
@@ -159,7 +203,13 @@ export async function signup(formData: FormData) {
       email: emailResult.data,
       password: passwordResult.data,
     };
-    const { data: user, error } = await supabase.auth.signUp(data);
+    const { data: user, error } = await supabase.auth.signUp({
+      email: data.email,
+      password: data.password,
+      options: {
+        emailRedirectTo: getURL(),
+      },
+    });
     if (error) {
       return error.message;
     }

@@ -1,7 +1,14 @@
 import { redirect } from "next/navigation";
 import { createClient } from "@/utils/supabase/server";
 import DeleteAccountButton from "./components/DeleteAccountButton";
-import { Button, Card, CardBody, Image, Spacer } from "@nextui-org/react";
+import {
+  Button,
+  ButtonGroup,
+  Card,
+  CardBody,
+  Image,
+  Spacer,
+} from "@nextui-org/react";
 import Link from "next/link";
 import { Metadata } from "next";
 
@@ -58,14 +65,24 @@ export default async function AccountPage() {
           {data.user.email && (
             <div className="flex flex-col gap-2">
               <p className="w-fit">Email: {data.user.email}</p>
-              <Button
-                as={Link}
-                href="/account/email"
-                className="w-26 text-medium"
-                size="sm"
-              >
-                Change Email
-              </Button>
+              <ButtonGroup className="w-full">
+                <Button
+                  as={Link}
+                  href="/account/email"
+                  className="w-full text-medium"
+                  size="sm"
+                >
+                  Change Email
+                </Button>
+                <Button
+                  as={Link}
+                  href="/account/reset"
+                  className="w-full text-medium"
+                  size="sm"
+                >
+                  Change Password
+                </Button>
+              </ButtonGroup>
             </div>
           )}
 

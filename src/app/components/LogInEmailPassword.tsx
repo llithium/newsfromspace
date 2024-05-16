@@ -97,7 +97,12 @@ const LoginEmailPassword = () => {
       >
         Log in
       </Button>
-      <p className="text-sm opacity-60">Forgot your password?</p>
+      <Link
+        className="transition-opacity hover:opacity-80 active:opacity-disabled"
+        href="/login/reset"
+      >
+        <p className="text-sm opacity-60">Forgot your password?</p>
+      </Link>
       <Link
         className="transition-opacity hover:opacity-80 active:opacity-disabled"
         href="/signup"
