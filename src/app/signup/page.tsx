@@ -1,6 +1,6 @@
 import { createClient } from "@/utils/supabase/server";
 import { redirect } from "next/navigation";
-import { Card, CardBody } from "@nextui-org/react";
+import { Card, CardBody } from "@nextui-org/card";
 import OauthButtons from "@/components/OauthButtons";
 import SignUpTabs from "@/components/SignUpTabs";
 

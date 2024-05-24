@@ -1,5 +1,5 @@
 "use client";
-import { Spinner } from "@nextui-org/react";
+import { Spinner } from "@nextui-org/spinner";
 import { useQuery } from "@tanstack/react-query";
 import { Launch } from "../../components/Articles";
 import ArticleAndBlogModal from "../../../components/ArticleAndBlogModal";

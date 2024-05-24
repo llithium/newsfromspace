@@ -1,14 +1,14 @@
 "use client";
 import {
-  Button,
   Modal,
   ModalContent,
   ModalHeader,
   ModalBody,
   ModalFooter,
   useDisclosure,
-} from "@nextui-org/react";
+} from "@nextui-org/modal";
 import { deleteUser } from "../actions";
+import { Button } from "@nextui-org/button";
 
 const DeleteAccountButton = () => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();

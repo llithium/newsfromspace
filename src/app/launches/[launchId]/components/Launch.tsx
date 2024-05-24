@@ -1,22 +1,18 @@
 "use client";
 
-import {
-  Avatar,
-  Card,
-  CardBody,
-  CardFooter,
-  CardHeader,
-  Divider,
-  Image,
-  Link,
-  Tooltip,
-} from "@nextui-org/react";
+import { Card, CardBody, CardFooter, CardHeader } from "@nextui-org/card";
 import { useQuery } from "@tanstack/react-query";
 import formatDate from "../../../utils/formatDate";
 import fetchLaunch from "../../utils/fetchLaunch";
 import { RelatedArticles } from "../page";
 import dynamic from "next/dynamic";
 import { launchApiUrl } from "@/utils/variables";
+import { Image } from "@nextui-org/image";
+import { Tooltip } from "@nextui-org/tooltip";
+import { Link } from "@nextui-org/link";
+import { Avatar } from "@nextui-org/avatar";
+import { Divider } from "@nextui-org/divider";
+
 const CountdownTimer = dynamic(
   () => import("../../../components/CountdownTimer"),
   {

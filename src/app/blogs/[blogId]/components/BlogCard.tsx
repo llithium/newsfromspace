@@ -1,7 +1,7 @@
 "use client";
 
 import ArticleAndBlogModal from "../../../components/ArticleAndBlogModal";
-import { Spinner } from "@nextui-org/react";
+import { Spinner } from "@nextui-org/spinner";
 import { useQuery } from "@tanstack/react-query";
 import fetchBlog from "../../utils/fetchblog";
 import { notFound } from "next/navigation";

@@ -1,5 +1,5 @@
 "use client";
-import { Button, Input } from "@nextui-org/react";
+import { Button } from "@nextui-org/button";
 
 import { useState } from "react";
 import { EyeSlashFilledIcon } from "@/components/EyeSlashFilledIcon";
@@ -8,6 +8,7 @@ import { EyeFilledIcon } from "@/components/EyeFilledIcon";
 import { signup } from "@/login/actions";
 import Link from "next/link";
 import { z } from "zod";
+import { Input } from "@nextui-org/input";
 
 const emailSchema = z
   .string()

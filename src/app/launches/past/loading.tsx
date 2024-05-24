@@ -1,11 +1,6 @@
-import {
-  Card,
-  CardBody,
-  CardFooter,
-  CardHeader,
-  Divider,
-  Skeleton,
-} from "@nextui-org/react";
+import { Card, CardBody, CardFooter, CardHeader } from "@nextui-org/card";
+import { Divider } from "@nextui-org/divider";
+import { Skeleton } from "@nextui-org/skeleton";
 
 export default function Loading() {
   const grid = Array.from({ length: 42 }, (_, index) => index);

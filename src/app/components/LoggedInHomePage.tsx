@@ -1,12 +1,4 @@
-import {
-  Card,
-  CardBody,
-  CardHeader,
-  Image,
-  Tooltip,
-  Link as NextUILink,
-  Divider,
-} from "@nextui-org/react";
+import { Card, CardBody, CardHeader } from "@nextui-org/card";
 import Link from "next/link";
 import formatDate from "../utils/formatDate";
 import dynamic from "next/dynamic";
@@ -14,6 +6,11 @@ import { ArticlesAndBlogs, Launch } from "../articles/components/Articles";
 import { LaunchesData } from "@/launches/components/Launches";
 import { getBookmarks } from "@/bookmarks/utils/getBookmarks";
 import { fetchLatestArticles, fetchUpcomingLaunchesHomePage } from "./HomePage";
+import { Image } from "@nextui-org/image";
+import { Link as NextUILink } from "@nextui-org/link";
+import { Divider } from "@nextui-org/divider";
+import { Tooltip } from "@nextui-org/tooltip";
+
 const CountdownTimer = dynamic(() => import("../components/CountdownTimer"), {
   ssr: false,
 });

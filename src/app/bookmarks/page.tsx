@@ -1,12 +1,14 @@
 import { redirect } from "next/navigation";
 import { createClient } from "@/utils/supabase/server";
 import { BookmarkData } from "@/components/LoggedInHomePage";
-import { Card, CardBody, Image, Divider } from "@nextui-org/react";
+import { Card, CardBody } from "@nextui-org/card";
 import formatDate from "@/utils/formatDate";
 import Link from "next/link";
 import PageButtons from "./components/PageButtons";
 import { getBookmarks } from "./utils/getBookmarks";
 import { pageLimit } from "@/utils/variables";
+import { Image } from "@nextui-org/image";
+import { Divider } from "@nextui-org/divider";
 
 export default async function BookmrksPage({
   searchParams,

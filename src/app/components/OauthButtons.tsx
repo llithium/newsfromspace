@@ -1,6 +1,8 @@
 "use client";
 import { oauthDiscord, oauthGoogle, oauthX } from "@/login/actions";
-import { Button, CardHeader, Divider } from "@nextui-org/react";
+import { Button } from "@nextui-org/button";
+import { CardHeader } from "@nextui-org/card";
+import { Divider } from "@nextui-org/divider";
 
 const OauthButtons = () => {
   return (

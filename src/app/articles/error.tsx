@@ -1,5 +1,5 @@
 "use client";
-import { Button } from "@nextui-org/react";
+import { Button } from "@nextui-org/button";
 
 import { useEffect } from "react";
 

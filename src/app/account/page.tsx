@@ -1,16 +1,12 @@
 import { redirect } from "next/navigation";
 import { createClient } from "@/utils/supabase/server";
 import DeleteAccountButton from "./components/DeleteAccountButton";
-import {
-  Button,
-  ButtonGroup,
-  Card,
-  CardBody,
-  Image,
-  Spacer,
-} from "@nextui-org/react";
+import { Button, ButtonGroup } from "@nextui-org/button";
 import Link from "next/link";
 import { Metadata } from "next";
+import { Card, CardBody } from "@nextui-org/card";
+import { Image } from "@nextui-org/image";
+import { Spacer } from "@nextui-org/spacer";
 
 export const metadata: Metadata = {
   title: "Account - News From Space",

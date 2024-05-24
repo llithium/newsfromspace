@@ -1,5 +1,5 @@
 "use client";
-import { Input } from "@nextui-org/react";
+import { Input } from "@nextui-org/input";
 import { redirect, usePathname, useSearchParams } from "next/navigation";
 
 const SearchInput = () => {

@@ -1,6 +1,7 @@
 "use client";
 
-import { Button, forwardRef } from "@nextui-org/react";
+import { Button } from "@nextui-org/button";
+import { forwardRef } from "@nextui-org/react";
 import { useTheme } from "next-themes";
 import { useEffect, useState } from "react";
 

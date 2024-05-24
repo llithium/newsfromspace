@@ -1,5 +1,7 @@
 "use client";
-import { Card, CardBody, Divider, Image } from "@nextui-org/react";
+import { Card, CardBody } from "@nextui-org/card";
+import { Image } from "@nextui-org/image";
+import { Divider } from "@nextui-org/divider";
 import { useEffect } from "react";
 import formatDate from "../../utils/formatDate";
 import { useInView } from "react-intersection-observer";

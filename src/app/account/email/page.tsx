@@ -1,5 +1,5 @@
 import { createClient } from "@/utils/supabase/server";
-import { Card, CardBody } from "@nextui-org/react";
+import { Card, CardBody } from "@nextui-org/card";
 import { redirect } from "next/navigation";
 import ChangeAccountEmail from "./components/ChangeAccountEmail";
 

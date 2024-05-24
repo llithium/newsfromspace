@@ -7,13 +7,14 @@ import {
   NavbarMenuToggle,
   NavbarMenu,
   NavbarMenuItem,
-  Button,
+} from "@nextui-org/navbar";
+import {
   Dropdown,
   DropdownTrigger,
   DropdownMenu,
   DropdownItem,
-} from "@nextui-org/react";
-
+} from "@nextui-org/dropdown";
+import { Button } from "@nextui-org/button";
 import { Suspense, useEffect, useState } from "react";
 import ThemeSwitcher, { DropdownThemeSwitcher } from "./ThemeSwitcher";
 import { usePathname } from "next/navigation";

@@ -1,6 +1,6 @@
 "use client";
 import { pageLimit } from "@/utils/variables";
-import { Pagination } from "@nextui-org/react";
+import { Pagination } from "@nextui-org/pagination";
 import { usePathname, useRouter } from "next/navigation";
 
 const PageButtons = ({ count, page }: { count: number; page: string }) => {

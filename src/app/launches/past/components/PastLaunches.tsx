@@ -1,21 +1,16 @@
 "use client";
 import { useEffect } from "react";
-import {
-  Card,
-  CardHeader,
-  CardBody,
-  CardFooter,
-  Divider,
-  Link,
-  Image,
-  Tooltip,
-} from "@nextui-org/react";
+import { Card, CardHeader, CardBody, CardFooter } from "@nextui-org/card";
 import { useInView } from "react-intersection-observer";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { fetchPastLaunches } from "../utils/fetchPastLaunches";
 import formatDate from "@/utils/formatDate";
 import InfiniteScrollSpinner from "@/components/InfiniteScrollSpinner";
 import { launchApiUrl, pageLimit } from "@/utils/variables";
+import { Image } from "@nextui-org/image";
+import { Divider } from "@nextui-org/divider";
+import { Tooltip } from "@nextui-org/tooltip";
+import { Link } from "@nextui-org/link";
 
 export default function PastLaunches() {
   const { data, isError, error, fetchNextPage, isFetchingNextPage } =

@@ -1,6 +1,8 @@
 "use client";
 
-import { Card, CardBody, Divider, Image } from "@nextui-org/react";
+import { Card, CardBody } from "@nextui-org/card";
+import { Image } from "@nextui-org/image";
+import { Divider } from "@nextui-org/divider";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { useInView } from "react-intersection-observer";
 import { useEffect } from "react";

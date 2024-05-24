@@ -1,5 +1,5 @@
 "use client";
-import { Tab, Tabs } from "@nextui-org/react";
+import { Tab, Tabs } from "@nextui-org/tabs";
 import SignUpEmailLink from "./SignUpEmailLink";
 import SignUpEmailPassword from "./SignUpEmailPassword";
 

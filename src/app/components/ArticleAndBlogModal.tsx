@@ -1,13 +1,9 @@
 "use client";
-import {
-  Button,
-  Card,
-  CardBody,
-  CardHeader,
-  Divider,
-  Image,
-  Link,
-} from "@nextui-org/react";
+import { Card, CardBody, CardHeader } from "@nextui-org/card";
+import { Button } from "@nextui-org/button";
+import { Image } from "@nextui-org/image";
+import { Link } from "@nextui-org/link";
+import { Divider } from "@nextui-org/divider";
 import formatDate from "../utils/formatDate";
 import { useLockBodyScroll } from "@uidotdev/usehooks";
 import { usePathname, useRouter } from "next/navigation";
