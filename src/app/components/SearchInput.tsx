@@ -22,11 +22,12 @@ const SearchInput = () => {
     }
   };
   return (
-    <form action={search}>
+    <form className="w-full" action={search}>
       <Input
+        className="w-full"
         name="search"
         classNames={{
-          base: "max-w-full sm:max-w-[10rem] h-10",
+          base: "w-full h-10",
           mainWrapper: "h-full",
           input: "text-small",
           inputWrapper:

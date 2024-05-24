@@ -150,7 +150,18 @@ export default function AppNavbar() {
           <SearchInput />
         </Suspense>
       </NavbarContent>
-      <NavbarContent justify="end">
+      <NavbarContent
+        className={`${
+          error ||
+          !sessionData.session ||
+          (pathname !== "/articles" &&
+            pathname !== "/launches" &&
+            pathname !== "/blogs")
+            ? ""
+            : "data-[justify=end]:flex-grow-0"
+        }`}
+        justify="end"
+      >
         {error || !sessionData.session ? (
           <NavbarItem>
             <ThemeSwitcher />
