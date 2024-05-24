@@ -182,7 +182,7 @@ export async function login(formData: FormData) {
       return error.message;
     }
     revalidatePath("/", "layout");
-    redirect("/signup/confirm");
+    redirect("/");
   }
 }
 
