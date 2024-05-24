@@ -82,7 +82,7 @@ export default function AppNavbar() {
           <NavbarItem isActive={pathname.startsWith("/launches")}>
             <DropdownTrigger>
               <Button
-                className={`flex items-center px-0 text-medium text-foreground transition-opacity hover:opacity-80 active:opacity-disabled ${pathname.startsWith("/launches") && "font-semibold"}`}
+                className={`flex items-center px-0 pl-2 text-medium text-foreground transition-opacity hover:opacity-80 active:opacity-disabled ${pathname.startsWith("/launches") && "font-semibold"}`}
                 // color="foreground"
                 variant="light"
                 endContent={
