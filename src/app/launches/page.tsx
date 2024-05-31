@@ -17,8 +17,8 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   return {
     title:
-      (searchParams.q && searchParams.q + " - News From Space") ||
-      "News From Space",
+      (searchParams.q && searchParams.q + " · News From Space") ||
+      "Upcoming Launches · News From Space",
   };
 }
 

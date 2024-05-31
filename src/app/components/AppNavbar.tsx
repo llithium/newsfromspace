@@ -143,7 +143,7 @@ export default function AppNavbar() {
         )}
       </NavbarContent>
       <NavbarContent
-        className={`hidden sm:flex ${pathname !== "/articles" && pathname !== "/launches" && pathname !== "/blogs" ? "sm:hidden" : ""}`}
+        className={`hidden sm:flex ${pathname !== "/articles" && pathname !== "/launches" && pathname !== "/launches/past" && pathname !== "/blogs" ? "sm:hidden" : ""}`}
         justify="end"
       >
         <Suspense>
@@ -229,7 +229,7 @@ export default function AppNavbar() {
       </NavbarContent>
       <NavbarMenu>
         <NavbarMenuItem
-          className={`${pathname !== "/articles" && pathname !== "/launches" && pathname !== "/blogs" ? "hidden" : ""}`}
+          className={`${pathname !== "/articles" && pathname !== "/launches" && pathname !== "/launches/past" && pathname !== "/blogs" ? "hidden" : ""}`}
         >
           <Suspense>
             <SearchInput />
@@ -249,7 +249,6 @@ export default function AppNavbar() {
             <DropdownTrigger>
               <Button
                 className={`flex h-7 items-center px-0 text-lg text-foreground transition-opacity hover:opacity-80 active:opacity-disabled ${pathname.startsWith("/launches") && "font-semibold"}`}
-                // color="foreground"
                 variant="light"
                 size="sm"
                 endContent={

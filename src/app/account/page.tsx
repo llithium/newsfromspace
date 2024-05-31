@@ -9,7 +9,7 @@ import { Image } from "@nextui-org/image";
 import { Spacer } from "@nextui-org/spacer";
 
 export const metadata: Metadata = {
-  title: "Account - News From Space",
+  title: "Account · News From Space",
 };
 
 export default async function AccountPage() {

@@ -3,6 +3,11 @@ import { redirect } from "next/navigation";
 import { Card, CardBody } from "@nextui-org/card";
 import OauthButtons from "@/components/OauthButtons";
 import SignUpTabs from "@/components/SignUpTabs";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Signup · News From Space",
+};
 
 export default async function Page() {
   const supabase = createClient();

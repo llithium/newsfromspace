@@ -1,21 +1,26 @@
 "use client";
 import { Input } from "@nextui-org/input";
-import { redirect, usePathname, useSearchParams } from "next/navigation";
+import { usePathname, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 const SearchInput = () => {
   const pathname = usePathname();
+  const router = useRouter();
   const searchParams = useSearchParams();
   const searchValue = searchParams.get("q");
   const search = (formData: FormData) => {
     switch (pathname) {
       case "/articles":
-        redirect(`/articles/?q=${formData.get("search")}`);
+        router.push(`/articles/?q=${formData.get("search")}`);
         break;
       case "/blogs":
-        redirect(`/blogs/?q=${formData.get("search")}`);
+        router.push(`/blogs/?q=${formData.get("search")}`);
         break;
       case "/launches":
-        redirect(`/launches/?q=${formData.get("search")}`);
+        router.push(`/launches/?q=${formData.get("search")}`);
+        break;
+      case "/launches/past":
+        router.push(`/launches/past/?q=${formData.get("search")}`);
         break;
       default:
         break;

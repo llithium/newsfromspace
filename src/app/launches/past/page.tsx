@@ -9,6 +9,19 @@ import PastLaunches from "./components/PastLaunches";
 import PastLaunchesSearchResults from "./components/PastLaunchesSearchResults";
 import { launchApiUrl, pageLimit } from "@/utils/variables";
 import { Suspense } from "react";
+import { Metadata } from "next";
+
+export async function generateMetadata({
+  searchParams,
+}: {
+  searchParams: { [key: string]: string | undefined };
+}): Promise<Metadata> {
+  return {
+    title:
+      (searchParams.q && searchParams.q + " · News From Space") ||
+      "Past Launches · News From Space",
+  };
+}
 
 export default async function Page({
   searchParams,
