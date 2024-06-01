@@ -171,7 +171,9 @@ export default async function LoggedInHomePage({
                                 launch.status &&
                                 launch.status.abbrev === "Success"
                                   ? "text-success-500"
-                                  : ""
+                                  : launch.status.abbrev === "Failure"
+                                    ? "text-red-600"
+                                    : ""
                               }`}
                             >
                               Status: {launch.status && launch.status.name}

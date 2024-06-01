@@ -95,7 +95,9 @@ export default function LaunchInformationPage({
                     className={`w-fit font-semibold ${
                       data.status && data.status.abbrev === "Success"
                         ? "text-success-500"
-                        : ""
+                        : data.status && data.status.abbrev === "Failure"
+                          ? "text-red-600"
+                          : ""
                     }`}
                   >
                     Status: {data.status && data.status.name}

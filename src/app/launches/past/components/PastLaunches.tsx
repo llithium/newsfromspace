@@ -81,7 +81,9 @@ export default function PastLaunches() {
                           className={`w-fit font-semibold ${
                             launch.status.abbrev === "Success"
                               ? "text-success-500"
-                              : ""
+                              : launch.status.abbrev === "Failure"
+                                ? "text-red-600"
+                                : ""
                           }`}
                         >
                           Status: {launch.status.abbrev}
