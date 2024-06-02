@@ -4,7 +4,7 @@ import { Card, CardHeader, CardBody, CardFooter } from "@nextui-org/card";
 import { Image } from "@nextui-org/image";
 import { Divider } from "@nextui-org/divider";
 import { Tooltip } from "@nextui-org/tooltip";
-import { Link } from "@nextui-org/link";
+import Link from "next/link";
 import { useInView } from "react-intersection-observer";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { fetchPastLaunches } from "../utils/fetchPastLaunches";
@@ -108,7 +108,7 @@ export default function PastLaunchesSearchResults() {
                       </p>
                       <Link
                         color="foreground"
-                        className="mt-auto"
+                        className="mt-auto transition-opacity hover:opacity-80 active:opacity-disabled"
                         href={launch.pad.map_url ? launch.pad.map_url : ""}
                       >
                         <p className="font-semibold">
@@ -120,7 +120,7 @@ export default function PastLaunchesSearchResults() {
                   <Divider />
                   <CardFooter className="flex justify-between">
                     <Link
-                      className="font-bold tracking-wide"
+                      className="font-bold tracking-wide text-primary transition-opacity hover:opacity-80 active:opacity-disabled"
                       href={`/launches/${launch.id}`}
                     >
                       More Information

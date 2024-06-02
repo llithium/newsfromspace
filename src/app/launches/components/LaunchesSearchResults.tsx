@@ -4,11 +4,10 @@ import { Card, CardHeader, CardBody, CardFooter } from "@nextui-org/card";
 import { Image } from "@nextui-org/image";
 import { Divider } from "@nextui-org/divider";
 import { Tooltip } from "@nextui-org/tooltip";
-import { Link } from "@nextui-org/link";
 import { useInView } from "react-intersection-observer";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import formatDate from "../../utils/formatDate";
-
+import Link from "next/link";
 import { fetchUpcomingLaunches } from "../utils/fetchUpcomingLaunches";
 import InfiniteScrollSpinner from "../../components/InfiniteScrollSpinner";
 import { useSearchParams } from "next/navigation";
@@ -109,7 +108,7 @@ export default function LaunchesSearchResults() {
                       </p>
                       <Link
                         color="foreground"
-                        className="mt-auto"
+                        className="mt-auto transition-opacity hover:opacity-80 active:opacity-disabled"
                         href={launch.pad.map_url ? launch.pad.map_url : ""}
                       >
                         <p className="font-semibold">
@@ -121,7 +120,7 @@ export default function LaunchesSearchResults() {
                   <Divider />
                   <CardFooter className="flex justify-between">
                     <Link
-                      className="font-bold tracking-wide"
+                      className="font-bold tracking-wide text-primary transition-opacity hover:opacity-80 active:opacity-disabled"
                       href={`/launches/${launch.id}`}
                     >
                       More Information

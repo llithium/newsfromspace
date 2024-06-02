@@ -79,7 +79,7 @@ export default function ArticleAndBlogModal({
                         toast.error(error);
                       }
                     }}
-                    className="transition-opacity hover:opacity-80 active:opacity-disabled "
+                    className="transition-opacity hover:opacity-80 active:opacity-disabled"
                     xmlns="http://www.w3.org/2000/svg"
                     width="32"
                     height="32"
