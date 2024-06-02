@@ -25,8 +25,10 @@ const LoginEmailPassword = () => {
   const [passwordErrorMessage, setPasswordErrorMessage] = useState("");
   const [emailIsInvalid, setEmailIsInvalid] = useState(false);
   const [emailErrorMessage, setEmailErrorMessage] = useState("");
+  const [isloggingIn, setIsLoggingIn] = useState(false);
 
   async function handlelogin(formData: FormData) {
+    setIsLoggingIn(true);
     const data = {
       email: formData.get("email"),
       password: formData.get("password"),
@@ -35,11 +37,13 @@ const LoginEmailPassword = () => {
     if (!emailResult.success) {
       setEmailErrorMessage(emailResult.error.issues[0].message);
       setEmailIsInvalid(true);
+      setIsLoggingIn(false);
     }
     const passwordResult = passwordSchema.safeParse(data.password);
     if (!passwordResult.success) {
       setPasswordErrorMessage(passwordResult.error.issues[0].message);
       setPasswordIsInvalid(true);
+      setIsLoggingIn(false);
     }
     if (emailResult.success && passwordResult.success) {
       const loginError = await login(formData);
@@ -48,13 +52,20 @@ const LoginEmailPassword = () => {
         setPasswordIsInvalid(true);
         setEmailErrorMessage(loginError);
         setEmailIsInvalid(true);
+        setIsLoggingIn(false);
       }
     } else {
       return;
     }
   }
   return (
-    <form className="flex flex-col items-center gap-4">
+    <form
+      className="flex flex-col items-center gap-4"
+      onSubmit={(e) => {
+        e.preventDefault();
+        handlelogin(new FormData(e.currentTarget));
+      }}
+    >
       <Input
         isRequired
         isInvalid={emailIsInvalid}
@@ -94,9 +105,10 @@ const LoginEmailPassword = () => {
         color="primary"
         className="h-14 w-full text-xl"
         type="submit"
-        formAction={handlelogin}
+        isLoading={isloggingIn}
+        disabled={isloggingIn}
       >
-        Log in
+        {isloggingIn ? "Logging in..." : "Log in"}
       </Button>
       <Link
         className="transition-opacity hover:opacity-80 active:opacity-disabled"

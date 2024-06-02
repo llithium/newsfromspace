@@ -27,8 +27,10 @@ const SignUpEmailPassword = () => {
   const [passwordErrorMessage, setPasswordErrorMessage] = useState("");
   const [emailIsInvalid, setEmailIsInvalid] = useState(false);
   const [emailErrorMessage, setEmailErrorMessage] = useState("");
+  const [isSigningUp, setIsSigningUp] = useState(false);
 
   async function handleSignUp(formData: FormData) {
+    setIsSigningUp(true);
     const data = {
       email: formData.get("email") as string,
       password: formData.get("password") as string,
@@ -37,15 +39,18 @@ const SignUpEmailPassword = () => {
     if (!emailResult.success) {
       setEmailErrorMessage(emailResult.error.issues[0].message);
       setEmailIsInvalid(true);
+      setIsSigningUp(false);
     }
     const passwordResult = passwordSchema.safeParse(data.password);
     if (!passwordResult.success) {
       setPasswordErrorMessage(passwordResult.error.issues[0].message);
       setPasswordIsInvalid(true);
+      setIsSigningUp(false);
     }
     if (emailResult.success && passwordResult.success) {
       const signUpError = await signup(formData);
       if (signUpError) {
+        setIsSigningUp(false);
         if (signUpError === "User already exists") {
           setEmailErrorMessage(signUpError);
           setEmailIsInvalid(true);
@@ -62,7 +67,13 @@ const SignUpEmailPassword = () => {
   }
 
   return (
-    <form className="flex flex-col items-center gap-4">
+    <form
+      className="flex flex-col items-center gap-4"
+      onSubmit={(e) => {
+        e.preventDefault();
+        handleSignUp(new FormData(e.currentTarget));
+      }}
+    >
       <Input
         isRequired
         isInvalid={emailIsInvalid}
@@ -104,9 +115,10 @@ const SignUpEmailPassword = () => {
         color="primary"
         className="h-14 w-full text-xl"
         type="submit"
-        formAction={handleSignUp}
+        isLoading={isSigningUp}
+        disabled={isSigningUp}
       >
-        Sign up
+        {isSigningUp ? "Signing up..." : "Sign in"}
       </Button>
       <Link
         className="transition-opacity hover:opacity-80 active:opacity-disabled"

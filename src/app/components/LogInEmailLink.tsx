@@ -15,8 +15,10 @@ const emailSchema = z
 const LogInEmailLink = () => {
   const [emailIsInvalid, setEmailIsInvalid] = useState(false);
   const [emailErrorMessage, setEmailErrorMessage] = useState("");
+  const [isloggingIn, setIsLoggingIn] = useState(false);
 
   async function handleLogin(formData: FormData) {
+    setIsLoggingIn(true);
     const data = {
       email: formData.get("email"),
       password: formData.get("password"),
@@ -25,6 +27,7 @@ const LogInEmailLink = () => {
     if (!emailResult.success) {
       setEmailErrorMessage(emailResult.error.issues[0].message);
       setEmailIsInvalid(true);
+      setIsLoggingIn(false);
     }
 
     if (emailResult.success) {
@@ -32,12 +35,19 @@ const LogInEmailLink = () => {
       if (error) {
         setEmailErrorMessage(error);
         setEmailIsInvalid(true);
+        setIsLoggingIn(false);
       }
     }
   }
 
   return (
-    <form className="flex w-full flex-col items-center gap-4">
+    <form
+      className="flex w-full flex-col items-center gap-4"
+      onSubmit={(e) => {
+        e.preventDefault();
+        handleLogin(new FormData(e.currentTarget));
+      }}
+    >
       <Input
         isRequired
         isInvalid={emailIsInvalid}
@@ -54,9 +64,10 @@ const LogInEmailLink = () => {
         color="primary"
         className="h-14 w-full text-xl"
         type="submit"
-        formAction={handleLogin}
+        isLoading={isloggingIn}
+        disabled={isloggingIn}
       >
-        Log in
+        {isloggingIn ? "Logging in..." : "Log in"}
       </Button>
       {/* <p className="text-sm opacity-60">Forgot your password?</p> */}
       <Link

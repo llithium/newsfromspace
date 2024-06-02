@@ -170,7 +170,7 @@ export default function AppNavbar() {
         {/* Login/Sign Up */}
         {error || !sessionData.session ? (
           <>
-            <NavbarItem className="hidden lg:flex">
+            <NavbarItem className="hidden md:flex">
               <Link
                 className="transition-opacity hover:opacity-80 active:opacity-disabled"
                 color="foreground"

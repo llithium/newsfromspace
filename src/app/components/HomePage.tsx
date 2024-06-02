@@ -20,7 +20,9 @@ export async function fetchUpcomingLaunchesHomePage() {
     },
   );
   if (!res.ok) {
-    throw new Error("Failed to fetch data for related articles");
+    throw new Error(
+      `Failed to fetch data for upcoming launches ${(res.status, res.statusText)}`,
+    );
   }
   return res.json();
 }
@@ -32,7 +34,9 @@ export async function fetchLatestArticles() {
     },
   );
   if (!res.ok) {
-    throw new Error("Failed to fetch data for related articles");
+    throw new Error(
+      `Failed to fetch data for latest articles ${(res.status, res.statusText)}`,
+    );
   }
   return res.json();
 }
@@ -41,7 +45,9 @@ export async function fetchLatestBlogs() {
     next: { revalidate: 60 },
   });
   if (!res.ok) {
-    throw new Error("Failed to fetch data for related articles");
+    throw new Error(
+      `Failed to fetch data for latest blogs ${(res.status, res.statusText)}`,
+    );
   }
   return res.json();
 }

@@ -14,12 +14,15 @@ const emailSchema = z
 const ResetPassword = () => {
   const [emailIsInvalid, setEmailIsInvalid] = useState(false);
   const [emailErrorMessage, setEmailErrorMessage] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   async function handleResetPassword(formData: FormData) {
+    setIsLoading(true);
     const emailResult = emailSchema.safeParse(formData.get("email"));
     if (!emailResult.success) {
       setEmailErrorMessage(emailResult.error.message);
       setEmailIsInvalid(true);
+      setIsLoading(false);
     }
 
     if (emailResult.success) {
@@ -27,12 +30,19 @@ const ResetPassword = () => {
       if (error) {
         setEmailIsInvalid(true);
         setEmailErrorMessage(error);
+        setIsLoading(false);
       }
     }
   }
 
   return (
-    <form className="flex flex-col items-center gap-4">
+    <form
+      className="flex flex-col items-center gap-4"
+      onSubmit={(e) => {
+        e.preventDefault();
+        handleResetPassword(new FormData(e.currentTarget));
+      }}
+    >
       <Input
         isRequired
         isInvalid={emailIsInvalid}
@@ -49,8 +59,10 @@ const ResetPassword = () => {
         color="primary"
         className="h-14 w-full text-lg"
         type="submit"
-        formAction={handleResetPassword}
+        isLoading={isLoading}
+        disabled={isLoading}
       >
+        {isLoading ? "Resetting Password..." : "Reset Password"}
         Reset Password
       </Button>
     </form>

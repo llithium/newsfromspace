@@ -17,18 +17,22 @@ const UpdateAccountPassword = () => {
   const toggleVisibility = () => setIsVisible(!isVisible);
   const [passwordIsInvalid, setPasswordIsInvalid] = useState(false);
   const [passwordErrorMessage, setPasswordErrorMessage] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   async function handleUpdatePassword(formData: FormData) {
+    setIsLoading(true);
     const passwordResult = passwordSchema.safeParse(formData.get("password"));
     if (!passwordResult.success) {
       setPasswordErrorMessage(passwordResult.error.issues[0].message);
       setPasswordIsInvalid(true);
+      setIsLoading(false);
     }
     if (passwordResult.success) {
       const updatePasswordError = await updatePassword(formData);
       if (updatePasswordError) {
         setPasswordErrorMessage(updatePasswordError);
         setPasswordIsInvalid(true);
+        setIsLoading(false);
       }
     } else {
       return;
@@ -36,7 +40,13 @@ const UpdateAccountPassword = () => {
   }
 
   return (
-    <form className="flex flex-col items-center gap-4">
+    <form
+      className="flex flex-col items-center gap-4"
+      onSubmit={(e) => {
+        e.preventDefault();
+        handleUpdatePassword(new FormData(e.currentTarget));
+      }}
+    >
       <Input
         isRequired
         isInvalid={passwordIsInvalid}
@@ -66,9 +76,10 @@ const UpdateAccountPassword = () => {
         color="primary"
         className="h-14 w-full text-lg"
         type="submit"
-        formAction={handleUpdatePassword}
+        isLoading={isLoading}
+        disabled={isLoading}
       >
-        Update Password
+        {isLoading ? "Updating Password..." : "Update Password"}
       </Button>
     </form>
   );

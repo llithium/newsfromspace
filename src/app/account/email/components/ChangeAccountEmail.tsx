@@ -14,12 +14,15 @@ const emailSchema = z
 const ChangeAccountEmail = () => {
   const [emailIsInvalid, setEmailIsInvalid] = useState(false);
   const [emailErrorMessage, setEmailErrorMessage] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   async function handleChangeEmail(formData: FormData) {
+    setIsLoading(true);
     const emailResult = emailSchema.safeParse(formData.get("email"));
     if (!emailResult.success) {
       setEmailErrorMessage(emailResult.error.message);
       setEmailIsInvalid(true);
+      setIsLoading(false);
     }
 
     if (emailResult.success) {
@@ -27,12 +30,19 @@ const ChangeAccountEmail = () => {
       if (error) {
         setEmailIsInvalid(true);
         setEmailErrorMessage(error);
+        setIsLoading(false);
       }
     }
   }
 
   return (
-    <form className="flex flex-col items-center gap-4">
+    <form
+      className="flex flex-col items-center gap-4"
+      onSubmit={(e) => {
+        e.preventDefault();
+        handleChangeEmail(new FormData(e.currentTarget));
+      }}
+    >
       <Input
         isRequired
         isInvalid={emailIsInvalid}
@@ -49,9 +59,10 @@ const ChangeAccountEmail = () => {
         color="primary"
         className="h-14 w-full text-lg"
         type="submit"
-        formAction={handleChangeEmail}
+        isLoading={isLoading}
+        disabled={isLoading}
       >
-        Change Email
+        {isLoading ? "Changing Email..." : "Change Email"}
       </Button>
     </form>
   );

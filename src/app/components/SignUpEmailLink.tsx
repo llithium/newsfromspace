@@ -15,8 +15,10 @@ const emailSchema = z
 const SignUpEmailLink = () => {
   const [emailIsInvalid, setEmailIsInvalid] = useState(false);
   const [emailErrorMessage, setEmailErrorMessage] = useState("");
+  const [isSigningUp, setIsSigningUp] = useState(false);
 
   async function handleSignUp(formData: FormData) {
+    setIsSigningUp(true);
     const data = {
       email: formData.get("email"),
       password: formData.get("password"),
@@ -25,6 +27,7 @@ const SignUpEmailLink = () => {
     if (!emailResult.success) {
       setEmailErrorMessage(emailResult.error.issues[0].message);
       setEmailIsInvalid(true);
+      setIsSigningUp(false);
     }
 
     if (emailResult.success) {
@@ -32,12 +35,19 @@ const SignUpEmailLink = () => {
       if (error) {
         setEmailErrorMessage(error);
         setEmailIsInvalid(true);
+        setIsSigningUp(false);
       }
     }
   }
 
   return (
-    <form className="flex flex-col items-center gap-4">
+    <form
+      className="flex flex-col items-center gap-4"
+      onSubmit={(e) => {
+        e.preventDefault();
+        handleSignUp(new FormData(e.currentTarget));
+      }}
+    >
       <Input
         isRequired
         isInvalid={emailIsInvalid}
@@ -54,8 +64,10 @@ const SignUpEmailLink = () => {
         color="primary"
         className="h-14 w-full text-xl"
         type="submit"
-        formAction={handleSignUp}
+        isLoading={isSigningUp}
+        disabled={isSigningUp}
       >
+        {isSigningUp ? "Signing up..." : "Sign in"}
         Sign up
       </Button>
       <Link
