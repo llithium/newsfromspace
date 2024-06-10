@@ -23,6 +23,8 @@ export async function generateMetadata({
   };
 }
 
+export const maxDuration = 30;
+
 export default async function Page({
   searchParams,
 }: {
