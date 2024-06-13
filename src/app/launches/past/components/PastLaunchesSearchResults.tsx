@@ -36,7 +36,7 @@ export default function PastLaunchesSearchResults() {
 
   return (
     <>
-      <div className="grid grid-cols-1 gap-3 xl:grid-cols-2 ">
+      <div className="grid grid-cols-1 gap-3 xl:grid-cols-2">
         {isError && <div>{error.message}</div>}
         {data && data.pages[0].count > 0 ? (
           data.pages.map((page) => {
@@ -141,9 +141,9 @@ export default function PastLaunchesSearchResults() {
           })
         ) : (
           <div className="col-span-2 mt-auto flex w-full flex-row justify-center">
-            <h2 className="text-3xl ">
-              No results found for:{" "}
-              <span className="font-bold tracking-wider">{search}</span>
+            <h2 className="text-2xl">
+              No results found for{" "}
+              <span className="font-semibold tracking-wider">{search}</span>
             </h2>
           </div>
         )}

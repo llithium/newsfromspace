@@ -33,7 +33,7 @@ export default function Providers({ children }: { children: React.ReactNode }) {
   const queryClient = getQueryClient();
   return (
     <NextUIProvider navigate={router.push}>
-      <NextThemesProvider attribute="class" defaultTheme="dark">
+      <NextThemesProvider attribute="class" defaultTheme="light">
         <QueryClientProvider client={queryClient}>
           <Toaster position="bottom-center" />
           {children}

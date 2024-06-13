@@ -18,7 +18,7 @@ export const DropdownThemeSwitcher = forwardRef(() => {
   return (
     <div>
       <Button
-        className="focus:dark:ring-offset-background-content1 group relative box-border flex h-8  w-full cursor-pointer flex-row  items-center justify-start gap-2 rounded-small bg-transparent px-2 subpixel-antialiased outline-none tap-highlight-transparent hover:bg-default hover:text-default-foreground hover:transition-colors focus:z-10 focus:outline-2 focus:outline-offset-2 focus:outline-focus  "
+        className="focus:dark:ring-offset-background-content1 group relative box-border flex h-8 w-full cursor-pointer flex-row items-center justify-start gap-2 rounded-small bg-transparent px-2 subpixel-antialiased outline-none tap-highlight-transparent hover:bg-default hover:text-default-foreground hover:transition-colors focus:z-10 focus:outline-2 focus:outline-offset-2 focus:outline-focus"
         size="sm"
         isIconOnly
         aria-label="Theme switcher"

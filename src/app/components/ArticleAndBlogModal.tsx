@@ -44,6 +44,7 @@ export default function ArticleAndBlogModal({
 
     fetchUserData();
   }, [type, id]);
+
   return (
     <div
       className="modalWrapper fixed inset-0 z-40 flex h-dvh w-screen flex-col items-center justify-center bg-white/40 backdrop-blur-sm dark:bg-black/40"
@@ -53,11 +54,11 @@ export default function ArticleAndBlogModal({
         className="modal max-h-4/5 relative top-6 mx-auto h-4/5 w-10/12 sm:w-3/4 md:h-3/5"
         onClick={(e) => e.stopPropagation()}
       >
-        <Card className="flex h-full min-h-44 w-full flex-col overflow-y-auto  md:flex md:flex-row md:overflow-y-visible">
+        <Card className="flex h-full min-h-44 w-full flex-col overflow-y-auto md:flex md:flex-row md:overflow-y-visible">
           <CardHeader className="h-full max-h-60 w-full flex-shrink rounded-xl object-cover md:max-h-full md:w-1/2">
             <Image
               alt="Card image"
-              className=" h-full w-full rounded-xl object-cover"
+              className="h-full w-full rounded-xl object-cover"
               removeWrapper={true}
               src={card.image_url}
             />
@@ -74,9 +75,33 @@ export default function ArticleAndBlogModal({
                       const error = await deleteBookmark(opts[0], opts[1]);
                       if (!error) {
                         setBookmarked(false);
-                        toast.success("Bookmark deleted");
+                        toast.custom((t) => (
+                          <div
+                            className={`${
+                              t.visible ? "animate-enter" : "animate-leave"
+                            } pointer-events-auto flex h-10 w-44 max-w-md justify-center rounded-lg bg-white px-4 shadow-lg ring-1 ring-black ring-opacity-5 dark:bg-content1`}
+                          >
+                            <div className="flex items-center">
+                              <p className="font-medium text-danger">
+                                Bookmark Deleted
+                              </p>
+                            </div>
+                          </div>
+                        ));
                       } else {
-                        toast.error(error);
+                        toast.custom((t) => (
+                          <div
+                            className={`${
+                              t.visible ? "animate-enter" : "animate-leave"
+                            } pointer-events-auto flex h-10 w-44 max-w-md justify-center rounded-lg bg-white px-4 shadow-lg ring-1 ring-black ring-opacity-5 dark:bg-content1`}
+                          >
+                            <div className="flex items-center">
+                              <p className="font-medium text-warning">
+                                {error}
+                              </p>
+                            </div>
+                          </div>
+                        ));
                       }
                     }}
                     className="transition-opacity hover:opacity-80 active:opacity-disabled"
@@ -96,9 +121,33 @@ export default function ArticleAndBlogModal({
                       const error = await addBookmark(opts[0], opts[1]);
                       if (!error) {
                         setBookmarked(true);
-                        toast.success("Bookmarked");
+                        toast.custom((t) => (
+                          <div
+                            className={`${
+                              t.visible ? "animate-enter" : "animate-leave"
+                            } pointer-events-auto flex h-10 w-44 max-w-md justify-center rounded-lg bg-white px-4 shadow-lg ring-1 ring-black ring-opacity-5 dark:bg-content1`}
+                          >
+                            <div className="flex items-center">
+                              <p className="font-medium text-primary">
+                                Bookmark Added
+                              </p>
+                            </div>
+                          </div>
+                        ));
                       } else {
-                        toast.error(error);
+                        toast.custom((t) => (
+                          <div
+                            className={`${
+                              t.visible ? "animate-enter" : "animate-leave"
+                            } pointer-events-auto flex h-10 w-44 max-w-md justify-center rounded-lg bg-white px-4 shadow-lg ring-1 ring-black ring-opacity-5 dark:bg-content1`}
+                          >
+                            <div className="flex items-center">
+                              <p className="font-medium text-warning">
+                                {error}
+                              </p>
+                            </div>
+                          </div>
+                        ));
                       }
                     }}
                     className={`transition-opacity hover:opacity-80 active:opacity-disabled ${!sessionData.session ? "hidden" : ""}`}
