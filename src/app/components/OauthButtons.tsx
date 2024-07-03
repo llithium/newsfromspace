@@ -7,7 +7,7 @@ import { Divider } from "@nextui-org/divider";
 const OauthButtons = () => {
   return (
     <>
-      <CardHeader className="flex flex-row flex-wrap  gap-3">
+      <CardHeader className="flex flex-row flex-wrap gap-3">
         <Button
           name="google"
           className="h-16 w-16"

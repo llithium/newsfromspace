@@ -118,13 +118,13 @@ const SignUpEmailPassword = () => {
         isLoading={isSigningUp}
         disabled={isSigningUp}
       >
-        {isSigningUp ? "Signing up..." : "Sign in"}
+        {isSigningUp ? "Signing up..." : "Sign Up"}
       </Button>
       <Link
         className="transition-opacity hover:opacity-80 active:opacity-disabled"
         href="/login"
       >
-        <p className="text-sm ">Already have an account? Log In</p>
+        <p className="text-sm">Already have an account? Log In</p>
       </Link>
     </form>
   );
