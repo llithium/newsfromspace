@@ -1,15 +1,13 @@
 "use client";
-import { useEffect } from "react";
 import { Card, CardHeader, CardBody, CardFooter } from "@nextui-org/card";
 import { Image } from "@nextui-org/image";
 import { Divider } from "@nextui-org/divider";
 import { Tooltip } from "@nextui-org/tooltip";
-import { useInView } from "react-intersection-observer";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import formatDate from "../../utils/formatDate";
 import Link from "next/link";
 import { fetchUpcomingLaunches } from "../utils/fetchUpcomingLaunches";
-import InfiniteScrollSpinner from "../../components/InfiniteScrollSpinner";
+
 import { useSearchParams } from "next/navigation";
 import { launchApiUrl, pageLimit } from "@/utils/variables";
 
@@ -28,15 +26,10 @@ export default function LaunchesSearchResults() {
         return lastPage.next;
       },
     });
-  const { ref, inView } = useInView();
-
-  useEffect(() => {
-    inView && fetchNextPage();
-  }, [inView, fetchNextPage]);
 
   return (
     <>
-      <div className="grid grid-cols-1 gap-3 xl:grid-cols-2 ">
+      <div className="grid grid-cols-1 gap-3 xl:grid-cols-2">
         {isError && <div>{error.message}</div>}
         {data && data.pages[0].count > 0 ? (
           data.pages.map((page) => {
@@ -141,15 +134,13 @@ export default function LaunchesSearchResults() {
           })
         ) : (
           <div className="col-span-2 mt-auto flex w-full flex-row justify-center">
-            <h2 className="text-3xl ">
+            <h2 className="text-3xl">
               No results found for:{" "}
               <span className="font-bold tracking-wider">{search}</span>
             </h2>
           </div>
         )}
       </div>
-      {isFetchingNextPage && <InfiniteScrollSpinner />}
-      <div ref={ref}></div>
     </>
   );
 }

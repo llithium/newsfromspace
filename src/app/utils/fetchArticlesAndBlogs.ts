@@ -1,10 +1,6 @@
 import { ArticlesAndBlogs } from "../articles/components/Articles";
 
-export async function fetchArticlesAndBlogs({
-  pageParam,
-}: {
-  pageParam: string;
-}) {
+export async function fetchArticlesAndBlogs(pageParam: string) {
   try {
     const apiResponse = await fetch(pageParam, {
       next: { revalidate: 60 },

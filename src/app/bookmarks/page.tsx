@@ -4,11 +4,11 @@ import { BookmarkData } from "@/components/LoggedInHomePage";
 import { Card, CardBody } from "@nextui-org/card";
 import formatDate from "@/utils/formatDate";
 import Link from "next/link";
-import PageButtons from "./components/PageButtons";
 import { getBookmarks } from "./utils/getBookmarks";
 import { pageLimit } from "@/utils/variables";
 import { Image } from "@nextui-org/image";
 import { Divider } from "@nextui-org/divider";
+import PageButtons from "@/components/PageButtons";
 
 export default async function BookmrksPage({
   searchParams,
@@ -16,6 +16,7 @@ export default async function BookmrksPage({
   searchParams: { page: string };
 }) {
   const supabase = createClient();
+  const page = parseInt(searchParams.page) || 1;
   const { data: userData, error: getUserError } = await supabase.auth.getUser();
   if (getUserError || !userData?.user) {
     redirect("/login");
@@ -28,10 +29,7 @@ export default async function BookmrksPage({
   } = await supabase
     .from("bookmarks")
     .select("*", { count: "exact" })
-    .range(
-      ((parseInt(searchParams.page) || 1) - 1) * parseInt(pageLimit),
-      (parseInt(searchParams.page) || 1) * parseInt(pageLimit) - 1,
-    )
+    .range((page - 1) * parseInt(pageLimit), page * parseInt(pageLimit) - 1)
     .eq("user_id", userData.user?.id);
 
   if (
@@ -47,7 +45,7 @@ export default async function BookmrksPage({
 
   return (
     <>
-      <div className="grid grid-cols-1 gap-3 xl:grid-cols-2 ">
+      <div className="grid grid-cols-1 gap-3 xl:grid-cols-2">
         {bookmarksArray.length > 0 ? (
           bookmarksArray.map((bookmark) => {
             if (bookmark.type === "article") {
@@ -58,7 +56,7 @@ export default async function BookmrksPage({
                   key={bookmark.id}
                   href={`/articles/${bookmark.id}`}
                 >
-                  <Card className="flex h-32 w-full flex-row py-2 sm:h-44  ">
+                  <Card className="flex h-32 w-full flex-row py-2 sm:h-44">
                     <Image
                       alt="Article image"
                       className="z-0 ml-2 h-full w-44 flex-shrink rounded-xl object-cover sm:w-44 sm:flex-1 lg:w-56"
@@ -126,7 +124,7 @@ export default async function BookmrksPage({
       </div>
       {count ? (
         <div className="mx-auto w-fit py-4">
-          <PageButtons count={count} page={searchParams.page || "1"} />
+          <PageButtons count={count} page={page} />
         </div>
       ) : null}
     </>

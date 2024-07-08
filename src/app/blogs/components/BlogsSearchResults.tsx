@@ -8,7 +8,7 @@ import { useInView } from "react-intersection-observer";
 import { fetchArticlesAndBlogs } from "../../utils/fetchArticlesAndBlogs";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import Link from "next/link";
-import InfiniteScrollSpinner from "../../components/InfiniteScrollSpinner";
+
 import { useSearchParams } from "next/navigation";
 import { apiURL, pageLimit } from "@/utils/variables";
 
@@ -26,15 +26,9 @@ export default function BlogsSearchResults() {
       },
     });
 
-  const { ref, inView } = useInView();
-
-  useEffect(() => {
-    inView && fetchNextPage();
-  }, [inView, fetchNextPage]);
-
   return (
     <>
-      <div className="grid grid-cols-1 gap-3 xl:grid-cols-2 ">
+      <div className="grid grid-cols-1 gap-3 xl:grid-cols-2">
         {isError && <div>{error.message}</div>}
         {data && data.pages[0].count > 0 ? (
           data.pages.map((page) => {
@@ -42,13 +36,13 @@ export default function BlogsSearchResults() {
               return (
                 <Card
                   key={blog.id}
-                  className="flex h-32 flex-row justify-between transition-opacity hover:opacity-80 active:opacity-disabled sm:h-44 "
+                  className="flex h-32 flex-row justify-between transition-opacity hover:opacity-80 active:opacity-disabled sm:h-44"
                 >
                   <Link
                     scroll={false}
                     key={blog.id}
                     href={`/blogs/${blog.id}`}
-                    className="flex h-32 w-full flex-row py-2 sm:h-full "
+                    className="flex h-32 w-full flex-row py-2 sm:h-full"
                   >
                     <Image
                       alt="Blog image"
@@ -79,7 +73,7 @@ export default function BlogsSearchResults() {
           })
         ) : (
           <div className="col-span-2 mt-auto flex w-full flex-row justify-center">
-            <h2 className="text-3xl ">
+            <h2 className="text-3xl">
               No results found for:{" "}
               <span className="font-bold tracking-wider">{search}</span>
             </h2>

@@ -3,7 +3,15 @@ import { pageLimit } from "@/utils/variables";
 import { Pagination } from "@nextui-org/pagination";
 import { usePathname, useRouter } from "next/navigation";
 
-const PageButtons = ({ count, page }: { count: number; page: string }) => {
+const SearchPageButtons = ({
+  count,
+  search,
+  page,
+}: {
+  count: number;
+  search: string;
+  page: number;
+}) => {
   const router = useRouter();
   const pathname = usePathname();
 
@@ -13,12 +21,12 @@ const PageButtons = ({ count, page }: { count: number; page: string }) => {
       isCompact
       showControls
       total={Math.ceil(count / parseInt(pageLimit))}
-      initialPage={parseInt(page)}
+      initialPage={page}
       onChange={(page) => {
-        router.push(`${pathname}?page=${page}`);
+        router.push(`${pathname}?q=${search}&page=${page}`);
       }}
     />
   );
 };
 
-export default PageButtons;
+export default SearchPageButtons;

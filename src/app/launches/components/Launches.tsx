@@ -5,12 +5,11 @@ import { Image } from "@nextui-org/image";
 import { Divider } from "@nextui-org/divider";
 import { Tooltip } from "@nextui-org/tooltip";
 import Link from "next/link";
-import { useInView } from "react-intersection-observer";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import formatDate from "../../utils/formatDate";
 
 import { fetchUpcomingLaunches } from "../utils/fetchUpcomingLaunches";
-import InfiniteScrollSpinner from "../../components/InfiniteScrollSpinner";
+
 import { launchApiUrl, pageLimit } from "@/utils/variables";
 
 export default function Launches() {
@@ -26,15 +25,10 @@ export default function Launches() {
         return lastPage.next;
       },
     });
-  const { ref, inView } = useInView();
-
-  useEffect(() => {
-    inView && fetchNextPage();
-  }, [inView, fetchNextPage]);
 
   return (
     <>
-      <div className="grid grid-cols-1 gap-3 xl:grid-cols-2 ">
+      <div className="grid grid-cols-1 gap-3 xl:grid-cols-2">
         {isError && <div>{error.message}</div>}
         {data &&
           data.pages.map((page) => {

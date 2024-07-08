@@ -8,7 +8,7 @@ import { useInView } from "react-intersection-observer";
 import { fetchArticlesAndBlogs } from "../../utils/fetchArticlesAndBlogs";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import Link from "next/link";
-import InfiniteScrollSpinner from "../../components/InfiniteScrollSpinner";
+
 import { apiURL, pageLimit } from "@/utils/variables";
 
 export default function Blogs() {
@@ -22,15 +22,9 @@ export default function Blogs() {
       },
     });
 
-  const { ref, inView } = useInView();
-
-  useEffect(() => {
-    inView && fetchNextPage();
-  }, [inView, fetchNextPage]);
-
   return (
     <>
-      <div className="grid grid-cols-1 gap-3 xl:grid-cols-2 ">
+      <div className="grid grid-cols-1 gap-3 xl:grid-cols-2">
         {isError && <div>{error.message}</div>}
         {data &&
           data.pages.map((page) => {
@@ -38,13 +32,13 @@ export default function Blogs() {
               return (
                 <Card
                   key={blog.id}
-                  className="flex h-32 flex-row justify-between transition-opacity hover:opacity-80 active:opacity-disabled sm:h-44 "
+                  className="flex h-32 flex-row justify-between transition-opacity hover:opacity-80 active:opacity-disabled sm:h-44"
                 >
                   <Link
                     scroll={false}
                     key={blog.id}
                     href={`/blogs/${blog.id}`}
-                    className="flex h-32 w-full flex-row py-2 sm:h-full "
+                    className="flex h-32 w-full flex-row py-2 sm:h-full"
                   >
                     <Image
                       alt="Blog image"
