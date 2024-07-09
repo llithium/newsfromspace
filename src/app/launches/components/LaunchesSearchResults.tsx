@@ -7,9 +7,9 @@ import { useQuery } from "@tanstack/react-query";
 import formatDate from "../../utils/formatDate";
 import Link from "next/link";
 import { fetchUpcomingLaunches } from "../utils/fetchUpcomingLaunches";
-
 import { useSearchParams } from "next/navigation";
 import { launchApiUrl, pageLimit } from "@/utils/variables";
+import PageButtons from "@/components/PageButtons";
 
 export default function LaunchesSearchResults({ page }: { page: number }) {
   const searchParams = useSearchParams();
@@ -136,6 +136,11 @@ export default function LaunchesSearchResults({ page }: { page: number }) {
           </div>
         )}
       </div>
+      {data?.count ? (
+        <div className="mx-auto w-fit py-4">
+          <PageButtons count={data.count} search={search || ""} page={page} />
+        </div>
+      ) : null}
     </>
   );
 }

@@ -9,7 +9,7 @@ import formatDate from "../../utils/formatDate";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { apiURL, pageLimit } from "@/utils/variables";
-import SearchPageButtons from "@/components/SearchPageButtons";
+import PageButtons from "@/components/PageButtons";
 
 export default function ArticlesSearchResults({ page }: { page: number }) {
   const searchParams = useSearchParams();
@@ -75,11 +75,7 @@ export default function ArticlesSearchResults({ page }: { page: number }) {
       </div>
       {data?.count ? (
         <div className="mx-auto w-fit py-4">
-          <SearchPageButtons
-            count={data.count}
-            search={search || ""}
-            page={page}
-          />
+          <PageButtons count={data.count} search={search || ""} page={page} />
         </div>
       ) : null}
     </>
