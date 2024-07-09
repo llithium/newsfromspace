@@ -28,10 +28,7 @@ export default async function Page({
   searchParams: { page: string; q: string };
 }) {
   const queryClient = new QueryClient();
-  console.log("Page: ", searchParams.page);
-
   const page = parseInt(searchParams.page) || 1;
-  console.log("Offset", (page - 1) * parseInt(pageLimit));
 
   await queryClient.prefetchQuery({
     queryKey: ["articles", `page ${page}`],

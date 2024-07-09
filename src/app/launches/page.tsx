@@ -3,7 +3,7 @@ import {
   QueryClient,
   dehydrate,
 } from "@tanstack/react-query";
-import Launches, { LaunchesData } from "./components/Launches";
+import Launches from "./components/Launches";
 import { fetchUpcomingLaunches } from "./utils/fetchUpcomingLaunches";
 import LaunchesSearchResults from "./components/LaunchesSearchResults";
 import { launchApiUrl, pageLimit } from "@/utils/variables";
@@ -27,44 +27,41 @@ export const maxDuration = 30;
 export default async function Page({
   searchParams,
 }: {
-  searchParams: { q: string };
+  searchParams: { page: string; q: string };
 }) {
   const queryClient = new QueryClient();
+  const page = parseInt(searchParams.page) || 1;
 
-  await queryClient.prefetchInfiniteQuery({
-    queryKey: ["launches/upcoming"],
-    queryFn: fetchUpcomingLaunches,
+  await queryClient.prefetchQuery({
+    queryKey: ["launches/upcoming", `page ${page}`],
+    queryFn: () =>
+      fetchUpcomingLaunches(
+        launchApiUrl +
+          `/launch/upcoming/?mode=detailed&limit=${pageLimit}&offset=${(page - 1) * parseInt(pageLimit)}`,
+      ),
     staleTime: 10 * 60 * 1000,
-    initialPageParam:
-      launchApiUrl +
-      `/launch/upcoming/?mode=detailed&limit=${pageLimit}&offset=0`,
-    getNextPageParam: (lastPage: LaunchesData) => {
-      return lastPage.next;
-    },
   });
   if (searchParams.q) {
-    await queryClient.prefetchInfiniteQuery({
-      queryKey: ["launchesSearch", searchParams.q],
-      queryFn: fetchUpcomingLaunches,
+    await queryClient.prefetchQuery({
+      queryKey: ["launchesSearch", searchParams.q, `page ${page}`],
+      queryFn: () =>
+        fetchUpcomingLaunches(
+          launchApiUrl +
+            `/launch/upcoming/?mode=detailed&limit=${pageLimit}&offset=${(page - 1) * parseInt(pageLimit)}&search=${searchParams.q}`,
+        ),
       staleTime: 15 * 60 * 1000,
-      initialPageParam:
-        launchApiUrl +
-        `/launch/upcoming/?mode=detailed&limit=${pageLimit}&offset=0&search=${searchParams.q}`,
-      getNextPageParam: (lastPage: LaunchesData) => {
-        return lastPage.next;
-      },
     });
     return (
       <HydrationBoundary state={dehydrate(queryClient)}>
         <Suspense>
-          <LaunchesSearchResults />
+          <LaunchesSearchResults page={page} />
         </Suspense>
       </HydrationBoundary>
     );
   } else {
     return (
       <HydrationBoundary state={dehydrate(queryClient)}>
-        <Launches />
+        <Launches page={page} />
       </HydrationBoundary>
     );
   }

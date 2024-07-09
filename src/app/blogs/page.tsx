@@ -5,7 +5,6 @@ import {
 } from "@tanstack/react-query";
 import Blogs from "./components/Blogs";
 import { fetchArticlesAndBlogs } from "../utils/fetchArticlesAndBlogs";
-import { ArticlesAndBlogs } from "../articles/components/Articles";
 import BlogsSearchResults from "./components/BlogsSearchResults";
 import { apiURL, pageLimit } from "@/utils/variables";
 import { Suspense } from "react";
@@ -26,39 +25,39 @@ export async function generateMetadata({
 export default async function Page({
   searchParams,
 }: {
-  searchParams: { q: string };
+  searchParams: { page: string; q: string };
 }) {
   const queryClient = new QueryClient();
+  const page = parseInt(searchParams.page) || 1;
 
-  await queryClient.prefetchInfiniteQuery({
-    queryKey: ["blogs"],
-    queryFn: fetchArticlesAndBlogs,
-    initialPageParam: apiURL + `/blogs/?limit=${pageLimit}&offset=0`,
-    getNextPageParam: (lastPage: ArticlesAndBlogs) => {
-      return lastPage.next;
-    },
+  await queryClient.prefetchQuery({
+    queryKey: ["blogs", `page ${page}`],
+    queryFn: () =>
+      fetchArticlesAndBlogs(
+        apiURL +
+          `/blogs/?limit=${pageLimit}&offset=${(page - 1) * parseInt(pageLimit)}`,
+      ),
   });
   if (searchParams.q) {
-    await queryClient.prefetchInfiniteQuery({
-      queryKey: ["blogsSearch", searchParams.q],
-      queryFn: fetchArticlesAndBlogs,
-      initialPageParam:
-        apiURL + `/blogs/?limit=${pageLimit}&offset=0&search=${searchParams.q}`,
-      getNextPageParam: (lastPage: ArticlesAndBlogs) => {
-        return lastPage.next;
-      },
+    await queryClient.prefetchQuery({
+      queryKey: ["blogsSearch", searchParams.q, `page ${page}`],
+      queryFn: () =>
+        fetchArticlesAndBlogs(
+          apiURL +
+            `/blogs/?limit=${pageLimit}&offset=${(page - 1) * parseInt(pageLimit)}&search=${searchParams.q}`,
+        ),
     });
     return (
       <HydrationBoundary state={dehydrate(queryClient)}>
         <Suspense>
-          <BlogsSearchResults />
+          <BlogsSearchResults page={page} />
         </Suspense>
       </HydrationBoundary>
     );
   } else {
     return (
       <HydrationBoundary state={dehydrate(queryClient)}>
-        <Blogs />
+        <Blogs page={page} />
       </HydrationBoundary>
     );
   }
