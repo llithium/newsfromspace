@@ -26,7 +26,7 @@ export default function ArticlesSearchResults({ page }: { page: number }) {
     <>
       <div className="grid grid-cols-1 gap-3 xl:grid-cols-2">
         {isError && <div>{error.message}</div>}
-        {data ? (
+        {data && data.count !== 0 ? (
           data.results.map((article) => {
             return (
               <Card

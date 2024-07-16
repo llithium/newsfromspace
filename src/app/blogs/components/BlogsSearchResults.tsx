@@ -21,12 +21,13 @@ export default function BlogsSearchResults({ page }: { page: number }) {
           `/blogs/?limit=${pageLimit}&offset=${(page - 1) * parseInt(pageLimit)}&search=${search}`,
       ),
   });
+  console.log("data", data);
 
   return (
     <>
       <div className="grid grid-cols-1 gap-3 xl:grid-cols-2">
         {isError && <div>{error.message}</div>}
-        {data ? (
+        {data && data.count !== 0 ? (
           data.results.map((blog) => {
             return (
               <Card

@@ -18,6 +18,7 @@ const PageButtons = ({
   return (
     <Pagination
       size="sm"
+      color="default"
       showControls
       total={Math.ceil(count / parseInt(pageLimit))}
       initialPage={page}
