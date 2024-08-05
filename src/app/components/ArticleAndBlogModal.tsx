@@ -51,7 +51,7 @@ export default function ArticleAndBlogModal({
       onClick={() => router.back()}
     >
       <div
-        className="modal max-h-4/5 relative top-6 mx-auto h-4/5 w-10/12 sm:w-3/4 md:h-3/5"
+        className="modal relative top-6 mx-auto h-4/5 w-10/12 sm:w-4/5 md:h-4/5"
         onClick={(e) => e.stopPropagation()}
       >
         <Card className="flex h-full min-h-44 w-full flex-col overflow-y-auto md:flex md:flex-row md:overflow-y-visible">
