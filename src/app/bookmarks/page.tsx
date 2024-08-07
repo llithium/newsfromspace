@@ -10,7 +10,7 @@ import { Image } from "@nextui-org/image";
 import { Divider } from "@nextui-org/divider";
 import PageButtons from "@/components/PageButtons";
 
-export default async function BookmrksPage({
+export default async function BookmarksPage({
   searchParams,
 }: {
   searchParams: { page: string };

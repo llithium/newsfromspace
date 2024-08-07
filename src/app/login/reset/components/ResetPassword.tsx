@@ -63,7 +63,6 @@ const ResetPassword = () => {
         disabled={isLoading}
       >
         {isLoading ? "Resetting Password..." : "Reset Password"}
-        Reset Password
       </Button>
     </form>
   );

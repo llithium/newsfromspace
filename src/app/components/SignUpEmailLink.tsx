@@ -15,10 +15,10 @@ const emailSchema = z
 const SignUpEmailLink = () => {
   const [emailIsInvalid, setEmailIsInvalid] = useState(false);
   const [emailErrorMessage, setEmailErrorMessage] = useState("");
-  const [isSigningUp, setIsSigningUp] = useState(false);
+  const [inProgress, setInProgress] = useState(false);
 
   async function handleSignUp(formData: FormData) {
-    setIsSigningUp(true);
+    setInProgress(true);
     const data = {
       email: formData.get("email"),
       password: formData.get("password"),
@@ -27,7 +27,7 @@ const SignUpEmailLink = () => {
     if (!emailResult.success) {
       setEmailErrorMessage(emailResult.error.issues[0].message);
       setEmailIsInvalid(true);
-      setIsSigningUp(false);
+      setInProgress(false);
     }
 
     if (emailResult.success) {
@@ -35,7 +35,7 @@ const SignUpEmailLink = () => {
       if (error) {
         setEmailErrorMessage(error);
         setEmailIsInvalid(true);
-        setIsSigningUp(false);
+        setInProgress(false);
       }
     }
   }
@@ -64,10 +64,10 @@ const SignUpEmailLink = () => {
         color="primary"
         className="h-14 w-full text-xl"
         type="submit"
-        isLoading={isSigningUp}
-        disabled={isSigningUp}
+        isLoading={inProgress}
+        disabled={inProgress}
       >
-        {isSigningUp ? "Signing up..." : "Sign Up"}
+        {inProgress ? "Signing up..." : "Sign Up"}
       </Button>
       <Link
         className="transition-opacity hover:opacity-80 active:opacity-disabled"

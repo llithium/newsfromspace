@@ -27,10 +27,10 @@ const SignUpEmailPassword = () => {
   const [passwordErrorMessage, setPasswordErrorMessage] = useState("");
   const [emailIsInvalid, setEmailIsInvalid] = useState(false);
   const [emailErrorMessage, setEmailErrorMessage] = useState("");
-  const [isSigningUp, setIsSigningUp] = useState(false);
+  const [inProgress, setInProgress] = useState(false);
 
   async function handleSignUp(formData: FormData) {
-    setIsSigningUp(true);
+    setInProgress(true);
     const data = {
       email: formData.get("email") as string,
       password: formData.get("password") as string,
@@ -39,18 +39,18 @@ const SignUpEmailPassword = () => {
     if (!emailResult.success) {
       setEmailErrorMessage(emailResult.error.issues[0].message);
       setEmailIsInvalid(true);
-      setIsSigningUp(false);
+      setInProgress(false);
     }
     const passwordResult = passwordSchema.safeParse(data.password);
     if (!passwordResult.success) {
       setPasswordErrorMessage(passwordResult.error.issues[0].message);
       setPasswordIsInvalid(true);
-      setIsSigningUp(false);
+      setInProgress(false);
     }
     if (emailResult.success && passwordResult.success) {
       const signUpError = await signup(formData);
       if (signUpError) {
-        setIsSigningUp(false);
+        setInProgress(false);
         if (signUpError === "User already exists") {
           setEmailErrorMessage(signUpError);
           setEmailIsInvalid(true);
@@ -115,10 +115,10 @@ const SignUpEmailPassword = () => {
         color="primary"
         className="h-14 w-full text-xl"
         type="submit"
-        isLoading={isSigningUp}
-        disabled={isSigningUp}
+        isLoading={inProgress}
+        disabled={inProgress}
       >
-        {isSigningUp ? "Signing up..." : "Sign Up"}
+        {inProgress ? "Signing up..." : "Sign Up"}
       </Button>
       <Link
         className="transition-opacity hover:opacity-80 active:opacity-disabled"

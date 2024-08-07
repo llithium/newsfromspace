@@ -15,10 +15,10 @@ const emailSchema = z
 const LogInEmailLink = () => {
   const [emailIsInvalid, setEmailIsInvalid] = useState(false);
   const [emailErrorMessage, setEmailErrorMessage] = useState("");
-  const [isloggingIn, setIsLoggingIn] = useState(false);
+  const [inProgress, setInProgress] = useState(false);
 
   async function handleLogin(formData: FormData) {
-    setIsLoggingIn(true);
+    setInProgress(true);
     const data = {
       email: formData.get("email"),
       password: formData.get("password"),
@@ -27,7 +27,7 @@ const LogInEmailLink = () => {
     if (!emailResult.success) {
       setEmailErrorMessage(emailResult.error.issues[0].message);
       setEmailIsInvalid(true);
-      setIsLoggingIn(false);
+      setInProgress(false);
     }
 
     if (emailResult.success) {
@@ -35,7 +35,7 @@ const LogInEmailLink = () => {
       if (error) {
         setEmailErrorMessage(error);
         setEmailIsInvalid(true);
-        setIsLoggingIn(false);
+        setInProgress(false);
       }
     }
   }
@@ -64,17 +64,17 @@ const LogInEmailLink = () => {
         color="primary"
         className="h-14 w-full text-xl"
         type="submit"
-        isLoading={isloggingIn}
-        disabled={isloggingIn}
+        isLoading={inProgress}
+        disabled={inProgress}
       >
-        {isloggingIn ? "Logging in..." : "Log in"}
+        {inProgress ? "Logging in..." : "Log in"}
       </Button>
       {/* <p className="text-sm opacity-60">Forgot your password?</p> */}
       <Link
         className="transition-opacity hover:opacity-80 active:opacity-disabled"
         href="/signup"
       >
-        <p className="text-sm ">{"Don't have an account? Sign Up"}</p>
+        <p className="text-sm">{"Don't have an account? Sign Up"}</p>
       </Link>
     </form>
   );
