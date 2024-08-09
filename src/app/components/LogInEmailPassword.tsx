@@ -2,11 +2,11 @@
 import { Button } from "@nextui-org/button";
 import { Input } from "@nextui-org/input";
 import { useState } from "react";
-import { login } from "@/login/actions";
 import { z } from "zod";
 import { EyeSlashFilledIcon } from "./EyeSlashFilledIcon";
 import { EyeFilledIcon } from "./EyeFilledIcon";
 import Link from "next/link";
+import { account } from "@/actions";
 
 const emailSchema = z
   .string()
@@ -46,7 +46,7 @@ const LoginEmailPassword = () => {
       setInProgress(false);
     }
     if (emailResult.success && passwordResult.success) {
-      const loginError = await login(formData);
+      const loginError = await account.login.password(formData);
       if (loginError) {
         setPasswordErrorMessage(loginError);
         setPasswordIsInvalid(true);

@@ -21,14 +21,13 @@ import { usePathname } from "next/navigation";
 import SearchInput from "./SearchInput";
 import Link from "next/link";
 import { createClient } from "@/utils/supabase/client";
-import { signOutAction } from "@/actions";
+import { Session } from "@supabase/supabase-js";
+import { account } from "@/actions";
 
 export default function AppNavbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const pathname = usePathname();
-  const [sessionData, setSessionData] = useState<SessionData>({
-    session: null,
-  });
+  const [session, setSession] = useState<Session | null>(null);
   const [error, setError] = useState<unknown>(null);
 
   useEffect(() => {
@@ -40,7 +39,7 @@ export default function AppNavbar() {
         if (error) {
           setError(error.message);
         } else {
-          setSessionData(data as SessionData);
+          setSession(data.session);
         }
       } catch (error: unknown) {
         setError(error);
@@ -130,7 +129,7 @@ export default function AppNavbar() {
             Blogs
           </Link>
         </NavbarItem>
-        {error || !sessionData.session ? null : (
+        {error || !session ? null : (
           <NavbarItem isActive={pathname.startsWith("/bookmarks")}>
             <Link
               className="transition-opacity hover:opacity-80 active:opacity-disabled"
@@ -153,7 +152,7 @@ export default function AppNavbar() {
       <NavbarContent
         className={`${
           error ||
-          !sessionData.session ||
+          !session ||
           (pathname !== "/articles" &&
             pathname !== "/launches" &&
             pathname !== "/blogs")
@@ -162,13 +161,13 @@ export default function AppNavbar() {
         }`}
         justify="end"
       >
-        {error || !sessionData.session ? (
+        {error || !session ? (
           <NavbarItem>
             <ThemeSwitcher />
           </NavbarItem>
         ) : null}
         {/* Login/Sign Up */}
-        {error || !sessionData.session ? (
+        {error || !session ? (
           <>
             <NavbarItem className="hidden md:flex">
               <Link
@@ -216,7 +215,7 @@ export default function AppNavbar() {
                   <DropdownItem
                     key="signOut"
                     onPress={() => {
-                      signOutAction();
+                      account.logout();
                     }}
                   >
                     Sign Out
@@ -295,7 +294,7 @@ export default function AppNavbar() {
             Blogs
           </Link>
         </NavbarMenuItem>
-        {error || !sessionData.session ? null : (
+        {error || !session ? null : (
           <NavbarMenuItem isActive={pathname.startsWith("/bookmarks")}>
             <Link
               color="foreground"
@@ -310,57 +309,5 @@ export default function AppNavbar() {
     </Navbar>
   );
 }
-export interface SessionData {
-  session: Session | null;
-}
 
-export interface Session {
-  access_token: string;
-  token_type: string;
-  expires_in: number;
-  expires_at: number | undefined;
-  refresh_token: string;
-  user: User;
-}
 
-export interface User {
-  id: string;
-  aud: string;
-  role: string;
-  email: string;
-  email_confirmed_at: Date;
-  phone: string;
-  confirmation_sent_at: Date;
-  confirmed_at: Date;
-  last_sign_in_at: Date;
-  app_metadata: AppMetadata;
-  user_metadata: Data;
-  identities: Identity[];
-  created_at: Date;
-  updated_at: Date;
-  is_anonymous: boolean;
-}
-
-export interface AppMetadata {
-  provider: string;
-  providers: string[];
-}
-
-export interface Identity {
-  identity_id: string;
-  id: string;
-  user_id: string;
-  identity_data: Data;
-  provider: string;
-  last_sign_in_at: Date;
-  created_at: Date;
-  updated_at: Date;
-  email: string;
-}
-
-export interface Data {
-  email: string;
-  email_verified: boolean;
-  phone_verified: boolean;
-  sub: string;
-}

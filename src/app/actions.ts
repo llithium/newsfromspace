@@ -1,10 +1,163 @@
 "use server";
 
-import { redirect } from "next/navigation";
-import { createClient } from "./utils/supabase/server";
 import { revalidatePath } from "next/cache";
+import { redirect } from "next/navigation";
+import { createClient } from "@/utils/supabase/server";
+import { z } from "zod";
+import getURL from "@/utils/getURL";
 
-export async function signOutAction() {
+const login = {
+  password: loginWithPassword,
+  link: loginWithLink,
+  google: oauthGoogle,
+  discord: oauthDiscord,
+  x: oauthX,
+};
+
+const email = {
+  change: changeEmail,
+  update: updatePassword,
+};
+
+const password = {
+  reset: resetPassword,
+  update: updatePassword,
+};
+
+const signup = {
+  password: signupWithPassword,
+  link: loginWithLink,
+  google: oauthGoogle,
+  discord: oauthDiscord,
+  x: oauthX,
+};
+
+export const account = {
+  login: login,
+  logout: logout,
+  signup: signup,
+  email: email,
+  password: password,
+};
+
+const emailSchema = z
+  .string()
+  .email({ message: "Invalid Email" })
+  .toLowerCase()
+  .max(128, { message: "Email cannot exceed 128 characters" });
+const passwordSchema = z
+  .string()
+  .min(8, { message: "Password must be 8 or more characters long" })
+  .max(128, { message: "Password cannot exceed 128 characters" });
+
+async function oauthGoogle() {
+  const supabase = createClient();
+
+  const { data, error } = await supabase.auth.signInWithOAuth({
+    provider: "google",
+    options: {
+      queryParams: {
+        access_type: "offline",
+        prompt: "consent",
+      },
+      redirectTo: getURL(),
+    },
+  });
+
+  if (!error) {
+    if (data.url) {
+      redirect(data.url); // use the redirect API for your server framework
+    }
+  } else {
+    throw new Error(error.message);
+  }
+}
+
+async function oauthX() {
+  const supabase = createClient();
+
+  const { data, error } = await supabase.auth.signInWithOAuth({
+    provider: "twitter",
+    options: { redirectTo: getURL() },
+  });
+
+  if (!error) {
+    if (data.url) {
+      redirect(data.url); // use the redirect API for your server framework
+    }
+  } else {
+    throw new Error(error.message);
+  }
+}
+
+async function oauthDiscord() {
+  const supabase = createClient();
+
+  const { data, error } = await supabase.auth.signInWithOAuth({
+    provider: "discord",
+    options: { redirectTo: getURL() },
+  });
+
+  if (!error) {
+    if (data.url) {
+      redirect(data.url); // use the redirect API for your server framework
+    }
+  } else {
+    throw new Error(error.message);
+  }
+}
+
+async function loginWithPassword(formData: FormData) {
+  const supabase = createClient();
+
+  const emailResult = emailSchema.safeParse(formData.get("email"));
+  if (!emailResult.success) {
+    throw new Error(emailResult.error.message);
+  }
+  const passwordResult = passwordSchema.safeParse(formData.get("password"));
+  if (!passwordResult.success) {
+    throw new Error(passwordResult.error.message);
+  }
+
+  if (emailResult.success && passwordResult.success) {
+    const data = {
+      email: emailResult.data,
+      password: passwordResult.data,
+    };
+    const { error } = await supabase.auth.signInWithPassword(data);
+    if (error) {
+      return error.message;
+    }
+    revalidatePath("/", "layout");
+    redirect("/");
+  }
+}
+
+async function loginWithLink(formData: FormData) {
+  const supabase = createClient();
+
+  const emailResult = emailSchema.safeParse(formData.get("email"));
+  if (!emailResult.success) {
+    throw new Error(emailResult.error.message);
+  }
+  const { error } = await supabase.auth.signInWithOtp({
+    email: emailResult.data,
+    options: {
+      // set this to false if you do not want the user to be automatically signed up
+      // shouldCreateUser: false,
+      // emailRedirectTo: "https://example.com/welcome",
+      emailRedirectTo: getURL(),
+    },
+  });
+  if (!error) {
+    revalidatePath("/", "layout");
+    redirect("/login/confirm");
+  } else {
+    return error.message;
+  }
+}
+
+async function logout() {
   const supabase = createClient();
   const { error } = await supabase.auth.signOut({ scope: "local" });
   if (error) {
@@ -14,7 +167,105 @@ export async function signOutAction() {
   redirect("/login");
 }
 
-export async function addBookmark(
+async function changeEmail(formData: FormData) {
+  const supabase = createClient();
+  const emailResult = emailSchema.safeParse(formData.get("email"));
+
+  if (!emailResult.success) {
+    throw new Error(emailResult.error.message);
+  }
+
+  const { data } = await supabase.auth.getUser();
+  if (data.user?.email === formData.get("email")) {
+    return `Your account's Email is already set to ${data.user.email}`;
+  }
+
+  const { error } = await supabase.auth.updateUser({
+    email: emailResult.data,
+  });
+  if (!error) {
+    redirect("/account/email/confirm");
+  } else {
+    return error.message;
+  }
+}
+
+async function resetPassword(formData: FormData) {
+  const supabase = createClient();
+
+  const emailResult = emailSchema.safeParse(formData.get("email"));
+  if (!emailResult.success) {
+    throw new Error(emailResult.error.message);
+  }
+
+  const { error } = await supabase.auth.resetPasswordForEmail(
+    emailResult.data,
+    {
+      redirectTo: `${getURL()}account/reset`,
+    },
+  );
+  if (!error) {
+    redirect("/login/reset/confirm");
+  } else {
+    return error.message;
+  }
+}
+
+async function updatePassword(formData: FormData) {
+  const supabase = createClient();
+  const passwordResult = passwordSchema.safeParse(formData.get("password"));
+
+  if (!passwordResult.success) {
+    throw new Error(passwordResult.error.message);
+  }
+
+  const { error } = await supabase.auth.updateUser({
+    password: passwordResult.data,
+  });
+
+  if (!error) {
+    redirect("/account/");
+  } else {
+    return error.message;
+  }
+}
+async function signupWithPassword(formData: FormData) {
+  const supabase = createClient();
+
+  const emailResult = emailSchema.safeParse(formData.get("email"));
+  if (!emailResult.success) {
+    throw new Error(emailResult.error.message);
+  }
+  const passwordResult = passwordSchema.safeParse(formData.get("password"));
+  if (!passwordResult.success) {
+    throw new Error(passwordResult.error.message);
+  }
+
+  if (emailResult.success && passwordResult.success) {
+    const data = {
+      email: emailResult.data,
+      password: passwordResult.data,
+    };
+    const { data: user, error } = await supabase.auth.signUp({
+      email: data.email,
+      password: data.password,
+      options: {
+        emailRedirectTo: getURL(),
+      },
+    });
+    if (error) {
+      return error.message;
+    }
+    if (user.user?.identities?.length == 0) {
+      return "User already exists";
+    }
+
+    revalidatePath("/", "layout");
+    redirect("/signup/confirm");
+  }
+}
+
+async function addBookmark(
   bookmarkRoute: string,
   bookmarkId: string,
 ): Promise<string | null> {
@@ -37,7 +288,7 @@ export async function addBookmark(
   }
 }
 
-export async function deleteBookmark(
+async function deleteBookmark(
   bookmarkRoute: string,
   bookmarkId: string,
 ): Promise<string | null> {
@@ -59,7 +310,7 @@ export async function deleteBookmark(
   }
 }
 
-export async function checkBookmark(
+async function checkBookmark(
   bookmarkRoute: string,
   bookmarkId: string,
 ): Promise<string | null> {
@@ -89,3 +340,9 @@ export async function checkBookmark(
     return getUserError.message;
   }
 }
+
+export const bookmark = {
+  add: addBookmark,
+  delete: deleteBookmark,
+  check: checkBookmark,
+};

@@ -2,9 +2,9 @@
 import { Button } from "@nextui-org/button";
 import { Input } from "@nextui-org/input";
 import { useState } from "react";
-import { signInWithEmailLink } from "@/login/actions";
 import Link from "next/link";
 import { z } from "zod";
+import { account } from "@/actions";
 
 const emailSchema = z
   .string()
@@ -31,7 +31,7 @@ const LogInEmailLink = () => {
     }
 
     if (emailResult.success) {
-      const error = await signInWithEmailLink(formData);
+      const error = await account.login.link(formData);
       if (error) {
         setEmailErrorMessage(error);
         setEmailIsInvalid(true);

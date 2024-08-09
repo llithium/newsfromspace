@@ -1,10 +1,11 @@
 import { Card, CardBody, CardHeader } from "@nextui-org/card";
 import Link from "next/link";
 import { apiURL, launchApiUrl } from "@/utils/variables";
-import HomeLaunches from "./HomeLaunches";
 import { Suspense } from "react";
 import HomeArticles from "./HomeArticles";
 import HomeBlogs from "./HomeBlogs";
+import { Spinner } from "@nextui-org/spinner";
+import HomeLaunches from "./HomeLaunches";
 
 export async function fetchUpcomingLaunchesHomePage() {
   const res = await fetch(
@@ -60,7 +61,19 @@ export default async function HomePage() {
             </Link>
           </CardHeader>
           <CardBody className="flex flex-col gap-2 overflow-y-auto">
-            <Suspense>
+            <Suspense
+              fallback={
+                <Spinner
+                  color="current"
+                  className="mx-auto my-auto h-[calc(100svh-200px)]"
+                  classNames={{
+                    wrapper: "w-44 h-44",
+                  }}
+                  size="lg"
+                  label="Loading..."
+                />
+              }
+            >
               <HomeLaunches />
             </Suspense>
           </CardBody>
@@ -76,7 +89,19 @@ export default async function HomePage() {
               </Link>
             </CardHeader>
             <CardBody className="flex flex-col gap-2 overflow-y-auto">
-              <Suspense>
+              <Suspense
+                fallback={
+                  <Spinner
+                    color="current"
+                    className="mx-auto my-auto h-[calc(100svh-200px)]"
+                    classNames={{
+                      wrapper: "w-44 h-44",
+                    }}
+                    size="lg"
+                    label="Loading..."
+                  />
+                }
+              >
                 <HomeArticles />
               </Suspense>
             </CardBody>
@@ -91,7 +116,19 @@ export default async function HomePage() {
               </Link>
             </CardHeader>
             <CardBody className="flex flex-col gap-2 overflow-y-auto">
-              <Suspense>
+              <Suspense
+                fallback={
+                  <Spinner
+                    color="current"
+                    className="mx-auto my-auto h-[calc(100svh-200px)]"
+                    classNames={{
+                      wrapper: "w-44 h-44",
+                    }}
+                    size="lg"
+                    label="Loading..."
+                  />
+                }
+              >
                 <HomeBlogs />
               </Suspense>
             </CardBody>

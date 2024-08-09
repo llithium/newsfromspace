@@ -5,7 +5,7 @@ import { useState } from "react";
 import { z } from "zod";
 import { EyeSlashFilledIcon } from "@/components/EyeSlashFilledIcon";
 import { EyeFilledIcon } from "@/components/EyeFilledIcon";
-import { updatePassword } from "@/login/actions";
+import { account } from "@/actions";
 
 const passwordSchema = z
   .string()
@@ -28,7 +28,7 @@ const UpdateAccountPassword = () => {
       setIsLoading(false);
     }
     if (passwordResult.success) {
-      const updatePasswordError = await updatePassword(formData);
+      const updatePasswordError = await account.password.update(formData);
       if (updatePasswordError) {
         setPasswordErrorMessage(updatePasswordError);
         setPasswordIsInvalid(true);

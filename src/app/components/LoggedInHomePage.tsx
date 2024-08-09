@@ -5,6 +5,7 @@ import { Suspense } from "react";
 import HomeBookmarks from "./HomeBookmarks";
 import HomeLaunches from "./HomeLaunches";
 import HomeArticles from "./HomeArticles";
+import { Spinner } from "@nextui-org/spinner";
 
 export interface BookmarkData {
   id: number;
@@ -48,7 +49,19 @@ export default async function LoggedInHomePage({
             </Link>
           </CardHeader>
           <CardBody className="flex flex-col gap-2 overflow-y-auto">
-            <Suspense>
+            <Suspense
+              fallback={
+                <Spinner
+                  color="current"
+                  className="mx-auto my-auto h-[calc(100svh-200px)]"
+                  classNames={{
+                    wrapper: "w-44 h-44",
+                  }}
+                  size="lg"
+                  label="Loading..."
+                />
+              }
+            >
               <HomeBookmarks bookmarks={bookmarks} />
             </Suspense>
           </CardBody>
@@ -64,7 +77,19 @@ export default async function LoggedInHomePage({
               </Link>
             </CardHeader>
             <CardBody className="flex flex-col gap-2 overflow-y-auto">
-              <Suspense>
+              <Suspense
+                fallback={
+                  <Spinner
+                    color="current"
+                    className="mx-auto my-auto h-[calc(100svh-200px)]"
+                    classNames={{
+                      wrapper: "w-44 h-44",
+                    }}
+                    size="lg"
+                    label="Loading..."
+                  />
+                }
+              >
                 <HomeLaunches />
               </Suspense>
             </CardBody>
@@ -79,7 +104,19 @@ export default async function LoggedInHomePage({
               </Link>
             </CardHeader>
             <CardBody className="flex flex-col gap-2 overflow-y-auto">
-              <Suspense>
+              <Suspense
+                fallback={
+                  <Spinner
+                    color="current"
+                    className="mx-auto my-auto h-[calc(100svh-200px)]"
+                    classNames={{
+                      wrapper: "w-44 h-44",
+                    }}
+                    size="lg"
+                    label="Loading..."
+                  />
+                }
+              >
                 <HomeArticles />
               </Suspense>
             </CardBody>

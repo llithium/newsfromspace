@@ -5,10 +5,10 @@ import { useState } from "react";
 import { EyeSlashFilledIcon } from "@/components/EyeSlashFilledIcon";
 import { EyeFilledIcon } from "@/components/EyeFilledIcon";
 
-import { signup } from "@/login/actions";
 import Link from "next/link";
 import { z } from "zod";
 import { Input } from "@nextui-org/input";
+import { account } from "@/actions";
 
 const emailSchema = z
   .string()
@@ -48,7 +48,7 @@ const SignUpEmailPassword = () => {
       setInProgress(false);
     }
     if (emailResult.success && passwordResult.success) {
-      const signUpError = await signup(formData);
+      const signUpError = await account.signup.password(formData);
       if (signUpError) {
         setInProgress(false);
         if (signUpError === "User already exists") {

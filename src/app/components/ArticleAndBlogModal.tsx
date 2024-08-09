@@ -10,9 +10,9 @@ import { usePathname, useRouter } from "next/navigation";
 import { ArticleAndBlog } from "../articles/[articleId]/components/ArticleCard";
 import { createClient } from "@/utils/supabase/client";
 import { useEffect, useState } from "react";
-import { SessionData } from "./AppNavbar";
-import { addBookmark, checkBookmark, deleteBookmark } from "@/actions";
 import toast from "react-hot-toast";
+import { bookmark } from "@/actions";
+import { Session } from "@supabase/supabase-js";
 
 export default function ArticleAndBlogModal({
   card,
@@ -23,9 +23,7 @@ export default function ArticleAndBlogModal({
   const pathname = usePathname();
   useLockBodyScroll();
 
-  const [sessionData, setSessionData] = useState<SessionData>({
-    session: null,
-  });
+  const [session, setSession] = useState<Session | null>(null);
   const [bookmarked, setBookmarked] = useState(false);
 
   const opts = pathname.split("/").filter((part) => part !== "");
@@ -34,11 +32,11 @@ export default function ArticleAndBlogModal({
   useEffect(() => {
     const fetchUserData = async () => {
       const supabase = createClient();
-      const error = await checkBookmark(type, id);
+      const error = await bookmark.check(type, id);
       !error ? setBookmarked(true) : null;
       const { data, error: getSessionError } = await supabase.auth.getSession();
       if (!getSessionError) {
-        setSessionData(data as SessionData);
+        setSession(data.session);
       }
     };
 
@@ -72,7 +70,7 @@ export default function ArticleAndBlogModal({
                 {bookmarked ? (
                   <svg
                     onClick={async () => {
-                      const error = await deleteBookmark(opts[0], opts[1]);
+                      const error = await bookmark.delete(opts[0], opts[1]);
                       if (!error) {
                         setBookmarked(false);
                         toast.custom((t) => (
@@ -118,7 +116,7 @@ export default function ArticleAndBlogModal({
                 ) : (
                   <svg
                     onClick={async () => {
-                      const error = await addBookmark(opts[0], opts[1]);
+                      const error = await bookmark.add(opts[0], opts[1]);
                       if (!error) {
                         setBookmarked(true);
                         toast.custom((t) => (
@@ -150,7 +148,7 @@ export default function ArticleAndBlogModal({
                         ));
                       }
                     }}
-                    className={`transition-opacity hover:opacity-80 active:opacity-disabled ${!sessionData.session ? "hidden" : ""}`}
+                    className={`transition-opacity hover:opacity-80 active:opacity-disabled ${!session ? "hidden" : ""}`}
                     xmlns="http://www.w3.org/2000/svg"
                     width="24"
                     height="24"
