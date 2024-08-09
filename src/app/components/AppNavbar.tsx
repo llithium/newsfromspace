@@ -16,7 +16,7 @@ import {
 } from "@nextui-org/dropdown";
 import { Button } from "@nextui-org/button";
 import { Suspense, useEffect, useState } from "react";
-import ThemeSwitcher, { DropdownThemeSwitcher } from "./ThemeSwitcher";
+import ThemeSwitcher from "./ThemeSwitcher";
 import { usePathname } from "next/navigation";
 import SearchInput from "./SearchInput";
 import Link from "next/link";
@@ -46,10 +46,14 @@ export default function AppNavbar() {
       }
     };
     fetchUserData();
-  }, [pathname]);
+  }, [pathname, isMenuOpen]);
 
   return (
-    <Navbar className="z-50 mb-3" onMenuOpenChange={setIsMenuOpen}>
+    <Navbar
+      className="z-50 mb-3"
+      isMenuOpen={isMenuOpen}
+      onMenuOpenChange={setIsMenuOpen}
+    >
       <NavbarContent>
         <NavbarMenuToggle
           aria-label={isMenuOpen ? "Close menu" : "Open menu"}
@@ -169,7 +173,7 @@ export default function AppNavbar() {
         {/* Login/Sign Up */}
         {error || !session ? (
           <>
-            <NavbarItem className="hidden md:flex">
+            <NavbarItem>
               <Link
                 className="transition-opacity hover:opacity-80 active:opacity-disabled"
                 color="foreground"
@@ -179,7 +183,13 @@ export default function AppNavbar() {
               </Link>
             </NavbarItem>
             <NavbarItem>
-              <Button as={Link} color="default" href="/signup" variant="flat">
+              <Button
+                className="hidden md:flex"
+                as={Link}
+                color="default"
+                href="/signup"
+                variant="flat"
+              >
                 Sign Up
               </Button>
             </NavbarItem>
@@ -208,7 +218,7 @@ export default function AppNavbar() {
                     Account
                   </DropdownItem>
                   <DropdownItem
-                    as={DropdownThemeSwitcher}
+                    as={ThemeSwitcher}
                     key="themeSwitcher"
                     textValue="themeSwitcher"
                   ></DropdownItem>
@@ -239,6 +249,7 @@ export default function AppNavbar() {
             color="foreground"
             className="w-full transition-opacity hover:opacity-80 active:opacity-disabled"
             href="/articles"
+            onClick={() => setIsMenuOpen(false)}
           >
             Articles
           </Link>
@@ -277,10 +288,21 @@ export default function AppNavbar() {
               title: "text-center text-medium",
             }}
           >
-            <DropdownItem as={Link} href="/launches" key="upcoming">
+            <DropdownItem
+              as={Link}
+              href="/launches"
+              key="upcoming"
+              onClick={() => setIsMenuOpen(false)}
+            >
               Upcoming
             </DropdownItem>
-            <DropdownItem as={Link} href="/launches/past" key="past">
+
+            <DropdownItem
+              as={Link}
+              href="/launches/past"
+              key="past"
+              onClick={() => setIsMenuOpen(false)}
+            >
               Past
             </DropdownItem>
           </DropdownMenu>
@@ -290,6 +312,7 @@ export default function AppNavbar() {
             color="foreground"
             className="w-full transition-opacity hover:opacity-80 active:opacity-disabled"
             href="/blogs"
+            onClick={() => setIsMenuOpen(false)}
           >
             Blogs
           </Link>
@@ -300,14 +323,23 @@ export default function AppNavbar() {
               color="foreground"
               className="w-full transition-opacity hover:opacity-80 active:opacity-disabled"
               href="/bookmarks"
+              onClick={() => setIsMenuOpen(false)}
             >
               Bookmarks
             </Link>
           </NavbarMenuItem>
         )}
+        <NavbarMenuItem>
+          <Link
+            color="foreground"
+            className="w-full transition-opacity hover:opacity-80 active:opacity-disabled"
+            href="/signup"
+            onClick={() => setIsMenuOpen(false)}
+          >
+            Sign Up
+          </Link>
+        </NavbarMenuItem>
       </NavbarMenu>
     </Navbar>
   );
 }
-
-
