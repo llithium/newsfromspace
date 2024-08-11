@@ -6,40 +6,6 @@ import { createClient } from "@/app/utils/supabase/server";
 import { z } from "zod";
 import { getURL } from "@/lib/utils";
 
-const login = {
-  password: loginWithPassword,
-  link: loginWithLink,
-  google: oauthGoogle,
-  discord: oauthDiscord,
-  x: oauthX,
-};
-
-const email = {
-  change: changeEmail,
-  update: updatePassword,
-};
-
-const password = {
-  reset: resetPassword,
-  update: updatePassword,
-};
-
-const signup = {
-  password: signupWithPassword,
-  link: loginWithLink,
-  google: oauthGoogle,
-  discord: oauthDiscord,
-  x: oauthX,
-};
-
-export const account = {
-  login: login,
-  logout: logout,
-  signup: signup,
-  email: email,
-  password: password,
-};
-
 const emailSchema = z
   .string()
   .email({ message: "Invalid Email" })
@@ -50,7 +16,7 @@ const passwordSchema = z
   .min(8, { message: "Password must be 8 or more characters long" })
   .max(128, { message: "Password cannot exceed 128 characters" });
 
-async function oauthGoogle() {
+export async function oauthGoogle() {
   const supabase = createClient();
 
   const { data, error } = await supabase.auth.signInWithOAuth({
@@ -73,7 +39,7 @@ async function oauthGoogle() {
   }
 }
 
-async function oauthX() {
+export async function oauthX() {
   const supabase = createClient();
 
   const { data, error } = await supabase.auth.signInWithOAuth({
@@ -90,7 +56,7 @@ async function oauthX() {
   }
 }
 
-async function oauthDiscord() {
+export async function oauthDiscord() {
   const supabase = createClient();
 
   const { data, error } = await supabase.auth.signInWithOAuth({
@@ -107,7 +73,7 @@ async function oauthDiscord() {
   }
 }
 
-async function loginWithPassword(formData: FormData) {
+export async function loginWithPassword(formData: FormData) {
   const supabase = createClient();
 
   const emailResult = emailSchema.safeParse(formData.get("email"));
@@ -133,7 +99,7 @@ async function loginWithPassword(formData: FormData) {
   }
 }
 
-async function loginWithLink(formData: FormData) {
+export async function loginWithLink(formData: FormData) {
   const supabase = createClient();
 
   const emailResult = emailSchema.safeParse(formData.get("email"));
@@ -157,7 +123,7 @@ async function loginWithLink(formData: FormData) {
   }
 }
 
-async function logout() {
+export async function logout() {
   const supabase = createClient();
   const { error } = await supabase.auth.signOut({ scope: "local" });
   if (error) {
@@ -167,7 +133,7 @@ async function logout() {
   redirect("/login");
 }
 
-async function changeEmail(formData: FormData) {
+export async function changeEmail(formData: FormData) {
   const supabase = createClient();
   const emailResult = emailSchema.safeParse(formData.get("email"));
 
@@ -190,7 +156,7 @@ async function changeEmail(formData: FormData) {
   }
 }
 
-async function resetPassword(formData: FormData) {
+export async function resetPassword(formData: FormData) {
   const supabase = createClient();
 
   const emailResult = emailSchema.safeParse(formData.get("email"));
@@ -211,7 +177,7 @@ async function resetPassword(formData: FormData) {
   }
 }
 
-async function updatePassword(formData: FormData) {
+export async function updatePassword(formData: FormData) {
   const supabase = createClient();
   const passwordResult = passwordSchema.safeParse(formData.get("password"));
 
@@ -229,7 +195,7 @@ async function updatePassword(formData: FormData) {
     return error.message;
   }
 }
-async function signupWithPassword(formData: FormData) {
+export async function signupWithPassword(formData: FormData) {
   const supabase = createClient();
 
   const emailResult = emailSchema.safeParse(formData.get("email"));
@@ -265,7 +231,7 @@ async function signupWithPassword(formData: FormData) {
   }
 }
 
-async function addBookmark(
+export async function addBookmark(
   bookmarkRoute: string,
   bookmarkId: string,
 ): Promise<string | null> {
@@ -288,7 +254,7 @@ async function addBookmark(
   }
 }
 
-async function deleteBookmark(
+export async function deleteBookmark(
   bookmarkRoute: string,
   bookmarkId: string,
 ): Promise<string | null> {
@@ -310,7 +276,7 @@ async function deleteBookmark(
   }
 }
 
-async function checkBookmark(
+export async function checkBookmark(
   bookmarkRoute: string,
   bookmarkId: string,
 ): Promise<string | null> {
@@ -340,12 +306,6 @@ async function checkBookmark(
     return getUserError.message;
   }
 }
-
-export const bookmark = {
-  add: addBookmark,
-  delete: deleteBookmark,
-  check: checkBookmark,
-};
 
 export async function deleteUser() {
   const supabase = createClient();

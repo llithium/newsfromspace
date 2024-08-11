@@ -9,10 +9,10 @@ import { usePathname, useRouter } from "next/navigation";
 import { createClient } from "@/app/utils/supabase/client";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
-import { bookmark } from "@/app/actions";
 import { Session } from "@supabase/supabase-js";
 import { ArticleAndBlog } from "./articles/[articleId]/ArticleCard";
 import { formatDate } from "@/lib/utils";
+import { addBookmark, checkBookmark, deleteBookmark } from "./actions";
 
 export default function ArticleAndBlogModal({
   card,
@@ -32,7 +32,7 @@ export default function ArticleAndBlogModal({
   useEffect(() => {
     const fetchUserData = async () => {
       const supabase = createClient();
-      const error = await bookmark.check(type, id);
+      const error = await checkBookmark(type, id);
       !error ? setBookmarked(true) : null;
       const { data, error: getSessionError } = await supabase.auth.getSession();
       if (!getSessionError) {
@@ -70,7 +70,7 @@ export default function ArticleAndBlogModal({
                 {bookmarked ? (
                   <svg
                     onClick={async () => {
-                      const error = await bookmark.delete(opts[0], opts[1]);
+                      const error = await deleteBookmark(opts[0], opts[1]);
                       if (!error) {
                         setBookmarked(false);
                         toast.custom((t) => (
@@ -116,7 +116,7 @@ export default function ArticleAndBlogModal({
                 ) : (
                   <svg
                     onClick={async () => {
-                      const error = await bookmark.add(opts[0], opts[1]);
+                      const error = await addBookmark(opts[0], opts[1]);
                       if (!error) {
                         setBookmarked(true);
                         toast.custom((t) => (

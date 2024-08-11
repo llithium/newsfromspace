@@ -22,7 +22,7 @@ import SearchInput from "./SearchInput";
 import Link from "next/link";
 import { createClient } from "@/app/utils/supabase/client";
 import { Session } from "@supabase/supabase-js";
-import { account } from "@/app/actions";
+import { logout } from "./actions";
 
 export default function AppNavbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -225,7 +225,7 @@ export default function AppNavbar() {
                   <DropdownItem
                     key="signOut"
                     onPress={() => {
-                      account.logout();
+                      logout();
                     }}
                   >
                     Sign Out

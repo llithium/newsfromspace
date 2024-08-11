@@ -1,5 +1,5 @@
 "use client";
-import { account } from "@/app/actions";
+import { oauthDiscord, oauthGoogle, oauthX } from "@/app/actions";
 import { Button } from "@nextui-org/button";
 import { CardHeader } from "@nextui-org/card";
 import { Divider } from "@nextui-org/divider";
@@ -15,7 +15,7 @@ const OauthButtons = () => {
           variant="flat"
           aria-label="Google"
           onPress={() => {
-            account.login.google();
+            oauthGoogle();
           }}
         >
           <svg
@@ -49,7 +49,7 @@ const OauthButtons = () => {
           variant="flat"
           aria-label="Discord"
           onPress={() => {
-            account.login.discord();
+            oauthDiscord();
           }}
         >
           <svg
@@ -81,7 +81,7 @@ const OauthButtons = () => {
           variant="flat"
           aria-label="X"
           onPress={() => {
-            account.login.x();
+            oauthX();
           }}
         >
           <svg

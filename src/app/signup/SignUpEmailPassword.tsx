@@ -3,12 +3,11 @@ import { Button } from "@nextui-org/button";
 
 import { useState } from "react";
 import { EyeSlashFilledIcon } from "src/components/ui/EyeSlashFilledIcon";
-
 import Link from "next/link";
 import { z } from "zod";
 import { Input } from "@nextui-org/input";
-import { account } from "@/app/actions";
 import { EyeFilledIcon } from "@/components/ui/EyeFilledIcon";
+import { signupWithPassword } from "../actions";
 
 const emailSchema = z
   .string()
@@ -48,7 +47,7 @@ const SignUpEmailPassword = () => {
       setInProgress(false);
     }
     if (emailResult.success && passwordResult.success) {
-      const signUpError = await account.signup.password(formData);
+      const signUpError = await signupWithPassword(formData);
       if (signUpError) {
         setInProgress(false);
         if (signUpError === "User already exists") {

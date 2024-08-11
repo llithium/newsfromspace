@@ -1,5 +1,6 @@
 "use client";
-import { account } from "@/app/actions";
+
+import { changeEmail } from "@/app/actions";
 import { Button } from "@nextui-org/button";
 import { Input } from "@nextui-org/input";
 import { useState } from "react";
@@ -26,7 +27,7 @@ const ChangeAccountEmail = () => {
     }
 
     if (emailResult.success) {
-      const error = await account.email.change(formData);
+      const error = await changeEmail(formData);
       if (error) {
         setEmailIsInvalid(true);
         setEmailErrorMessage(error);

@@ -6,7 +6,7 @@ import { z } from "zod";
 import { EyeSlashFilledIcon } from "../../components/ui/EyeSlashFilledIcon";
 import { EyeFilledIcon } from "../../components/ui/EyeFilledIcon";
 import Link from "next/link";
-import { account } from "@/app/actions";
+import { loginWithPassword } from "../actions";
 
 const emailSchema = z
   .string()
@@ -46,7 +46,7 @@ const LoginEmailPassword = () => {
       setInProgress(false);
     }
     if (emailResult.success && passwordResult.success) {
-      const loginError = await account.login.password(formData);
+      const loginError = await loginWithPassword(formData);
       if (loginError) {
         setPasswordErrorMessage(loginError);
         setPasswordIsInvalid(true);

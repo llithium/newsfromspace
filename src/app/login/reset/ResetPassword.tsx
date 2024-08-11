@@ -1,5 +1,6 @@
 "use client";
-import { account } from "@/app/actions";
+
+import { resetPassword } from "@/app/actions";
 import { Button } from "@nextui-org/button";
 import { Input } from "@nextui-org/input";
 import { useState } from "react";
@@ -26,7 +27,7 @@ const ResetPassword = () => {
     }
 
     if (emailResult.success) {
-      const error = await account.password.reset(formData);
+      const error = await resetPassword(formData);
       if (error) {
         setEmailIsInvalid(true);
         setEmailErrorMessage(error);
