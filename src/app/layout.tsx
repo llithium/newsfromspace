@@ -27,7 +27,7 @@ export default function RootLayout({
       <body>
         <Providers>
           <AppNavbar />
-          <div className="mx-auto w-11/12">
+          <div className="mx-auto px-2 2xl:px-6">
             {bookmarksModal}
             {children}
           </div>

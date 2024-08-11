@@ -30,7 +30,7 @@ export default function Articles({ page }: { page: number }) {
             return (
               <Card
                 key={article.id}
-                className="flex h-32 flex-row transition-opacity hover:opacity-80 active:opacity-disabled sm:h-44"
+                className="flex h-32 flex-row transition-opacity hover:opacity-80 active:opacity-disabled dark:bg-neutral-950 sm:h-44"
               >
                 <Link
                   scroll={false}

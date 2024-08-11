@@ -2,9 +2,9 @@ import { Card, CardBody } from "@nextui-org/card";
 import { Link as NextUILink } from "@nextui-org/link";
 import { Image } from "@nextui-org/image";
 import { Divider } from "@nextui-org/divider";
-import { BookmarkData } from "./LoggedInHomePage";
 import { getBookmarks } from "@/lib/getBookmarks";
 import { formatDate } from "@/lib/utils";
+import { BookmarkData } from "./HomePage";
 
 const HomeBookmarks = async ({ bookmarks }: { bookmarks: BookmarkData[] }) => {
   const bookmarksArray = await getBookmarks(bookmarks);
@@ -15,7 +15,7 @@ const HomeBookmarks = async ({ bookmarks }: { bookmarks: BookmarkData[] }) => {
         if (bookmark.type === "article") {
           return (
             <NextUILink key={bookmark.id} href={bookmark.url} isExternal>
-              <Card className="flex h-fit min-h-52 w-full flex-row py-2">
+              <Card className="flex h-fit min-h-52 w-full flex-row py-2 dark:bg-neutral-950">
                 <Image
                   alt="Article image"
                   className="z-0 ml-2 h-full w-44 flex-shrink rounded-xl object-cover sm:w-44 sm:flex-1 lg:w-56"
@@ -43,7 +43,7 @@ const HomeBookmarks = async ({ bookmarks }: { bookmarks: BookmarkData[] }) => {
         if (bookmark.type === "blog") {
           return (
             <NextUILink key={bookmark.id} href={bookmark.url} isExternal>
-              <Card className="flex h-fit min-h-52 w-full flex-row py-2">
+              <Card className="flex h-fit min-h-52 w-full flex-row py-2 dark:bg-neutral-950">
                 <Image
                   alt="Blog image"
                   className="z-0 ml-2 h-full max-h-48 w-44 flex-shrink rounded-xl object-cover sm:w-44 sm:flex-1 lg:w-56"

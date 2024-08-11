@@ -130,7 +130,7 @@ export async function logout() {
     throw new Error(error.message);
   }
   revalidatePath("/");
-  redirect("/login");
+  redirect("/");
 }
 
 export async function changeEmail(formData: FormData) {

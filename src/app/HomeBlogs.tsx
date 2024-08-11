@@ -14,7 +14,7 @@ const HomeBlogs = async () => {
       {blogs.results.map((blog) => {
         return (
           <NextUILink key={blog.id} href={blog.url} isExternal>
-            <Card className="flex min-h-52 w-full flex-row py-2 sm:h-full">
+            <Card className="flex min-h-52 w-full flex-row py-2 dark:bg-neutral-950 sm:h-full">
               <Image
                 alt="Blog image"
                 className="z-0 ml-2 h-full max-h-48 w-44 flex-shrink rounded-xl object-cover sm:w-44 sm:flex-1 lg:w-56"

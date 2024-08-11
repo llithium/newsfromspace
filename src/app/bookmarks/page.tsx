@@ -7,8 +7,9 @@ import { pageLimit } from "src/lib/variables";
 import { Image } from "@nextui-org/image";
 import { Divider } from "@nextui-org/divider";
 import PageButtons from "src/components/ui/PageButtons";
-import { BookmarkData } from "../LoggedInHomePage";
+
 import { formatDate } from "@/lib/utils";
+import { BookmarkData } from "../HomePage";
 
 export default async function BookmarksPage({
   searchParams,
@@ -56,7 +57,7 @@ export default async function BookmarksPage({
                   key={bookmark.id}
                   href={`/articles/${bookmark.id}`}
                 >
-                  <Card className="flex h-32 w-full flex-row py-2 sm:h-44">
+                  <Card className="flex h-32 w-full flex-row py-2 dark:bg-neutral-950 sm:h-44">
                     <Image
                       alt="Article image"
                       className="z-0 ml-2 h-full w-44 flex-shrink rounded-xl object-cover sm:w-44 sm:flex-1 lg:w-56"
@@ -88,7 +89,7 @@ export default async function BookmarksPage({
                   key={bookmark.id}
                   href={`/blogs/${bookmark.id}`}
                 >
-                  <Card className="flex h-32 w-full flex-row py-2 sm:h-44">
+                  <Card className="flex h-32 w-full flex-row py-2 dark:bg-neutral-950 sm:h-44">
                     <Image
                       alt="Blog image"
                       className="z-0 ml-2 h-full w-44 flex-shrink rounded-xl object-cover sm:w-44 sm:flex-1 lg:w-56"
@@ -115,7 +116,7 @@ export default async function BookmarksPage({
             }
           })
         ) : (
-          <Card className="flex min-h-52 w-full flex-row items-center justify-center p-3 sm:h-full">
+          <Card className="flex min-h-52 w-full flex-row items-center justify-center p-3 dark:bg-neutral-950 sm:h-full">
             <h2 className="text-center text-2xl font-semibold">
               You have 0 bookmarks
             </h2>

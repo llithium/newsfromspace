@@ -1,5 +1,4 @@
-import HomePage from "./HomePage";
-import LoggedInHomePage, { BookmarkData } from "./LoggedInHomePage";
+import HomePage, { BookmarkData } from "./HomePage";
 import { createClient } from "./utils/supabase/server";
 
 export default async function Home() {
@@ -8,17 +7,17 @@ export default async function Home() {
   const { data, error } = await supabase.auth.getUser();
 
   if (error || !data?.user) {
-    return <HomePage />;
+    return <HomePage bookmarks={null} />;
   } else {
     let { data: bookmarks } = await supabase
       .from("bookmarks")
       .select("*")
-      .range(0, 9)
+      .range(0, 6)
       .eq("user_id", data.user?.id);
     if (bookmarks?.length == 0) {
-      return <HomePage />;
+      return <HomePage bookmarks={null} />;
     } else {
-      return <LoggedInHomePage bookmarks={bookmarks as BookmarkData[]} />;
+      return <HomePage bookmarks={bookmarks as BookmarkData[]} />;
     }
   }
 }

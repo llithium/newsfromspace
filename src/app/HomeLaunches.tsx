@@ -18,7 +18,7 @@ const HomeLaunches = async () => {
       {launches.results.map((launch) => {
         return (
           <div key={launch.id}>
-            <Card className="flex h-fit w-full flex-col overflow-y-auto p-3">
+            <Card className="flex h-fit w-full flex-col overflow-y-auto p-3 dark:bg-neutral-950">
               <h3 className="text-xl font-bold">{launch.name}</h3>
               <div className="flex items-center py-2">
                 <Image

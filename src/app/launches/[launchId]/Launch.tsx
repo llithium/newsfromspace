@@ -35,7 +35,7 @@ export default function LaunchInformationPage({
       {data && (
         <>
           {/* Launch */}
-          <Card className="launch w-full p-3">
+          <Card className="launch w-full p-3 dark:bg-neutral-950">
             <div className="flex flex-row justify-between">
               <div>
                 <h2 className="text-4xl font-bold">{data.name}</h2>
@@ -127,7 +127,7 @@ export default function LaunchInformationPage({
             </div>
           </Card>
           {/* Launch Service Provider */}
-          <Card className="launchServiceProvider">
+          <Card className="dark:bg-neutral-950">
             <CardHeader className="flex justify-center">
               <h2 className="text-4xl font-bold">
                 {data.launch_service_provider &&
@@ -178,7 +178,7 @@ export default function LaunchInformationPage({
             </CardFooter>
           </Card>
           {/* Misssion */}
-          <Card className="mission">
+          <Card className="dark:bg-neutral-950">
             <CardHeader className="flex justify-center">
               <h2 className="text-4xl font-bold">
                 {data.mission && data.mission.name}
@@ -229,7 +229,7 @@ export default function LaunchInformationPage({
             </CardFooter>
           </Card>
           {/*? Rocket */}
-          <Card className="rocket">
+          <Card className="dark:bg-neutral-950">
             <CardHeader className="flex h-full w-full flex-wrap items-start md:flex-nowrap">
               <Image
                 className="flex-shrink object-cover pb-1 md:h-full md:max-w-xs md:pb-0"
@@ -298,7 +298,7 @@ export default function LaunchInformationPage({
             </CardHeader>
           </Card>
           {/* Launch pad */}
-          <Card className="rocket">
+          <Card className="dark:bg-neutral-950">
             <CardHeader className="flex h-full w-full flex-wrap items-start md:flex-nowrap">
               <Link
                 className="flex-shrink md:h-full md:max-w-xs"
@@ -368,7 +368,7 @@ export default function LaunchInformationPage({
                 const videoId = video.url.split("v=")[1];
                 const embedUrl = `https://www.youtube.com/embed/${videoId}`;
                 return (
-                  <Card key={videoId}>
+                  <Card key={videoId} className="dark:bg-neutral-950">
                     <CardHeader className="flex flex-col items-start">
                       <h2 className="text-xl font-semibold">{video.title}</h2>
                       <div className="flex w-full justify-between pt-1">
@@ -388,7 +388,10 @@ export default function LaunchInformationPage({
                 );
               } else {
                 return (
-                  <Card key={video.title + video.url}>
+                  <Card
+                    key={video.title + video.url}
+                    className="dark:bg-neutral-950"
+                  >
                     <CardHeader className="flex flex-col items-start">
                       <h2 className="text-xl font-semibold">{video.title}</h2>
                       <div className="flex w-full justify-between pt-1">
@@ -410,7 +413,7 @@ export default function LaunchInformationPage({
             })}
           {/* Updates */}
           {data.updates.length > 0 && (
-            <Card className="md:max-h-[400px]">
+            <Card className="dark:bg-neutral-950 md:max-h-[400px]">
               <CardHeader>
                 <h2 className="text-2xl font-bold">Updates</h2>
               </CardHeader>
@@ -455,7 +458,7 @@ export default function LaunchInformationPage({
           )}
           {/* Related articles */}
           {relatedData.results.length > 0 && (
-            <Card className="md:max-h-[600px]">
+            <Card className="dark:bg-neutral-950 md:max-h-[600px]">
               <CardHeader>
                 <h2 className="text-2xl font-bold">Releated News</h2>
               </CardHeader>
