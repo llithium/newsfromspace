@@ -3,10 +3,10 @@ import {
   QueryClient,
   dehydrate,
 } from "@tanstack/react-query";
-import { fetchPastLaunches } from "./utils/fetchPastLaunches";
-import PastLaunches from "./components/PastLaunches";
-import PastLaunchesSearchResults from "./components/PastLaunchesSearchResults";
-import { launchApiUrl, pageLimit } from "@/utils/variables";
+import { fetchPastLaunches } from "../../../lib/fetchPastLaunches";
+import PastLaunches from "./PastLaunches";
+import PastLaunchesSearchResults from "./PastLaunchesSearchResults";
+import { launchApiUrl, pageLimit } from "src/lib/variables";
 import { Suspense } from "react";
 import { Metadata } from "next";
 

@@ -1,5 +1,5 @@
-import HomePage from "./components/HomePage";
-import LoggedInHomePage, { BookmarkData } from "./components/LoggedInHomePage";
+import HomePage from "./HomePage";
+import LoggedInHomePage, { BookmarkData } from "./LoggedInHomePage";
 import { createClient } from "./utils/supabase/server";
 
 export default async function Home() {

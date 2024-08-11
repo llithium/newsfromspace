@@ -3,11 +3,11 @@ import {
   HydrationBoundary,
   QueryClient,
 } from "@tanstack/react-query";
-import BlogCard from "../../[blogId]/components/BlogCard";
-import fetchBlog from "../../utils/fetchblog";
+import BlogCard from "../../[blogId]/BlogCard";
+import fetchBlog from "../../../../lib/fetchblog";
 import { Metadata } from "next";
-import { ArticleAndBlog } from "../../../articles/[articleId]/components/ArticleCard";
-import { apiURL } from "@/utils/variables";
+import { ArticleAndBlog } from "../../../articles/[articleId]/ArticleCard";
+import { apiURL } from "src/lib/variables";
 
 export async function generateMetadata({
   params,

@@ -1,5 +1,5 @@
 import { Card, CardBody } from "@nextui-org/card";
-import UpdateAccountPassword from "./components/UpdateAccountPassword";
+import UpdateAccountPassword from "./UpdateAccountPassword";
 
 export default async function Page() {
   return (

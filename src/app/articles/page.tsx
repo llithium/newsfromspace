@@ -3,10 +3,10 @@ import {
   QueryClient,
   dehydrate,
 } from "@tanstack/react-query";
-import Articles from "./components/Articles";
-import { fetchArticlesAndBlogs } from "../utils/fetchArticlesAndBlogs";
-import ArticlesSearchResults from "./components/ArticlesSearchResults";
-import { apiURL, pageLimit } from "@/utils/variables";
+import Articles from "./Articles";
+import { fetchArticlesAndBlogs } from "../../lib/fetchArticlesAndBlogs";
+import ArticlesSearchResults from "./ArticlesSearchResults";
+import { apiURL, pageLimit } from "src/lib/variables";
 import { Suspense } from "react";
 import { Metadata } from "next";
 

@@ -1,7 +1,7 @@
-import { createClient } from "@/utils/supabase/server";
+import { createClient } from "@/app/utils/supabase/server";
 import { Card, CardBody } from "@nextui-org/card";
 import { redirect } from "next/navigation";
-import ChangeAccountEmail from "./components/ChangeAccountEmail";
+import ChangeAccountEmail from "./ChangeAccountEmail";
 
 export default async function Page() {
   const supabase = createClient();

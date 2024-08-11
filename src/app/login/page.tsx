@@ -1,9 +1,9 @@
-import { createClient } from "@/utils/supabase/server";
+import { createClient } from "@/app/utils/supabase/server";
 import { redirect } from "next/navigation";
 import { Card, CardBody } from "@nextui-org/card";
-import OauthButtons from "@/components/OauthButtons";
-import LoginTabs from "@/components/LoginTabs";
+import OauthButtons from "src/components/ui/OauthButtons";
 import { Metadata } from "next";
+import LoginTabs from "./LoginTabs";
 
 export const metadata: Metadata = {
   title: "Login · News From Space",

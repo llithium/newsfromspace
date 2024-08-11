@@ -3,12 +3,12 @@ import {
   HydrationBoundary,
   QueryClient,
 } from "@tanstack/react-query";
-import LaunchInformationPage, { Launch } from "./components/Launch";
-import fetchLaunch from "../utils/fetchLaunch";
+import fetchLaunch from "../../../lib/fetchLaunch";
 import { Metadata } from "next";
-import { Result } from "../../articles/components/Articles";
+import { Result } from "../../articles/Articles";
 import { notFound } from "next/navigation";
-import { apiURL, launchApiUrl } from "@/utils/variables";
+import { apiURL, launchApiUrl } from "src/lib/variables";
+import LaunchInformationPage, { Launch } from "./Launch";
 
 export async function generateMetadata({
   params,

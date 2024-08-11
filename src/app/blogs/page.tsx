@@ -3,12 +3,12 @@ import {
   HydrationBoundary,
   QueryClient,
 } from "@tanstack/react-query";
-import Blogs from "./components/Blogs";
-import { fetchArticlesAndBlogs } from "../utils/fetchArticlesAndBlogs";
-import BlogsSearchResults from "./components/BlogsSearchResults";
-import { apiURL, pageLimit } from "@/utils/variables";
+import { fetchArticlesAndBlogs } from "../../lib/fetchArticlesAndBlogs";
+import { apiURL, pageLimit } from "src/lib/variables";
 import { Suspense } from "react";
 import { Metadata } from "next";
+import BlogsSearchResults from "./BlogsSearchResults";
+import Blogs from "./Blogs";
 
 export async function generateMetadata({
   searchParams,

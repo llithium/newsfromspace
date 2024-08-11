@@ -3,12 +3,10 @@ import {
   HydrationBoundary,
   QueryClient,
 } from "@tanstack/react-query";
-import ArticleCard, {
-  ArticleAndBlog,
-} from "../../[articleId]/components/ArticleCard.tsx";
-import fetchArticle from "../../utils/fetchArticle.ts";
+import ArticleCard, { ArticleAndBlog } from "../../[articleId]/ArticleCard.tsx";
+import fetchArticle from "../../../../lib/fetchArticle.ts";
 import { Metadata } from "next";
-import { apiURL } from "@/utils/variables.ts";
+import { apiURL } from "src/lib/variables.ts";
 
 export async function generateMetadata({
   params,

@@ -1,12 +1,12 @@
 import { redirect } from "next/navigation";
-import { createClient } from "@/utils/supabase/server";
-import DeleteAccountButton from "./components/DeleteAccountButton";
+import { createClient } from "@/app/utils/supabase/server";
 import { Button, ButtonGroup } from "@nextui-org/button";
 import Link from "next/link";
 import { Metadata } from "next";
 import { Card, CardBody } from "@nextui-org/card";
 import { Image } from "@nextui-org/image";
 import { Spacer } from "@nextui-org/spacer";
+import DeleteAccountButton from "./DeleteAccountButton";
 
 export const metadata: Metadata = {
   title: "Account · News From Space",
@@ -40,7 +40,7 @@ export default async function AccountPage() {
             )}
           </p>
           {data.user.app_metadata.providers[0] && (
-            <div className="flex flex-wrap items-center  justify-between gap-3">
+            <div className="flex flex-wrap items-center justify-between gap-3">
               <p>
                 Account created with:{" "}
                 {data.user.app_metadata.providers[0].charAt(0).toUpperCase() +

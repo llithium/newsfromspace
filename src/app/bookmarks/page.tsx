@@ -1,14 +1,14 @@
 import { redirect } from "next/navigation";
-import { createClient } from "@/utils/supabase/server";
-import { BookmarkData } from "@/components/LoggedInHomePage";
+import { createClient } from "@/app/utils/supabase/server";
 import { Card, CardBody } from "@nextui-org/card";
-import formatDate from "@/utils/formatDate";
 import Link from "next/link";
-import { getBookmarks } from "./utils/getBookmarks";
-import { pageLimit } from "@/utils/variables";
+import { getBookmarks } from "../../lib/getBookmarks";
+import { pageLimit } from "src/lib/variables";
 import { Image } from "@nextui-org/image";
 import { Divider } from "@nextui-org/divider";
-import PageButtons from "@/components/PageButtons";
+import PageButtons from "src/components/ui/PageButtons";
+import { BookmarkData } from "../LoggedInHomePage";
+import { formatDate } from "@/lib/utils";
 
 export default async function BookmarksPage({
   searchParams,

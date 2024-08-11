@@ -1,8 +1,8 @@
-import { createClient } from "@/utils/supabase/server";
+import { createClient } from "@/app/utils/supabase/server";
 import { redirect } from "next/navigation";
 import { Card, CardBody } from "@nextui-org/card";
-import OauthButtons from "@/components/OauthButtons";
-import SignUpTabs from "@/components/SignUpTabs";
+import OauthButtons from "src/components/ui/OauthButtons";
+import SignUpTabs from "@/app/signup/SignUpTabs";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {

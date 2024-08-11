@@ -1,7 +1,7 @@
 import { Metadata } from "next";
 import "./globals.css";
 import Providers from "./providers";
-import AppNavbar from "./components/AppNavbar";
+import AppNavbar from "./AppNavbar";
 import { Manrope } from "next/font/google";
 
 export const metadata: Metadata = {

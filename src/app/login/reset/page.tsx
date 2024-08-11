@@ -1,5 +1,5 @@
 import { Card, CardBody } from "@nextui-org/card";
-import ResetPassword from "./components/ResetPassword";
+import ResetPassword from "./ResetPassword";
 
 export default async function Page() {
   return (

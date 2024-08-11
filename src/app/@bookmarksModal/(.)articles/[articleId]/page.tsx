@@ -1,8 +1,4 @@
-import ArticleCard, {
-  ArticleAndBlog,
-} from "@/articles/[articleId]/components/ArticleCard";
-import fetchArticle from "@/articles/utils/fetchArticle";
-import { apiURL } from "@/utils/variables";
+import { apiURL } from "src/lib/variables";
 import {
   dehydrate,
   HydrationBoundary,
@@ -10,6 +6,10 @@ import {
 } from "@tanstack/react-query";
 
 import { Metadata } from "next";
+import ArticleCard, {
+  ArticleAndBlog,
+} from "@/app/articles/[articleId]/ArticleCard";
+import fetchArticle from "@/lib/fetchArticle";
 
 export async function generateMetadata({
   params,

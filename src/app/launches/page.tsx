@@ -3,10 +3,10 @@ import {
   QueryClient,
   dehydrate,
 } from "@tanstack/react-query";
-import Launches from "./components/Launches";
-import { fetchUpcomingLaunches } from "./utils/fetchUpcomingLaunches";
-import LaunchesSearchResults from "./components/LaunchesSearchResults";
-import { launchApiUrl, pageLimit } from "@/utils/variables";
+import Launches from "./Launches";
+import { fetchUpcomingLaunches } from "../../lib/fetchUpcomingLaunches";
+import LaunchesSearchResults from "./LaunchesSearchResults";
+import { launchApiUrl, pageLimit } from "src/lib/variables";
 import { Suspense } from "react";
 import { Metadata } from "next";
 
