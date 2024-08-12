@@ -15,10 +15,10 @@ const HomeBookmarks = async ({ bookmarks }: { bookmarks: BookmarkData[] }) => {
         if (bookmark.type === "article") {
           return (
             <NextUILink key={bookmark.id} href={bookmark.url} isExternal>
-              <Card className="flex h-fit min-h-52 w-full flex-row py-2 dark:bg-neutral-950">
+              <Card className="flex min-h-52 w-full flex-col gap-2 py-2 dark:bg-neutral-950 sm:h-full sm:flex-row">
                 <Image
                   alt="Article image"
-                  className="z-0 ml-2 h-full w-44 flex-shrink rounded-xl object-cover sm:w-44 sm:flex-1 lg:w-56"
+                  className="z-0 ml-2 h-full w-full flex-shrink rounded-xl object-cover sm:w-44 sm:flex-1 lg:w-56"
                   src={bookmark.image_url}
                 />
 
@@ -26,7 +26,7 @@ const HomeBookmarks = async ({ bookmarks }: { bookmarks: BookmarkData[] }) => {
                   <h2 className="pb-0 text-medium font-bold tracking-tight transition-colors first:mt-0 sm:text-xl 2xl:text-2xl">
                     {bookmark.title}
                   </h2>
-                  <Divider />
+                  <Divider className="my-2" />
                   <div className="mt-auto">
                     <p className="relative top-2 m-0 text-tiny italic sm:top-1 sm:text-medium">
                       {bookmark.news_site}
@@ -35,6 +35,7 @@ const HomeBookmarks = async ({ bookmarks }: { bookmarks: BookmarkData[] }) => {
                       {formatDate(bookmark.published_at)}
                     </small>
                   </div>
+                  <p>{bookmark.summary}</p>
                 </CardBody>
               </Card>
             </NextUILink>
@@ -43,10 +44,10 @@ const HomeBookmarks = async ({ bookmarks }: { bookmarks: BookmarkData[] }) => {
         if (bookmark.type === "blog") {
           return (
             <NextUILink key={bookmark.id} href={bookmark.url} isExternal>
-              <Card className="flex h-fit min-h-52 w-full flex-row py-2 dark:bg-neutral-950">
+              <Card className="flex min-h-52 w-full flex-col gap-2 py-2 dark:bg-neutral-950 sm:h-full sm:flex-row">
                 <Image
                   alt="Blog image"
-                  className="z-0 ml-2 h-full max-h-48 w-44 flex-shrink rounded-xl object-cover sm:w-44 sm:flex-1 lg:w-56"
+                  className="z-0 ml-2 h-full w-full flex-shrink rounded-xl object-cover sm:w-44 sm:flex-1 lg:w-56"
                   src={bookmark.image_url}
                 />
 
@@ -54,7 +55,10 @@ const HomeBookmarks = async ({ bookmarks }: { bookmarks: BookmarkData[] }) => {
                   <h2 className="pb-0 text-medium font-bold tracking-tight transition-colors first:mt-0 sm:text-xl 2xl:text-2xl">
                     {bookmark.title}
                   </h2>
-                  <Divider />
+                  <Divider className="my-2" />
+
+                  <p>{bookmark.summary}</p>
+
                   <div className="mt-auto">
                     <p className="relative top-2 m-0 text-tiny italic sm:top-1 sm:text-medium">
                       {bookmark.news_site}

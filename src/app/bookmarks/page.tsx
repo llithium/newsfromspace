@@ -68,6 +68,9 @@ export default async function BookmarksPage({
                         {bookmark.title}
                       </h2>
                       <Divider />
+                      <p className="overflow-hidden overflow-ellipsis whitespace-nowrap">
+                        {bookmark.summary}
+                      </p>
                       <div className="mt-auto">
                         <p className="relative top-2 m-0 text-tiny italic sm:top-1 sm:text-medium">
                           {bookmark.news_site}
@@ -101,6 +104,9 @@ export default async function BookmarksPage({
                         {bookmark.title}
                       </h2>
                       <Divider />
+                      <p className="overflow-hidden overflow-ellipsis whitespace-nowrap">
+                        {bookmark.summary}
+                      </p>
                       <div className="mt-auto">
                         <p className="relative top-2 m-0 text-tiny italic sm:top-1 sm:text-medium">
                           {bookmark.news_site}

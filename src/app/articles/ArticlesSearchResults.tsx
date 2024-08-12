@@ -48,8 +48,10 @@ export default function ArticlesSearchResults({ page }: { page: number }) {
                       <h2 className="pb-0 text-xs font-bold tracking-tight transition-colors first:mt-0 sm:text-xl 2xl:text-2xl">
                         {article.title}
                       </h2>
-
                       <Divider />
+                      <p className="overflow-hidden overflow-ellipsis whitespace-nowrap">
+                        {article.summary}
+                      </p>
                       <div className="mt-auto">
                         <p className="relative top-2 m-0 text-tiny italic sm:top-1 sm:text-medium">
                           {article.news_site}

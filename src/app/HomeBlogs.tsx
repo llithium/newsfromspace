@@ -14,10 +14,10 @@ const HomeBlogs = async () => {
       {blogs.results.map((blog) => {
         return (
           <NextUILink key={blog.id} href={blog.url} isExternal>
-            <Card className="flex min-h-52 w-full flex-row py-2 dark:bg-neutral-950 sm:h-full">
+            <Card className="flex min-h-52 w-full flex-col gap-2 py-2 dark:bg-neutral-950 sm:h-full sm:flex-row">
               <Image
                 alt="Blog image"
-                className="z-0 ml-2 h-full max-h-48 w-44 flex-shrink rounded-xl object-cover sm:w-44 sm:flex-1 lg:w-56"
+                className="z-0 ml-2 h-full w-full flex-shrink rounded-xl object-cover sm:w-44 sm:flex-1 lg:w-56"
                 src={blog.image_url}
               />
 
@@ -25,7 +25,9 @@ const HomeBlogs = async () => {
                 <h2 className="pb-0 text-medium font-bold tracking-tight transition-colors first:mt-0 sm:text-xl 2xl:text-2xl">
                   {blog.title}
                 </h2>
-                <Divider />
+                <Divider className="my-2" />
+                <p>{blog.summary}</p>
+
                 <div className="mt-auto">
                   <p className="relative top-2 m-0 text-tiny italic sm:top-1 sm:text-medium">
                     {blog.news_site}

@@ -51,6 +51,9 @@ export default function BlogsSearchResults({ page }: { page: number }) {
                         {blog.title}
                       </h2>
                       <Divider />
+                      <p className="overflow-hidden overflow-ellipsis whitespace-nowrap">
+                        {blog.summary}
+                      </p>
                       <div className="mt-auto">
                         <p className="relative top-2 m-0 text-tiny italic sm:top-1 sm:text-medium">
                           {blog.news_site}

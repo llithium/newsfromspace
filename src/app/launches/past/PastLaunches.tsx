@@ -28,7 +28,7 @@ export default function PastLaunches({ page }: { page: number }) {
         {data &&
           data.results.map((launch) => {
             return (
-              <Card key={launch.id} className="h-96">
+              <Card key={launch.id} className="h-96 dark:bg-neutral-950">
                 <CardHeader className="flex flex-row justify-between">
                   <div className="flex items-center gap-3">
                     <Image

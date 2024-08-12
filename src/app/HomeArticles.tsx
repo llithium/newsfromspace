@@ -14,10 +14,10 @@ const HomeArticles = async () => {
       {articles.results.map((article) => {
         return (
           <NextUILink key={article.id} href={article.url} isExternal>
-            <Card className="flex min-h-52 w-full flex-row py-2 dark:bg-neutral-950 sm:h-full">
+            <Card className="flex min-h-52 w-full flex-col gap-2 py-2 dark:bg-neutral-950 sm:h-full sm:flex-row">
               <Image
                 alt="Article image"
-                className="z-0 ml-2 h-full w-44 flex-shrink rounded-xl object-cover sm:w-44 sm:flex-1 lg:w-56"
+                className="z-0 ml-2 h-full w-full flex-shrink rounded-xl object-cover sm:w-44 sm:flex-1 lg:w-56"
                 src={article.image_url}
               />
 
@@ -25,7 +25,9 @@ const HomeArticles = async () => {
                 <h2 className="pb-0 text-medium font-bold tracking-tight transition-colors first:mt-0 sm:text-xl 2xl:text-2xl">
                   {article.title}
                 </h2>
-                <Divider />
+                <Divider className="my-2" />
+                <p>{article.summary}</p>
+
                 <div className="mt-auto">
                   <p className="relative top-2 m-0 text-tiny italic sm:top-1 sm:text-medium">
                     {article.news_site}

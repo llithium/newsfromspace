@@ -49,6 +49,9 @@ export default function Articles({ page }: { page: number }) {
                     </h2>
 
                     <Divider />
+                    <p className="overflow-hidden overflow-ellipsis whitespace-nowrap">
+                      {article.summary}
+                    </p>
                     <div className="mt-auto">
                       <p className="relative top-2 m-0 text-tiny italic sm:top-1 sm:text-medium">
                         {article.news_site}
