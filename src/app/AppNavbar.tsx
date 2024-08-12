@@ -50,7 +50,6 @@ export default function AppNavbar() {
 
   return (
     <Navbar
-      height={2}
       className="z-50 mb-3 pt-1"
       isMenuOpen={isMenuOpen}
       onMenuOpenChange={setIsMenuOpen}
