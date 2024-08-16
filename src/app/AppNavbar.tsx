@@ -15,38 +15,15 @@ import {
   DropdownItem,
 } from "@nextui-org/dropdown";
 import { Button } from "@nextui-org/button";
-import { Suspense, useEffect, useState } from "react";
+import { Suspense, useState } from "react";
 import ThemeSwitcher from "./ThemeSwitcher";
 import { usePathname } from "next/navigation";
 import SearchInput from "./SearchInput";
 import Link from "next/link";
-import { createClient } from "@/app/utils/supabase/client";
-import { Session } from "@supabase/supabase-js";
-import { logout } from "./actions";
 
 export default function AppNavbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const pathname = usePathname();
-  const [session, setSession] = useState<Session | null>(null);
-  const [error, setError] = useState<unknown>(null);
-
-  useEffect(() => {
-    const fetchUserData = async () => {
-      const supabase = createClient();
-
-      try {
-        const { data, error } = await supabase.auth.getSession();
-        if (error) {
-          setError(error.message);
-        } else {
-          setSession(data.session);
-        }
-      } catch (error: unknown) {
-        setError(error);
-      }
-    };
-    fetchUserData();
-  }, [pathname, isMenuOpen]);
 
   return (
     <Navbar
@@ -133,17 +110,6 @@ export default function AppNavbar() {
             Blogs
           </Link>
         </NavbarItem>
-        {error || !session ? null : (
-          <NavbarItem isActive={pathname.startsWith("/bookmarks")}>
-            <Link
-              className="transition-opacity hover:opacity-80 active:opacity-disabled"
-              color="foreground"
-              href="/bookmarks"
-            >
-              Bookmarks
-            </Link>
-          </NavbarItem>
-        )}
       </NavbarContent>
       <NavbarContent
         className={`hidden sm:flex ${pathname !== "/articles" && pathname !== "/launches" && pathname !== "/launches/past" && pathname !== "/blogs" ? "sm:hidden" : ""}`}
@@ -155,86 +121,17 @@ export default function AppNavbar() {
       </NavbarContent>
       <NavbarContent
         className={`${
-          error ||
-          !session ||
-          (pathname !== "/articles" &&
-            pathname !== "/launches" &&
-            pathname !== "/blogs")
+          pathname !== "/articles" &&
+          pathname !== "/launches" &&
+          pathname !== "/blogs"
             ? ""
             : "data-[justify=end]:flex-grow-0"
         }`}
         justify="end"
       >
-        {error || !session ? (
-          <NavbarItem>
-            <ThemeSwitcher />
-          </NavbarItem>
-        ) : null}
-        {/* Login/Sign Up */}
-        {error || !session ? (
-          <>
-            <NavbarItem>
-              <Link
-                className="transition-opacity hover:opacity-80 active:opacity-disabled"
-                color="foreground"
-                href="/login"
-              >
-                Login
-              </Link>
-            </NavbarItem>
-            <NavbarItem>
-              <Button
-                className="hidden md:flex"
-                as={Link}
-                color="default"
-                href="/signup"
-                variant="flat"
-              >
-                Sign Up
-              </Button>
-            </NavbarItem>
-          </>
-        ) : (
-          <>
-            <NavbarItem>
-              <Dropdown>
-                <DropdownTrigger>
-                  <Button variant="flat" isIconOnly>
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="26"
-                      height="32"
-                      viewBox="0 0 24 24"
-                    >
-                      <g className="stroke-current" fill="none">
-                        <circle cx="12" cy="12" r="3" />
-                        <path d="M13.765 2.152C13.398 2 12.932 2 12 2c-.932 0-1.398 0-1.765.152a2 2 0 0 0-1.083 1.083c-.092.223-.129.484-.143.863a1.617 1.617 0 0 1-.79 1.353a1.617 1.617 0 0 1-1.567.008c-.336-.178-.579-.276-.82-.308a2 2 0 0 0-1.478.396C4.04 5.79 3.806 6.193 3.34 7c-.466.807-.7 1.21-.751 1.605a2 2 0 0 0 .396 1.479c.148.192.355.353.676.555c.473.297.777.803.777 1.361c0 .558-.304 1.064-.777 1.36c-.321.203-.529.364-.676.556a2 2 0 0 0-.396 1.479c.052.394.285.798.75 1.605c.467.807.7 1.21 1.015 1.453a2 2 0 0 0 1.479.396c.24-.032.483-.13.819-.308a1.617 1.617 0 0 1 1.567.008c.483.28.77.795.79 1.353c.014.38.05.64.143.863a2 2 0 0 0 1.083 1.083C10.602 22 11.068 22 12 22c.932 0 1.398 0 1.765-.152a2 2 0 0 0 1.083-1.083c.092-.223.129-.483.143-.863c.02-.558.307-1.074.79-1.353a1.617 1.617 0 0 1 1.567-.008c.336.178.579.276.819.308a2 2 0 0 0 1.479-.396c.315-.242.548-.646 1.014-1.453c.466-.807.7-1.21.751-1.605a2 2 0 0 0-.396-1.479c-.148-.192-.355-.353-.676-.555A1.617 1.617 0 0 1 19.562 12c0-.558.304-1.064.777-1.36c.321-.203.529-.364.676-.556a2 2 0 0 0 .396-1.479c-.052-.394-.285-.798-.75-1.605c-.467-.807-.7-1.21-1.015-1.453a2 2 0 0 0-1.479-.396c-.24.032-.483.13-.82.308a1.617 1.617 0 0 1-1.566-.008a1.617 1.617 0 0 1-.79-1.353c-.014-.38-.05-.64-.143-.863a2 2 0 0 0-1.083-1.083Z" />
-                      </g>
-                    </svg>
-                  </Button>
-                </DropdownTrigger>
-                <DropdownMenu aria-label="Static Actions">
-                  <DropdownItem as={Link} href="/account" key="account">
-                    Account
-                  </DropdownItem>
-                  <DropdownItem
-                    as={ThemeSwitcher}
-                    key="themeSwitcher"
-                    textValue="themeSwitcher"
-                  ></DropdownItem>
-                  <DropdownItem
-                    key="signOut"
-                    onPress={() => {
-                      logout();
-                    }}
-                  >
-                    Sign Out
-                  </DropdownItem>
-                </DropdownMenu>
-              </Dropdown>
-            </NavbarItem>
-          </>
-        )}
+        <NavbarItem>
+          <ThemeSwitcher />
+        </NavbarItem>
       </NavbarContent>
       <NavbarMenu>
         <NavbarMenuItem
@@ -315,28 +212,6 @@ export default function AppNavbar() {
             onClick={() => setIsMenuOpen(false)}
           >
             Blogs
-          </Link>
-        </NavbarMenuItem>
-        {error || !session ? null : (
-          <NavbarMenuItem isActive={pathname.startsWith("/bookmarks")}>
-            <Link
-              color="foreground"
-              className="w-full transition-opacity hover:opacity-80 active:opacity-disabled"
-              href="/bookmarks"
-              onClick={() => setIsMenuOpen(false)}
-            >
-              Bookmarks
-            </Link>
-          </NavbarMenuItem>
-        )}
-        <NavbarMenuItem>
-          <Link
-            color="foreground"
-            className="w-full transition-opacity hover:opacity-80 active:opacity-disabled"
-            href="/signup"
-            onClick={() => setIsMenuOpen(false)}
-          >
-            Sign Up
           </Link>
         </NavbarMenuItem>
       </NavbarMenu>

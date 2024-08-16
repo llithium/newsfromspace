@@ -16,10 +16,8 @@ const manrope = Manrope({
 });
 
 export default function RootLayout({
-  bookmarksModal,
   children,
 }: {
-  bookmarksModal: never; //?????
   children: React.ReactNode;
 }) {
   return (
@@ -27,10 +25,7 @@ export default function RootLayout({
       <body>
         <Providers>
           <AppNavbar />
-          <div className="mx-auto px-2 2xl:px-6">
-            {bookmarksModal}
-            {children}
-          </div>
+          <div className="mx-auto px-2 2xl:px-6">{children}</div>
         </Providers>
       </body>
     </html>

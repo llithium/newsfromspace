@@ -6,7 +6,7 @@ import {
 import Articles from "./Articles";
 import { fetchArticlesAndBlogs } from "../../lib/fetchArticlesAndBlogs";
 import ArticlesSearchResults from "./ArticlesSearchResults";
-import { apiURL, pageLimit } from "src/lib/variables";
+import { spaceFlightNewsAPI, pageLimit } from "src/lib/variables";
 import { Suspense } from "react";
 import { Metadata } from "next";
 
@@ -34,7 +34,7 @@ export default async function Page({
     queryKey: ["articles", `page ${page}`],
     queryFn: () =>
       fetchArticlesAndBlogs(
-        apiURL +
+        spaceFlightNewsAPI +
           `/articles/?limit=${pageLimit}&offset=${(page - 1) * parseInt(pageLimit)}`,
       ),
   });
@@ -43,7 +43,7 @@ export default async function Page({
       queryKey: ["articlesSearch", searchParams.q, `page ${page}`],
       queryFn: () =>
         fetchArticlesAndBlogs(
-          apiURL +
+          spaceFlightNewsAPI +
             `/articles/?limit=${pageLimit}&offset=${(page - 1) * parseInt(pageLimit)}&search=${searchParams.q}`,
         ),
     });

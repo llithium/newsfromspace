@@ -6,7 +6,7 @@ import {
 import Launches from "./Launches";
 import { fetchUpcomingLaunches } from "../../lib/fetchUpcomingLaunches";
 import LaunchesSearchResults from "./LaunchesSearchResults";
-import { launchApiUrl, pageLimit } from "src/lib/variables";
+import { LaunchLibraryAPI, pageLimit } from "src/lib/variables";
 import { Suspense } from "react";
 import { Metadata } from "next";
 
@@ -36,7 +36,7 @@ export default async function Page({
     queryKey: ["launches/upcoming", `page ${page}`],
     queryFn: () =>
       fetchUpcomingLaunches(
-        launchApiUrl +
+        LaunchLibraryAPI +
           `/launch/upcoming/?mode=detailed&limit=${pageLimit}&offset=${(page - 1) * parseInt(pageLimit)}`,
       ),
     staleTime: 10 * 60 * 1000,
@@ -46,7 +46,7 @@ export default async function Page({
       queryKey: ["launchesSearch", searchParams.q, `page ${page}`],
       queryFn: () =>
         fetchUpcomingLaunches(
-          launchApiUrl +
+          LaunchLibraryAPI +
             `/launch/upcoming/?mode=detailed&limit=${pageLimit}&offset=${(page - 1) * parseInt(pageLimit)}&search=${searchParams.q}`,
         ),
       staleTime: 15 * 60 * 1000,

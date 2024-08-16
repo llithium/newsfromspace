@@ -2,7 +2,7 @@
 import { Card, CardHeader, CardBody, CardFooter } from "@nextui-org/card";
 import { useQuery } from "@tanstack/react-query";
 import { fetchPastLaunches } from "../../../lib/fetchPastLaunches";
-import { launchApiUrl, pageLimit } from "src/lib/variables";
+import { LaunchLibraryAPI, pageLimit } from "src/lib/variables";
 import { Image } from "@nextui-org/image";
 import { Divider } from "@nextui-org/divider";
 import { Tooltip } from "@nextui-org/tooltip";
@@ -15,7 +15,7 @@ export default function PastLaunches({ page }: { page: number }) {
     queryKey: ["launches/previous", `page ${page}`],
     queryFn: () =>
       fetchPastLaunches(
-        launchApiUrl +
+        LaunchLibraryAPI +
           `/launch/previous/?mode=detailed&limit=${pageLimit}&offset=${(page - 1) * parseInt(pageLimit)}`,
       ),
     staleTime: 15 * 60 * 1000,

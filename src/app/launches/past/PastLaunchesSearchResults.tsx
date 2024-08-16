@@ -7,7 +7,7 @@ import Link from "next/link";
 import { useQuery } from "@tanstack/react-query";
 import { fetchPastLaunches } from "../../../lib/fetchPastLaunches";
 import { useSearchParams } from "next/navigation";
-import { launchApiUrl, pageLimit } from "src/lib/variables";
+import { LaunchLibraryAPI, pageLimit } from "src/lib/variables";
 import PageButtons from "src/components/ui/PageButtons";
 import { formatDate } from "@/lib/utils";
 
@@ -18,7 +18,7 @@ export default function PastLaunchesSearchResults({ page }: { page: number }) {
     queryKey: ["pastLaunchesSearch", search, `page ${page}`],
     queryFn: () =>
       fetchPastLaunches(
-        launchApiUrl +
+        LaunchLibraryAPI +
           `/launch/previous/?mode=detailed&limit=${pageLimit}&offset=${(page - 1) * parseInt(pageLimit)}&search=${search}`,
       ),
     staleTime: 15 * 60 * 1000,

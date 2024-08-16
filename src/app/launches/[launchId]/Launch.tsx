@@ -3,7 +3,7 @@
 import { Card, CardBody, CardFooter, CardHeader } from "@nextui-org/card";
 import { useQuery } from "@tanstack/react-query";
 import dynamic from "next/dynamic";
-import { launchApiUrl } from "src/lib/variables";
+import { LaunchLibraryAPI } from "src/lib/variables";
 import { Image } from "@nextui-org/image";
 import { Tooltip } from "@nextui-org/tooltip";
 import { Link } from "@nextui-org/link";
@@ -26,7 +26,7 @@ export default function LaunchInformationPage({
   const { isError, data, error } = useQuery({
     queryKey: ["launch", { launchId: params.launchId }],
     staleTime: 60 * 1000,
-    queryFn: () => fetchLaunch(params.launchId, launchApiUrl),
+    queryFn: () => fetchLaunch(params.launchId, LaunchLibraryAPI),
   });
 
   return (

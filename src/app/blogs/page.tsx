@@ -4,7 +4,7 @@ import {
   QueryClient,
 } from "@tanstack/react-query";
 import { fetchArticlesAndBlogs } from "../../lib/fetchArticlesAndBlogs";
-import { apiURL, pageLimit } from "src/lib/variables";
+import { spaceFlightNewsAPI, pageLimit } from "src/lib/variables";
 import { Suspense } from "react";
 import { Metadata } from "next";
 import BlogsSearchResults from "./BlogsSearchResults";
@@ -34,7 +34,7 @@ export default async function Page({
     queryKey: ["blogs", `page ${page}`],
     queryFn: () =>
       fetchArticlesAndBlogs(
-        apiURL +
+        spaceFlightNewsAPI +
           `/blogs/?limit=${pageLimit}&offset=${(page - 1) * parseInt(pageLimit)}`,
       ),
   });
@@ -43,7 +43,7 @@ export default async function Page({
       queryKey: ["blogsSearch", searchParams.q, `page ${page}`],
       queryFn: () =>
         fetchArticlesAndBlogs(
-          apiURL +
+          spaceFlightNewsAPI +
             `/blogs/?limit=${pageLimit}&offset=${(page - 1) * parseInt(pageLimit)}&search=${searchParams.q}`,
         ),
     });

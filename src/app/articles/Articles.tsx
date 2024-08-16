@@ -8,7 +8,7 @@ import { fetchArticlesAndBlogs } from "../../lib/fetchArticlesAndBlogs";
 import { formatDate } from "@/lib/utils";
 import Link from "next/link";
 
-import { apiURL, pageLimit } from "src/lib/variables";
+import { spaceFlightNewsAPI, pageLimit } from "src/lib/variables";
 import PageButtons from "src/components/ui/PageButtons";
 
 export default function Articles({ page }: { page: number }) {
@@ -16,7 +16,7 @@ export default function Articles({ page }: { page: number }) {
     queryKey: ["articles", `page ${page}`],
     queryFn: () =>
       fetchArticlesAndBlogs(
-        apiURL +
+        spaceFlightNewsAPI +
           `/articles/?limit=${pageLimit}&offset=${(page - 1) * parseInt(pageLimit)}`,
       ),
   });
@@ -35,7 +35,7 @@ export default function Articles({ page }: { page: number }) {
                 <Link
                   scroll={false}
                   key={article.id}
-                  href={`/articles/${article.id}`}
+                  href={article.url}
                   className="flex h-32 w-full flex-row py-2 sm:h-full"
                 >
                   <Image
@@ -49,7 +49,7 @@ export default function Articles({ page }: { page: number }) {
                     </h2>
 
                     <Divider />
-                    <p className="overflow-hidden overflow-ellipsis whitespace-nowrap">
+                    <p className="overflow-hidden overflow-ellipsis whitespace-nowrap text-sm">
                       {article.summary}
                     </p>
                     <div className="mt-auto">

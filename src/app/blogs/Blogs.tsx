@@ -4,7 +4,7 @@ import { Image } from "@nextui-org/image";
 import { Divider } from "@nextui-org/divider";
 import Link from "next/link";
 
-import { apiURL, pageLimit } from "src/lib/variables";
+import { spaceFlightNewsAPI, pageLimit } from "src/lib/variables";
 import { useQuery } from "@tanstack/react-query";
 import PageButtons from "src/components/ui/PageButtons";
 import { fetchArticlesAndBlogs } from "@/lib/fetchArticlesAndBlogs";
@@ -15,7 +15,7 @@ export default function Blogs({ page }: { page: number }) {
     queryKey: ["blogs", `page ${page}`],
     queryFn: () =>
       fetchArticlesAndBlogs(
-        apiURL +
+        spaceFlightNewsAPI +
           `/blogs/?limit=${pageLimit}&offset=${(page - 1) * parseInt(pageLimit)}`,
       ),
   });
@@ -34,7 +34,7 @@ export default function Blogs({ page }: { page: number }) {
                 <Link
                   scroll={false}
                   key={blog.id}
-                  href={`/blogs/${blog.id}`}
+                  href={blog.url}
                   className="flex h-32 w-full flex-row py-2 sm:h-full"
                 >
                   <Image
@@ -48,7 +48,7 @@ export default function Blogs({ page }: { page: number }) {
                       {blog.title}
                     </h2>
                     <Divider />
-                    <p className="overflow-hidden overflow-ellipsis whitespace-nowrap">
+                    <p className="overflow-hidden overflow-ellipsis whitespace-nowrap text-sm">
                       {blog.summary}
                     </p>
                     <div className="mt-auto">

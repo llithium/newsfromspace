@@ -8,7 +8,7 @@ import { fetchArticlesAndBlogs } from "../../lib/fetchArticlesAndBlogs";
 import { formatDate } from "@/lib/utils";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
-import { apiURL, pageLimit } from "src/lib/variables";
+import { spaceFlightNewsAPI, pageLimit } from "src/lib/variables";
 import PageButtons from "src/components/ui/PageButtons";
 
 export default function ArticlesSearchResults({ page }: { page: number }) {
@@ -18,7 +18,8 @@ export default function ArticlesSearchResults({ page }: { page: number }) {
     queryKey: ["articlesSearch", search, `page ${page}`],
     queryFn: () =>
       fetchArticlesAndBlogs(
-        apiURL + `/articles/?limit=${pageLimit}&offset=0&search=${search}`,
+        spaceFlightNewsAPI +
+          `/articles/?limit=${pageLimit}&offset=0&search=${search}`,
       ),
   });
 
@@ -36,7 +37,7 @@ export default function ArticlesSearchResults({ page }: { page: number }) {
                   <Link
                     scroll={false}
                     key={article.id}
-                    href={`/articles/${article.id}`}
+                    href={article.url}
                     className="flex h-32 w-full flex-row py-2 sm:h-full"
                   >
                     <Image
@@ -49,7 +50,7 @@ export default function ArticlesSearchResults({ page }: { page: number }) {
                         {article.title}
                       </h2>
                       <Divider />
-                      <p className="overflow-hidden overflow-ellipsis whitespace-nowrap">
+                      <p className="overflow-hidden overflow-ellipsis whitespace-nowrap text-sm">
                         {article.summary}
                       </p>
                       <div className="mt-auto">

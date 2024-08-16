@@ -6,7 +6,7 @@ import {
 import { fetchPastLaunches } from "../../../lib/fetchPastLaunches";
 import PastLaunches from "./PastLaunches";
 import PastLaunchesSearchResults from "./PastLaunchesSearchResults";
-import { launchApiUrl, pageLimit } from "src/lib/variables";
+import { LaunchLibraryAPI, pageLimit } from "src/lib/variables";
 import { Suspense } from "react";
 import { Metadata } from "next";
 
@@ -36,7 +36,7 @@ export default async function Page({
     queryKey: ["launches/previous", `page ${page}`],
     queryFn: () =>
       fetchPastLaunches(
-        launchApiUrl +
+        LaunchLibraryAPI +
           `/launch/previous/?mode=detailed&limit=${pageLimit}&offset=${(page - 1) * parseInt(pageLimit)}`,
       ),
     staleTime: 10 * 60 * 1000,
@@ -46,7 +46,7 @@ export default async function Page({
       queryKey: ["pastLaunchesSearch", searchParams.q, `page ${page}`],
       queryFn: () =>
         fetchPastLaunches(
-          launchApiUrl +
+          LaunchLibraryAPI +
             `/launch/previous/?mode=detailed&limit=${pageLimit}&offset=${(page - 1) * parseInt(pageLimit)}&search=${searchParams.q}`,
         ),
       staleTime: 15 * 60 * 1000,

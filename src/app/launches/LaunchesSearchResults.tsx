@@ -8,7 +8,7 @@ import { formatDate } from "@/lib/utils";
 import Link from "next/link";
 import { fetchUpcomingLaunches } from "../../lib/fetchUpcomingLaunches";
 import { useSearchParams } from "next/navigation";
-import { launchApiUrl, pageLimit } from "src/lib/variables";
+import { LaunchLibraryAPI, pageLimit } from "src/lib/variables";
 import PageButtons from "src/components/ui/PageButtons";
 
 export default function LaunchesSearchResults({ page }: { page: number }) {
@@ -18,7 +18,7 @@ export default function LaunchesSearchResults({ page }: { page: number }) {
     queryKey: ["launchesSearch", search],
     queryFn: () =>
       fetchUpcomingLaunches(
-        launchApiUrl +
+        LaunchLibraryAPI +
           `/launch/upcoming/?mode=detailed&limit=${pageLimit}&offset=${(page - 1) * parseInt(pageLimit)}&search=${search}`,
       ),
     staleTime: 15 * 60 * 1000,

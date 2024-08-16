@@ -9,7 +9,7 @@ import { formatDate } from "@/lib/utils";
 
 import { fetchUpcomingLaunches } from "../../lib/fetchUpcomingLaunches";
 
-import { launchApiUrl, pageLimit } from "src/lib/variables";
+import { LaunchLibraryAPI, pageLimit } from "src/lib/variables";
 import PageButtons from "src/components/ui/PageButtons";
 
 export default function Launches({ page }: { page: number }) {
@@ -17,7 +17,7 @@ export default function Launches({ page }: { page: number }) {
     queryKey: ["launches/upcoming", `page ${page}`],
     queryFn: () =>
       fetchUpcomingLaunches(
-        launchApiUrl +
+        LaunchLibraryAPI +
           `/launch/upcoming/?mode=detailed&limit=${pageLimit}&offset=${(page - 1) * parseInt(pageLimit)}`,
       ),
     staleTime: 15 * 60 * 1000,

@@ -1,17 +1,16 @@
 import { Card, CardBody, CardHeader } from "@nextui-org/card";
 import Link from "next/link";
-import { apiURL, launchApiUrl } from "src/lib/variables";
+import { spaceFlightNewsAPI, LaunchLibraryAPI } from "src/lib/variables";
 import { Suspense } from "react";
 import HomeArticles from "./HomeArticles";
 import HomeBlogs from "./HomeBlogs";
 import { Spinner } from "@nextui-org/spinner";
 import HomeLaunches from "./HomeLaunches";
-import HomeBookmarks from "./HomeBookmarks";
 import { Launch } from "./articles/Articles";
 
 export async function fetchUpcomingLaunchesHomePage() {
   const res = await fetch(
-    launchApiUrl + `/launch/upcoming/?mode=detailed&limit=6&offset=0`,
+    LaunchLibraryAPI + `/launch/upcoming/?mode=detailed&limit=6&offset=0`,
     {
       next: { revalidate: 900 },
     },
@@ -25,7 +24,7 @@ export async function fetchUpcomingLaunchesHomePage() {
 }
 export async function fetchLatestArticles() {
   const res = await fetch(
-    apiURL + `/articles/?mode=detailed&limit=6&offset=0`,
+    spaceFlightNewsAPI + `/articles/?mode=detailed&limit=6&offset=0`,
     {
       next: { revalidate: 60 },
     },
@@ -38,9 +37,12 @@ export async function fetchLatestArticles() {
   return res.json();
 }
 export async function fetchLatestBlogs() {
-  const res = await fetch(apiURL + `/blogs/?mode=detailed&limit=6&offset=0`, {
-    next: { revalidate: 60 },
-  });
+  const res = await fetch(
+    spaceFlightNewsAPI + `/blogs/?mode=detailed&limit=6&offset=0`,
+    {
+      next: { revalidate: 60 },
+    },
+  );
   if (!res.ok) {
     throw new Error(
       `Failed to fetch data for latest blogs ${(res.status, res.statusText)}`,
@@ -49,11 +51,7 @@ export async function fetchLatestBlogs() {
   return res.json();
 }
 
-export default async function HomePage({
-  bookmarks,
-}: {
-  bookmarks: BookmarkData[] | null;
-}) {
+export default async function HomePage() {
   return (
     <>
       <div className="flex h-fit flex-col pb-2 md:flex-row">
@@ -85,35 +83,6 @@ export default async function HomePage({
               </Suspense>
             </CardBody>
           </Card>
-          {bookmarks ? (
-            <Card className="h-fit flex-1 bg-background shadow-none md:h-fit">
-              <CardHeader className="pt-1">
-                <Link
-                  className="transition-opacity hover:opacity-80 active:opacity-disabled"
-                  href="/bookmarks"
-                >
-                  <h2 className="text-xl font-bold">Bookmarks</h2>
-                </Link>
-              </CardHeader>
-              <CardBody className="flex flex-col gap-2 overflow-y-auto pt-1">
-                <Suspense
-                  fallback={
-                    <Spinner
-                      color="current"
-                      className="mx-auto my-auto h-[calc(100svh-200px)]"
-                      classNames={{
-                        wrapper: "w-44 h-44",
-                      }}
-                      size="lg"
-                      label="Loading..."
-                    />
-                  }
-                >
-                  <HomeBookmarks bookmarks={bookmarks} />
-                </Suspense>
-              </CardBody>
-            </Card>
-          ) : null}
         </div>
         <div className="flex h-fit flex-1 flex-col">
           <Card className="h-fit flex-1 bg-background shadow-none md:h-full">

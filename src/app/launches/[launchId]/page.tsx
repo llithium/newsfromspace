@@ -7,7 +7,7 @@ import fetchLaunch from "../../../lib/fetchLaunch";
 import { Metadata } from "next";
 import { Result } from "../../articles/Articles";
 import { notFound } from "next/navigation";
-import { apiURL, launchApiUrl } from "src/lib/variables";
+import { spaceFlightNewsAPI, LaunchLibraryAPI } from "src/lib/variables";
 import LaunchInformationPage, { Launch } from "./Launch";
 
 export async function generateMetadata({
@@ -19,14 +19,14 @@ export async function generateMetadata({
   const launchId = params.launchId;
 
   // fetch data
-  const launch: Launch = await fetch(launchApiUrl + `/launch/${launchId}`).then(
-    (res) => {
-      if (!res.ok) {
-        return;
-      }
-      return res.json();
-    },
-  );
+  const launch: Launch = await fetch(
+    LaunchLibraryAPI + `/launch/${launchId}`,
+  ).then((res) => {
+    if (!res.ok) {
+      return;
+    }
+    return res.json();
+  });
 
   return {
     title: (launch && launch.name) || "",
@@ -43,13 +43,16 @@ export default async function Page({
   await queryClient.prefetchQuery({
     queryKey: ["launch", { launchId: params.launchId }],
     staleTime: 3 * 60 * 1000,
-    queryFn: () => fetchLaunch(params.launchId, launchApiUrl),
+    queryFn: () => fetchLaunch(params.launchId, LaunchLibraryAPI),
   });
 
   async function fetchRelated(launchId: string) {
-    const res = await fetch(apiURL + `/articles/?launch=${launchId}`, {
-      next: { revalidate: 180 },
-    });
+    const res = await fetch(
+      spaceFlightNewsAPI + `/articles/?launch=${launchId}`,
+      {
+        next: { revalidate: 180 },
+      },
+    );
     if (!res.ok) {
       notFound();
     }
