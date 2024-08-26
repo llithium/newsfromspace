@@ -49,9 +49,6 @@ export default async function Page({
   async function fetchRelated(launchId: string) {
     const res = await fetch(
       spaceFlightNewsAPI + `/articles/?launch=${launchId}`,
-      {
-        next: { revalidate: 180 },
-      },
     );
     if (!res.ok) {
       notFound();

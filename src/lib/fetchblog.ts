@@ -4,9 +4,7 @@ export default async function fetchBlog(
 ) {
   if (blogId) {
     try {
-      const res = await fetch(apiURL + `/blogs/${blogId}`, {
-        next: { revalidate: 60 },
-      });
+      const res = await fetch(apiURL + `/blogs/${blogId}`);
       const blog = await res.json();
       return blog;
     } catch (error) {
