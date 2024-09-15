@@ -22,6 +22,7 @@ const HomeLaunches = async () => {
               <h3 className="text-xl font-bold">{launch.name}</h3>
               <div className="flex items-center py-2">
                 <Image
+                  className="object-contain"
                   alt="Agency logo"
                   height={40}
                   radius="sm"

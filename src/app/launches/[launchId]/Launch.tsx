@@ -41,6 +41,7 @@ export default function LaunchInformationPage({
                 <h2 className="text-4xl font-bold">{data.name}</h2>
                 <div className="flex items-center py-2">
                   <Image
+                    className="object-contain"
                     alt="Agency logo"
                     height={40}
                     radius="sm"
@@ -134,6 +135,7 @@ export default function LaunchInformationPage({
                   data.launch_service_provider.name}
               </h2>
               <Image
+                className="object-contain"
                 width={200}
                 height={200}
                 radius="sm"
