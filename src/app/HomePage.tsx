@@ -8,9 +8,12 @@ import { Spinner } from "@nextui-org/spinner";
 import HomeLaunches from "./HomeLaunches";
 import { Launch } from "./articles/Articles";
 
+export const dynamic = "force-dynamic";
+
 export async function fetchUpcomingLaunchesHomePage() {
   const res = await fetch(
     LaunchLibraryAPI + `/launch/upcoming/?mode=detailed&limit=6&offset=0`,
+    { cache: "no-cache" },
   );
   if (!res.ok) {
     throw new Error(
@@ -22,6 +25,7 @@ export async function fetchUpcomingLaunchesHomePage() {
 export async function fetchLatestArticles() {
   const res = await fetch(
     spaceFlightNewsAPI + `/articles/?mode=detailed&limit=6&offset=0`,
+    { cache: "no-cache" },
   );
   if (!res.ok) {
     throw new Error(
@@ -33,6 +37,7 @@ export async function fetchLatestArticles() {
 export async function fetchLatestBlogs() {
   const res = await fetch(
     spaceFlightNewsAPI + `/blogs/?mode=detailed&limit=6&offset=0`,
+    { cache: "no-cache" },
   );
   if (!res.ok) {
     throw new Error(
