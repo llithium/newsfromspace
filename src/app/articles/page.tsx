@@ -10,11 +10,12 @@ import { spaceFlightNewsAPI, pageLimit } from "src/lib/variables";
 import { Suspense } from "react";
 import { Metadata } from "next";
 
-export async function generateMetadata({
-  searchParams,
-}: {
-  searchParams: { [key: string]: string | undefined };
-}): Promise<Metadata> {
+export async function generateMetadata(
+  props: {
+    searchParams: Promise<{ [key: string]: string | undefined }>;
+  }
+): Promise<Metadata> {
+  const searchParams = await props.searchParams;
   return {
     title:
       (searchParams.q && searchParams.q + " · News From Space") ||
@@ -22,11 +23,12 @@ export async function generateMetadata({
   };
 }
 
-export default async function Page({
-  searchParams,
-}: {
-  searchParams: { page: string; q: string };
-}) {
+export default async function Page(
+  props: {
+    searchParams: Promise<{ page: string; q: string }>;
+  }
+) {
+  const searchParams = await props.searchParams;
   const queryClient = new QueryClient();
   const page = parseInt(searchParams.page) || 1;
 

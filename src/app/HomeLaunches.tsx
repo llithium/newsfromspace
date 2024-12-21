@@ -4,12 +4,10 @@ import { Link as NextUILink } from "@nextui-org/link";
 import Link from "next/link";
 import { Tooltip } from "@nextui-org/tooltip";
 import { Image } from "@nextui-org/image";
-import dynamic from "next/dynamic";
 import { LaunchesData } from "./launches/Launches";
 import { formatDate } from "@/lib/utils";
-const CountdownTimer = dynamic(() => import("@/components/ui/CountdownTimer"), {
-  ssr: false,
-});
+import CountdownTimer from "@/components/ui/CountdownTimer";
+
 const HomeLaunches = async () => {
   const launches: LaunchesData = await fetchUpcomingLaunchesHomePage();
 

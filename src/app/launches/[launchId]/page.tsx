@@ -10,11 +10,12 @@ import { notFound } from "next/navigation";
 import { spaceFlightNewsAPI, LaunchLibraryAPI } from "src/lib/variables";
 import LaunchInformationPage, { Launch } from "./Launch";
 
-export async function generateMetadata({
-  params,
-}: {
-  params: { launchId: string };
-}): Promise<Metadata> {
+export async function generateMetadata(
+  props: {
+    params: Promise<{ launchId: string }>;
+  }
+): Promise<Metadata> {
+  const params = await props.params;
   // read route params
   const launchId = params.launchId;
 
@@ -33,11 +34,12 @@ export async function generateMetadata({
   };
 }
 
-export default async function Page({
-  params,
-}: {
-  params: { launchId: string };
-}) {
+export default async function Page(
+  props: {
+    params: Promise<{ launchId: string }>;
+  }
+) {
+  const params = await props.params;
   const queryClient = new QueryClient();
 
   await queryClient.prefetchQuery({

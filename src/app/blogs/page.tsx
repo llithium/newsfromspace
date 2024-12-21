@@ -10,11 +10,12 @@ import { Metadata } from "next";
 import BlogsSearchResults from "./BlogsSearchResults";
 import Blogs from "./Blogs";
 
-export async function generateMetadata({
-  searchParams,
-}: {
-  searchParams: { [key: string]: string | undefined };
-}): Promise<Metadata> {
+export async function generateMetadata(
+  props: {
+    searchParams: Promise<{ [key: string]: string | undefined }>;
+  }
+): Promise<Metadata> {
+  const searchParams = await props.searchParams;
   return {
     title:
       (searchParams.q && searchParams.q + " · News From Space") ||
@@ -22,11 +23,12 @@ export async function generateMetadata({
   };
 }
 
-export default async function Page({
-  searchParams,
-}: {
-  searchParams: { page: string; q: string };
-}) {
+export default async function Page(
+  props: {
+    searchParams: Promise<{ page: string; q: string }>;
+  }
+) {
+  const searchParams = await props.searchParams;
   const queryClient = new QueryClient();
   const page = parseInt(searchParams.page) || 1;
 
