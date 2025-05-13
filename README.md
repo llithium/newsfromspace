@@ -2,7 +2,7 @@
 
 News site built with Nextjs using The Space Devs' Spaceflight News and Launch Library 2 APIs
 
-**Link:** <https://www.newsfromspace.site/>
+**Link:** [newsfromspace.vercel.app](https://newsfromspace.vercel.app/)
 
 ## Built With
 
