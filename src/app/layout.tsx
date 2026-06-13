@@ -2,17 +2,27 @@ import { Metadata } from "next";
 import "./globals.css";
 import Providers from "./providers";
 import AppNavbar from "./AppNavbar";
-import { Manrope } from "next/font/google";
+import Footer from "./Footer";
+import { Newsreader, Space_Grotesk } from "next/font/google";
 
 export const metadata: Metadata = {
   title: "News From Space",
   description: "Spaceflight related news from around the world",
 };
 
-const manrope = Manrope({
+const serif = Newsreader({
   subsets: ["latin"],
   display: "swap",
-  variable: "--font-manrope",
+  variable: "--font-serif",
+  style: ["normal", "italic"],
+  weight: ["400", "500", "600", "700"],
+});
+
+const grotesk = Space_Grotesk({
+  subsets: ["latin"],
+  display: "swap",
+  variable: "--font-grotesk",
+  weight: ["400", "500", "600", "700"],
 });
 
 export default function RootLayout({
@@ -21,11 +31,16 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={`${manrope.variable}`} suppressHydrationWarning>
+    <html
+      lang="en"
+      className={`${serif.variable} ${grotesk.variable}`}
+      suppressHydrationWarning
+    >
       <body>
         <Providers>
           <AppNavbar />
-          <div className="mx-auto px-2 2xl:px-6">{children}</div>
+          {children}
+          <Footer />
         </Providers>
       </body>
     </html>

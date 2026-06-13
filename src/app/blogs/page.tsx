@@ -50,17 +50,45 @@ export default async function Page(
         ),
     });
     return (
-      <HydrationBoundary state={dehydrate(queryClient)}>
-        <Suspense>
-          <BlogsSearchResults page={page} />
-        </Suspense>
-      </HydrationBoundary>
+      <main className="wrap">
+        <LogbookIntro />
+        <HydrationBoundary state={dehydrate(queryClient)}>
+          <Suspense>
+            <BlogsSearchResults page={page} />
+          </Suspense>
+        </HydrationBoundary>
+      </main>
     );
   } else {
     return (
-      <HydrationBoundary state={dehydrate(queryClient)}>
-        <Blogs page={page} />
-      </HydrationBoundary>
+      <main className="wrap">
+        <LogbookIntro />
+        <HydrationBoundary state={dehydrate(queryClient)}>
+          <Blogs page={page} />
+        </HydrationBoundary>
+      </main>
     );
   }
+}
+
+function LogbookIntro() {
+  return (
+    <div
+      className="page-intro"
+      style={{ textAlign: "center", borderBottom: "none", paddingBottom: 6 }}
+    >
+      <div className="kicker" style={{ justifyContent: "center" }}>
+        <span className="bar" style={{ maxWidth: 40 }}></span>Field Notes From
+        Orbit<span className="bar" style={{ maxWidth: 40 }}></span>
+      </div>
+      <h1 style={{ fontStyle: "italic" }}>The Logbook</h1>
+      <p
+        className="sub"
+        style={{ marginLeft: "auto", marginRight: "auto", textAlign: "center" }}
+      >
+        The daily diary of life aboard the station and the people working it —
+        kept day by day, newest entry on top.
+      </p>
+    </div>
+  );
 }

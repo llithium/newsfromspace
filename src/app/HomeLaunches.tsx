@@ -1,103 +1,98 @@
-import { fetchUpcomingLaunchesHomePage } from "./HomePage";
-import { Card } from "@nextui-org/card";
-import { Link as NextUILink } from "@nextui-org/link";
 import Link from "next/link";
-import { Tooltip } from "@nextui-org/tooltip";
-import { Image } from "@nextui-org/image";
-import { LaunchesData } from "./launches/Launches";
-import { formatDate } from "@/lib/utils";
+import { fetchUpcomingLaunchesHomePage } from "./HomePage";
 import CountdownTimer from "@/components/ui/CountdownTimer";
+import Photo from "@/components/ui/Photo";
+import { LaunchesData } from "./launches/Launches";
+import { statusPill } from "@/lib/status";
+import { formatDate } from "@/lib/utils";
 
+const metaColor = (cls: string) =>
+  cls === "go" || cls === "success"
+    ? "var(--go)"
+    : cls === "fail"
+      ? "#d24b4b"
+      : "var(--warn)";
+
+// Renders the right "rail" cell: live countdown card, upcoming list, secondary.
 const HomeLaunches = async () => {
-  const launches: LaunchesData = await fetchUpcomingLaunchesHomePage();
+  const data: LaunchesData = await fetchUpcomingLaunchesHomePage();
+  const results = data.results || [];
+  const next = results[0];
+  const list = results.slice(1, 5);
+  const secondary = results[5] || results[1];
+  const pill = next ? statusPill(next.status?.abbrev) : null;
 
   return (
-    <>
-      {launches.results.map((launch) => {
-        return (
-          <div key={launch.id}>
-            <Card className="flex h-fit w-full flex-col overflow-y-auto p-3 dark:bg-neutral-950">
-              <h3 className="text-xl font-bold">{launch.name}</h3>
-              <div className="flex items-center py-2">
-                <Image
-                  className="object-contain"
-                  alt="Agency logo"
-                  height={40}
-                  radius="sm"
-                  src={
-                    launch.launch_service_provider &&
-                    launch.launch_service_provider.logo_url
-                  }
-                  width={40}
-                />
-                <h3 className="pl-2 text-lg font-semibold">
-                  {launch.launch_service_provider &&
-                    launch.launch_service_provider.name}
-                </h3>
-              </div>
-              <div className="flex h-full w-full flex-wrap md:flex-nowrap">
-                <div className="flex flex-grow flex-col px-2">
-                  <div className="flex">
-                    <p className="max-w-1/2 w-fit pr-2 font-semibold">
-                      {formatDate(launch.window_start)}
-                    </p>
-                    <CountdownTimer date={launch.window_start} />
-                  </div>
-                  <Tooltip
-                    delay={300}
-                    content={launch.status && launch.status.description}
-                  >
-                    <p
-                      className={`w-fit font-semibold ${
-                        launch.status && launch.status.abbrev === "Success"
-                          ? "text-success-500"
-                          : launch.status.abbrev === "Failure"
-                            ? "text-red-600"
-                            : ""
-                      }`}
-                    >
-                      Status: {launch.status && launch.status.name}
-                    </p>
-                  </Tooltip>
-                  <p className="py-2">
-                    {launch.mission ? (
-                      launch.mission.description
-                    ) : (
-                      <span className="py-2 opacity-60">
-                        No description provided
-                      </span>
-                    )}
-                  </p>
-                  <Link
-                    className="mt-auto self-end pb-0 font-semibold text-primary-500 transition-opacity hover:opacity-80 active:opacity-disabled"
-                    href={`/launches/${launch.id}`}
-                  >
-                    More Info
-                  </Link>
-                  <div className="flex justify-between gap-2 py-2 font-semibold">
-                    <NextUILink
-                      color="foreground"
-                      href={launch.pad.map_url ? launch.pad.map_url : ""}
-                    >
-                      <p>{launch.pad && launch.pad.location.name}</p>
-                    </NextUILink>
-                    <Tooltip delay={300} content="Mission type">
-                      <p className="w-fit">
-                        {launch.mission ? (
-                          launch.mission.type
-                        ) : (
-                          <span className="opacity-60">Unknown</span>
-                        )}
-                      </p>
-                    </Tooltip>
-                  </div>
-                </div>
-              </div>
-            </Card>
+    <div className="rail-r">
+      {next && (
+        <div className="countdown">
+          <div className="lab">
+            <span className="dot"></span> Next Launch
           </div>
-        );
-      })}
-    </>
+          <div className="veh">{next.name}</div>
+          <div className="prov">
+            {next.launch_service_provider?.name}
+            {next.pad?.location?.name ? ` · ${next.pad.location.name}` : ""}
+          </div>
+          <CountdownTimer date={next.window_start} variant="card" />
+          <div className="meta">
+            <span>{formatDate(next.window_start)}</span>
+            {pill && (
+              <span style={{ color: metaColor(pill.cls), fontWeight: 600 }}>
+                ● {pill.label}
+              </span>
+            )}
+          </div>
+          <Link className="block-link" href={`/launches/${next.id}`}>
+            <button className="watch">▶ Watch Live</button>
+          </Link>
+        </div>
+      )}
+
+      <hr className="hr" />
+      <div className="section-head">
+        Upcoming Launches<span className="bar"></span>
+      </div>
+      <div className="ulist">
+        {list.map((l) => (
+          <Link className="block-link" key={l.id} href={`/launches/${l.id}`}>
+            <div className="row">
+              <div>
+                <div className="t">{l.name}</div>
+                <div className="p">{l.launch_service_provider?.name}</div>
+              </div>
+              <div className="cd">
+                T- <CountdownTimer date={l.window_start} />
+              </div>
+            </div>
+          </Link>
+        ))}
+      </div>
+
+      {secondary && (
+        <>
+          <hr className="hr" />
+          <Link className="block-link" href={`/launches/${secondary.id}`}>
+            <div className="story">
+              <Photo
+                src={secondary.image}
+                caption={secondary.launch_service_provider?.name}
+                className="alt"
+              />
+              <h2 className="hl" style={{ fontSize: 19, marginTop: 12 }}>
+                {secondary.name}
+              </h2>
+              <div className="byline">
+                <span className="src">
+                  {secondary.launch_service_provider?.name}
+                </span>
+                <span>{secondary.mission?.type || "Launch"}</span>
+              </div>
+            </div>
+          </Link>
+        </>
+      )}
+    </div>
   );
 };
 

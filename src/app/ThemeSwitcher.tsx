@@ -1,12 +1,12 @@
 "use client";
 
-import { Button } from "@nextui-org/button";
+import { Button } from "@nextui-org/react";
 import {
   Dropdown,
   DropdownTrigger,
   DropdownMenu,
   DropdownItem,
-} from "@nextui-org/dropdown";
+} from "@nextui-org/react";
 import { useTheme } from "next-themes";
 import { useEffect, useState } from "react";
 
@@ -25,7 +25,9 @@ const ThemeSwitcher = () => {
       <Dropdown>
         <DropdownTrigger>
           <Button
-            className="bg-transparent"
+            className="h-7 min-w-7 rounded-none bg-transparent text-ink2 hover:text-ink"
+            size="sm"
+            radius="none"
             isIconOnly
             aria-label="Theme switcher"
           >

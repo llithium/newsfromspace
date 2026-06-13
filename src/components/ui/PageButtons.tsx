@@ -1,6 +1,5 @@
 "use client";
 import { pageLimit } from "src/lib/variables";
-import { Pagination } from "@nextui-org/pagination";
 import { usePathname, useRouter } from "next/navigation";
 
 const PageButtons = ({
@@ -14,20 +13,45 @@ const PageButtons = ({
 }) => {
   const router = useRouter();
   const pathname = usePathname();
+  const totalPages = Math.max(1, Math.ceil(count / parseInt(pageLimit)));
+
+  const go = (p: number) => {
+    router.push(
+      search ? `${pathname}?q=${search}&page=${p}` : `${pathname}?page=${p}`,
+    );
+  };
+
+  const atStart = page <= 1;
+  const atEnd = page >= totalPages;
 
   return (
-    <Pagination
-      size="sm"
-      color="default"
-      showControls
-      total={Math.ceil(count / parseInt(pageLimit))}
-      initialPage={page}
-      onChange={(page) => {
-        !search
-          ? router.push(`${pathname}?page=${page}`)
-          : router.push(`${pathname}?q=${search}&page=${page}`);
-      }}
-    />
+    <div className="flex items-center gap-4">
+      <button
+        className="btn ghost"
+        disabled={atStart}
+        onClick={() => go(page - 1)}
+        style={{
+          opacity: atStart ? 0.4 : 1,
+          cursor: atStart ? "default" : "pointer",
+        }}
+      >
+        ← Newer
+      </button>
+      <span className="tag">
+        Page {page} of {totalPages}
+      </span>
+      <button
+        className="btn ghost"
+        disabled={atEnd}
+        onClick={() => go(page + 1)}
+        style={{
+          opacity: atEnd ? 0.4 : 1,
+          cursor: atEnd ? "default" : "pointer",
+        }}
+      >
+        Older →
+      </button>
+    </div>
   );
 };
 

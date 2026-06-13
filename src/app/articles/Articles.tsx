@@ -1,13 +1,10 @@
 "use client";
 
-import { Card, CardBody } from "@nextui-org/card";
-import { Image } from "@nextui-org/image";
-import { Divider } from "@nextui-org/divider";
 import { useQuery } from "@tanstack/react-query";
+import Link from "next/link";
+import Photo from "@/components/ui/Photo";
 import { fetchArticlesAndBlogs } from "../../lib/fetchArticlesAndBlogs";
 import { formatDate } from "@/lib/utils";
-import Link from "next/link";
-
 import { spaceFlightNewsAPI, pageLimit } from "src/lib/variables";
 import PageButtons from "src/components/ui/PageButtons";
 
@@ -21,54 +18,68 @@ export default function Articles({ page }: { page: number }) {
       ),
   });
 
+  const results = data?.results || [];
+  const featured = page === 1 ? results[0] : undefined;
+  const rest = featured ? results.slice(1) : results;
+
   return (
     <>
-      <div className="grid grid-cols-1 gap-3 xl:grid-cols-2">
-        {isError && <div>{error.message}</div>}
-        {data &&
-          data.results.map((article) => {
-            return (
-              <Card
-                key={article.id}
-                className="flex h-32 flex-row transition-opacity hover:opacity-80 active:opacity-disabled dark:bg-neutral-950 sm:h-44"
-              >
-                <Link
-                  scroll={false}
-                  key={article.id}
-                  href={article.url}
-                  className="flex h-32 w-full flex-row py-2 sm:h-full"
-                >
-                  <Image
-                    alt="Article image"
-                    className="z-0 ml-2 h-full w-44 flex-shrink rounded-xl object-cover sm:w-44 sm:flex-1 lg:w-56"
-                    src={article.image_url}
-                  />
-                  <CardBody className="flex-grow overflow-visible overflow-y-auto py-0 sm:flex-1">
-                    <h2 className="pb-0 text-xs font-bold tracking-tight transition-colors first:mt-0 sm:text-xl 2xl:text-2xl">
-                      {article.title}
-                    </h2>
+      {isError && <div className="dek">{error.message}</div>}
 
-                    <Divider />
-                    <p className="overflow-hidden overflow-ellipsis whitespace-nowrap text-sm">
-                      {article.summary}
-                    </p>
-                    <div className="mt-auto">
-                      <p className="relative top-2 m-0 text-tiny italic sm:top-1 sm:text-medium">
-                        {article.news_site}
-                      </p>
-                      <small className="m-0 text-tiny text-default-500">
-                        {formatDate(article.published_at)}
-                      </small>
-                    </div>
-                  </CardBody>
-                </Link>
-                {/* <SaveIcon /> */}
-              </Card>
-            );
-          })}
+      {featured && (
+        <Link className="block-link" href={`/articles/${featured.id}`}>
+          <div className="feat">
+            <Photo src={featured.image_url} caption={featured.news_site} />
+            <div className="lead-meta">
+              <div className="kicker">Featured · Latest</div>
+              <h2
+                className="hl"
+                style={{ fontSize: "clamp(30px,3vw,44px)", marginTop: 12 }}
+              >
+                {featured.title}
+              </h2>
+              <p className="dek" style={{ fontSize: 18 }}>
+                {featured.summary}
+              </p>
+              <div className="byline">
+                <span className="src">{featured.news_site}</span>
+                <span>{formatDate(featured.published_at)}</span>
+                <span>·</span>
+                <span>Read →</span>
+              </div>
+            </div>
+          </div>
+        </Link>
+      )}
+
+      <div className="agrid">
+        {rest.map((article) => (
+          <Link
+            className="block-link"
+            key={article.id}
+            href={`/articles/${article.id}`}
+          >
+            <div className="item">
+              <Photo src={article.image_url} caption={article.news_site} />
+              <div className="body">
+                <h2 className="hl" style={{ fontSize: 21 }}>
+                  {article.title}
+                </h2>
+                <div className="sub" style={{ fontSize: 15 }}>
+                  {article.summary}
+                </div>
+                <div className="byline">
+                  <span className="src">{article.news_site}</span>
+                  <span>{formatDate(article.published_at)}</span>
+                </div>
+              </div>
+            </div>
+          </Link>
+        ))}
       </div>
+
       {data?.count ? (
-        <div className="mx-auto w-fit py-4">
+        <div className="loadmore">
           <PageButtons count={data.count} page={page} />
         </div>
       ) : null}
