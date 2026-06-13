@@ -1,46 +1,37 @@
-import { Card, CardBody } from "@nextui-org/card";
-import { Link as NextUILink } from "@nextui-org/link";
-import { Image } from "@nextui-org/image";
-import { Divider } from "@nextui-org/divider";
 import { fetchLatestBlogs } from "./HomePage";
+import Photo from "@/components/ui/Photo";
 import { ArticlesAndBlogs } from "./articles/Articles";
 import { formatDate } from "@/lib/utils";
 
+// Renders the 4-up story band beneath the front-page grid.
 const HomeBlogs = async () => {
-  const blogs: ArticlesAndBlogs = await fetchLatestBlogs();
+  const data: ArticlesAndBlogs = await fetchLatestBlogs();
+  const items = (data.results || []).slice(0, 4);
 
   return (
     <>
-      {blogs.results.map((blog) => {
-        return (
-          <NextUILink key={blog.id} href={blog.url} isExternal>
-            <Card className="flex min-h-52 w-full flex-col gap-2 py-2 dark:bg-neutral-950 sm:h-full sm:flex-row">
-              <Image
-                alt="Blog image"
-                className="z-0 ml-2 h-full w-full flex-shrink rounded-xl object-cover sm:w-44 sm:flex-1 lg:w-56"
-                src={blog.image_url}
-              />
-
-              <CardBody className="flex-grow overflow-visible overflow-y-auto py-0 sm:flex-1">
-                <h2 className="pb-0 text-medium font-bold tracking-tight transition-colors first:mt-0 sm:text-xl 2xl:text-2xl">
-                  {blog.title}
-                </h2>
-                <Divider className="my-2" />
-                <p>{blog.summary}</p>
-
-                <div className="mt-auto">
-                  <p className="relative top-2 m-0 text-tiny italic sm:top-1 sm:text-medium">
-                    {blog.news_site}
-                  </p>
-                  <small className="m-0 text-tiny text-default-500">
-                    {formatDate(blog.published_at)}
-                  </small>
-                </div>
-              </CardBody>
-            </Card>
-          </NextUILink>
-        );
-      })}
+      {items.map((b, i) => (
+        <a
+          key={b.id}
+          className="block-link cell story"
+          href={b.url}
+          target="_blank"
+          rel="noreferrer"
+        >
+          <Photo
+            src={b.image_url}
+            caption={b.news_site}
+            className={i % 2 ? "alt" : undefined}
+          />
+          <h2 className="hl" style={{ fontSize: 19 }}>
+            {b.title}
+          </h2>
+          <div className="byline">
+            <span className="src">{b.news_site}</span>
+            <span>{formatDate(b.published_at)}</span>
+          </div>
+        </a>
+      ))}
     </>
   );
 };

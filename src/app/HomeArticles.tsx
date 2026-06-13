@@ -1,46 +1,64 @@
+import Link from "next/link";
 import { fetchLatestArticles } from "./HomePage";
-import { Card, CardBody } from "@nextui-org/card";
-import { Link as NextUILink } from "@nextui-org/link";
-import { Image } from "@nextui-org/image";
-import { Divider } from "@nextui-org/divider";
+import Photo from "@/components/ui/Photo";
 import { ArticlesAndBlogs } from "./articles/Articles";
 import { formatDate } from "@/lib/utils";
 
+// Renders two front-page grid cells: the left "Brief" rail and the center
+// "Lead Story" well — both from a single latest-articles fetch.
 const HomeArticles = async () => {
-  const articles: ArticlesAndBlogs = await fetchLatestArticles();
+  const data: ArticlesAndBlogs = await fetchLatestArticles();
+  const results = data.results || [];
+  const lead = results[0];
+  const brief = results.slice(1, 4);
 
   return (
     <>
-      {articles.results.map((article) => {
-        return (
-          <NextUILink key={article.id} href={article.url} isExternal>
-            <Card className="flex min-h-52 w-full flex-col gap-2 py-2 dark:bg-neutral-950 sm:h-full sm:flex-row">
-              <Image
-                alt="Article image"
-                className="z-0 ml-2 h-full w-full flex-shrink rounded-xl object-cover sm:w-44 sm:flex-1 lg:w-56"
-                src={article.image_url}
-              />
-
-              <CardBody className="flex-grow overflow-visible overflow-y-auto py-0 sm:flex-1">
-                <h2 className="pb-0 text-medium font-bold tracking-tight transition-colors first:mt-0 sm:text-xl 2xl:text-2xl">
-                  {article.title}
+      <div className="rail-l">
+        {brief.map((a, i) => (
+          <div key={a.id}>
+            <Link className="block-link" href={`/articles/${a.id}`}>
+              <div className="story">
+                {i === 0 && (
+                  <div className="kicker" style={{ marginBottom: 11 }}>
+                    <span className="bar"></span>The Brief
+                  </div>
+                )}
+                {i === 0 && <Photo src={a.image_url} caption={a.news_site} />}
+                <h2 className="hl" style={{ fontSize: i === 0 ? 24 : 19 }}>
+                  {a.title}
                 </h2>
-                <Divider className="my-2" />
-                <p>{article.summary}</p>
-
-                <div className="mt-auto">
-                  <p className="relative top-2 m-0 text-tiny italic sm:top-1 sm:text-medium">
-                    {article.news_site}
-                  </p>
-                  <small className="m-0 text-tiny text-default-500">
-                    {formatDate(article.published_at)}
-                  </small>
+                <div className="sub">{a.summary}</div>
+                <div className="byline">
+                  <span className="src">{a.news_site}</span>
+                  <span>{formatDate(a.published_at)}</span>
                 </div>
-              </CardBody>
-            </Card>
-          </NextUILink>
-        );
-      })}
+              </div>
+            </Link>
+            {i < brief.length - 1 && <hr className="hr" />}
+          </div>
+        ))}
+      </div>
+
+      <div className="lead">
+        {lead && (
+          <Link className="block-link" href={`/articles/${lead.id}`}>
+            <div className="kicker">
+              <span className="bar"></span>Lead Story · Industry
+              <span className="bar"></span>
+            </div>
+            <h1 className="headline">{lead.title}</h1>
+            <p className="dek">{lead.summary}</p>
+            <Photo src={lead.image_url} caption={lead.news_site} />
+            <div className="byline">
+              <span className="src">{lead.news_site}</span>
+              <span>{formatDate(lead.published_at)}</span>
+              <span>·</span>
+              <span>Read the dispatch →</span>
+            </div>
+          </Link>
+        )}
+      </div>
     </>
   );
 };

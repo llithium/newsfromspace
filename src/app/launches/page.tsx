@@ -6,6 +6,7 @@ import {
 import Launches from "./Launches";
 import { fetchUpcomingLaunches } from "../../lib/fetchUpcomingLaunches";
 import LaunchesSearchResults from "./LaunchesSearchResults";
+import LaunchesIntro from "./LaunchesIntro";
 import { LaunchLibraryAPI, pageLimit } from "src/lib/variables";
 import { Suspense } from "react";
 import { Metadata } from "next";
@@ -54,17 +55,23 @@ export default async function Page(
       staleTime: 15 * 60 * 1000,
     });
     return (
-      <HydrationBoundary state={dehydrate(queryClient)}>
-        <Suspense>
-          <LaunchesSearchResults page={page} />
-        </Suspense>
-      </HydrationBoundary>
+      <main className="wrap">
+        <LaunchesIntro active="upcoming" q={searchParams.q} />
+        <HydrationBoundary state={dehydrate(queryClient)}>
+          <Suspense>
+            <LaunchesSearchResults page={page} />
+          </Suspense>
+        </HydrationBoundary>
+      </main>
     );
   } else {
     return (
-      <HydrationBoundary state={dehydrate(queryClient)}>
-        <Launches page={page} />
-      </HydrationBoundary>
+      <main className="wrap">
+        <LaunchesIntro active="upcoming" />
+        <HydrationBoundary state={dehydrate(queryClient)}>
+          <Launches page={page} />
+        </HydrationBoundary>
+      </main>
     );
   }
 }

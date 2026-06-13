@@ -1,5 +1,5 @@
 "use client";
-import { Input } from "@nextui-org/input";
+import { Input } from "@nextui-org/react";
 import { usePathname, useSearchParams } from "next/navigation";
 import { useRouter } from "next/navigation";
 
@@ -31,15 +31,16 @@ const SearchInput = () => {
       <Input
         className="w-full"
         name="search"
+        radius="none"
         classNames={{
-          base: "w-full h-10",
+          base: "w-full h-9 min-w-[180px]",
           mainWrapper: "h-full",
-          input: "text-small",
+          input: "text-small font-grotesk",
           inputWrapper:
-            "h-full font-normal text-default-500 bg-default-400/20 dark:bg-default-500/20",
+            "h-full rounded-none border border-line bg-transparent font-normal text-ink3 shadow-none data-[hover=true]:bg-transparent group-data-[focus=true]:bg-transparent",
         }}
         placeholder={
-          searchParams && searchValue ? searchValue : "Type to search..."
+          searchParams && searchValue ? searchValue : "Search the cosmos…"
         }
         size="sm"
         startContent={
