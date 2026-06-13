@@ -25,8 +25,8 @@ importers:
         specifier: ^11.15.0
         version: 11.15.0(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
       next:
-        specifier: 15.1.2
-        version: 15.1.2(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
+        specifier: 15.1.11
+        version: 15.1.11(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
       next-themes:
         specifier: ^0.4.4
         version: 0.4.4(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
@@ -204,67 +204,79 @@ packages:
     resolution: {integrity: sha512-9B+taZ8DlyyqzZQnoeIvDVR/2F4EbMepXMc/NdVbkzsJbzkUjhXv/70GQJ7tdLA4YJgNP25zukcxpX2/SueNrA==}
     cpu: [arm64]
     os: [linux]
+    libc: [glibc]
 
   '@img/sharp-libvips-linux-arm@1.0.5':
     resolution: {integrity: sha512-gvcC4ACAOPRNATg/ov8/MnbxFDJqf/pDePbBnuBDcjsI8PssmjoKMAz4LtLaVi+OnSb5FK/yIOamqDwGmXW32g==}
     cpu: [arm]
     os: [linux]
+    libc: [glibc]
 
   '@img/sharp-libvips-linux-s390x@1.0.4':
     resolution: {integrity: sha512-u7Wz6ntiSSgGSGcjZ55im6uvTrOxSIS8/dgoVMoiGE9I6JAfU50yH5BoDlYA1tcuGS7g/QNtetJnxA6QEsCVTA==}
     cpu: [s390x]
     os: [linux]
+    libc: [glibc]
 
   '@img/sharp-libvips-linux-x64@1.0.4':
     resolution: {integrity: sha512-MmWmQ3iPFZr0Iev+BAgVMb3ZyC4KeFc3jFxnNbEPas60e1cIfevbtuyf9nDGIzOaW9PdnDciJm+wFFaTlj5xYw==}
     cpu: [x64]
     os: [linux]
+    libc: [glibc]
 
   '@img/sharp-libvips-linuxmusl-arm64@1.0.4':
     resolution: {integrity: sha512-9Ti+BbTYDcsbp4wfYib8Ctm1ilkugkA/uscUn6UXK1ldpC1JjiXbLfFZtRlBhjPZ5o1NCLiDbg8fhUPKStHoTA==}
     cpu: [arm64]
     os: [linux]
+    libc: [musl]
 
   '@img/sharp-libvips-linuxmusl-x64@1.0.4':
     resolution: {integrity: sha512-viYN1KX9m+/hGkJtvYYp+CCLgnJXwiQB39damAO7WMdKWlIhmYTfHjwSbQeUK/20vY154mwezd9HflVFM1wVSw==}
     cpu: [x64]
     os: [linux]
+    libc: [musl]
 
   '@img/sharp-linux-arm64@0.33.5':
     resolution: {integrity: sha512-JMVv+AMRyGOHtO1RFBiJy/MBsgz0x4AWrT6QoEVVTyh1E39TrCUpTRI7mx9VksGX4awWASxqCYLCV4wBZHAYxA==}
     engines: {node: ^18.17.0 || ^20.3.0 || >=21.0.0}
     cpu: [arm64]
     os: [linux]
+    libc: [glibc]
 
   '@img/sharp-linux-arm@0.33.5':
     resolution: {integrity: sha512-JTS1eldqZbJxjvKaAkxhZmBqPRGmxgu+qFKSInv8moZ2AmT5Yib3EQ1c6gp493HvrvV8QgdOXdyaIBrhvFhBMQ==}
     engines: {node: ^18.17.0 || ^20.3.0 || >=21.0.0}
     cpu: [arm]
     os: [linux]
+    libc: [glibc]
 
   '@img/sharp-linux-s390x@0.33.5':
     resolution: {integrity: sha512-y/5PCd+mP4CA/sPDKl2961b+C9d+vPAveS33s6Z3zfASk2j5upL6fXVPZi7ztePZ5CuH+1kW8JtvxgbuXHRa4Q==}
     engines: {node: ^18.17.0 || ^20.3.0 || >=21.0.0}
     cpu: [s390x]
     os: [linux]
+    libc: [glibc]
 
   '@img/sharp-linux-x64@0.33.5':
     resolution: {integrity: sha512-opC+Ok5pRNAzuvq1AG0ar+1owsu842/Ab+4qvU879ippJBHvyY5n2mxF1izXqkPYlGuP/M556uh53jRLJmzTWA==}
     engines: {node: ^18.17.0 || ^20.3.0 || >=21.0.0}
     cpu: [x64]
     os: [linux]
+    libc: [glibc]
 
   '@img/sharp-linuxmusl-arm64@0.33.5':
     resolution: {integrity: sha512-XrHMZwGQGvJg2V/oRSUfSAfjfPxO+4DkiRh6p2AFjLQztWUuY/o8Mq0eMQVIY7HJ1CDQUJlxGGZRw1a5bqmd1g==}
     engines: {node: ^18.17.0 || ^20.3.0 || >=21.0.0}
     cpu: [arm64]
     os: [linux]
+    libc: [musl]
 
   '@img/sharp-linuxmusl-x64@0.33.5':
     resolution: {integrity: sha512-WT+d/cgqKkkKySYmqoZ8y3pxx7lx9vVejxW/W4DOFMYVSkErR+w7mf2u8m/y4+xHe7yY9DAXQMWQhpnMuFfScw==}
     engines: {node: ^18.17.0 || ^20.3.0 || >=21.0.0}
     cpu: [x64]
     os: [linux]
+    libc: [musl]
 
   '@img/sharp-wasm32@0.33.5':
     resolution: {integrity: sha512-ykUW4LVGaMcU9lu9thv85CbRMAwfeadCJHRsg2GmeRa/cJxsVY9Rbd57JcMxBkKHag5U/x7TSBpScF4U8ElVzg==}
@@ -317,62 +329,67 @@ packages:
   '@jridgewell/trace-mapping@0.3.25':
     resolution: {integrity: sha512-vNk6aEwybGtawWmy/PzwnGDOjCkLWSD2wqvjGGAgOAwCGWySYXfYoxt00IJkTF+8Lb57DwOb3Aa0o9CApepiYQ==}
 
-  '@next/env@15.1.2':
-    resolution: {integrity: sha512-Hm3jIGsoUl6RLB1vzY+dZeqb+/kWPZ+h34yiWxW0dV87l8Im/eMOwpOA+a0L78U0HM04syEjXuRlCozqpwuojQ==}
+  '@next/env@15.1.11':
+    resolution: {integrity: sha512-yp++FVldfLglEG5LoS2rXhGypPyoSOyY0kxZQJ2vnlYJeP8o318t5DrDu5Tqzr03qAhDWllAID/kOCsXNLcwKw==}
 
   '@next/eslint-plugin-next@15.1.2':
     resolution: {integrity: sha512-sgfw3+WdaYOGPKCvM1L+UucBmRfh8V2Ygefp7ELON0+0vY7uohQwXXnVWg3rY7mXDKharQR3o7uedpfvnU2hlQ==}
 
-  '@next/swc-darwin-arm64@15.1.2':
-    resolution: {integrity: sha512-b9TN7q+j5/7+rGLhFAVZiKJGIASuo8tWvInGfAd8wsULjB1uNGRCj1z1WZwwPWzVQbIKWFYqc+9L7W09qwt52w==}
+  '@next/swc-darwin-arm64@15.1.9':
+    resolution: {integrity: sha512-sQF6MfW4nk0PwMYYq8xNgqyxZJGIJV16QqNDgaZ5ze9YoVzm4/YNx17X0exZudayjL9PF0/5RGffDtzXapch0Q==}
     engines: {node: '>= 10'}
     cpu: [arm64]
     os: [darwin]
 
-  '@next/swc-darwin-x64@15.1.2':
-    resolution: {integrity: sha512-caR62jNDUCU+qobStO6YJ05p9E+LR0EoXh1EEmyU69cYydsAy7drMcOlUlRtQihM6K6QfvNwJuLhsHcCzNpqtA==}
+  '@next/swc-darwin-x64@15.1.9':
+    resolution: {integrity: sha512-fp0c1rB6jZvdSDhprOur36xzQvqelAkNRXM/An92sKjjtaJxjlqJR8jiQLQImPsClIu8amQn+ZzFwl1lsEf62w==}
     engines: {node: '>= 10'}
     cpu: [x64]
     os: [darwin]
 
-  '@next/swc-linux-arm64-gnu@15.1.2':
-    resolution: {integrity: sha512-fHHXBusURjBmN6VBUtu6/5s7cCeEkuGAb/ZZiGHBLVBXMBy4D5QpM8P33Or8JD1nlOjm/ZT9sEE5HouQ0F+hUA==}
+  '@next/swc-linux-arm64-gnu@15.1.9':
+    resolution: {integrity: sha512-77rYykF6UtaXvxh9YyRIKoaYPI6/YX6cy8j1DL5/1XkjbfOwFDfTEhH7YGPqG/ePl+emBcbDYC2elgEqY2e+ag==}
     engines: {node: '>= 10'}
     cpu: [arm64]
     os: [linux]
+    libc: [glibc]
 
-  '@next/swc-linux-arm64-musl@15.1.2':
-    resolution: {integrity: sha512-9CF1Pnivij7+M3G74lxr+e9h6o2YNIe7QtExWq1KUK4hsOLTBv6FJikEwCaC3NeYTflzrm69E5UfwEAbV2U9/g==}
+  '@next/swc-linux-arm64-musl@15.1.9':
+    resolution: {integrity: sha512-uZ1HazKcyWC7RA6j+S/8aYgvxmDqwnG+gE5S9MhY7BTMj7ahXKunpKuX8/BA2M7OvINLv7LTzoobQbw928p3WA==}
     engines: {node: '>= 10'}
     cpu: [arm64]
     os: [linux]
+    libc: [musl]
 
-  '@next/swc-linux-x64-gnu@15.1.2':
-    resolution: {integrity: sha512-tINV7WmcTUf4oM/eN3Yuu/f8jQ5C6AkueZPKeALs/qfdfX57eNv4Ij7rt0SA6iZ8+fMobVfcFVv664Op0caCCg==}
+  '@next/swc-linux-x64-gnu@15.1.9':
+    resolution: {integrity: sha512-gQIX1d3ct2RBlgbbWOrp+SHExmtmFm/HSW1Do5sSGMDyzbkYhS2sdq5LRDJWWsQu+/MqpgJHqJT6ORolKp/U1g==}
     engines: {node: '>= 10'}
     cpu: [x64]
     os: [linux]
+    libc: [glibc]
 
-  '@next/swc-linux-x64-musl@15.1.2':
-    resolution: {integrity: sha512-jf2IseC4WRsGkzeUw/cK3wci9pxR53GlLAt30+y+B+2qAQxMw6WAC3QrANIKxkcoPU3JFh/10uFfmoMDF9JXKg==}
+  '@next/swc-linux-x64-musl@15.1.9':
+    resolution: {integrity: sha512-fJOwxAbCeq6Vo7pXZGDP6iA4+yIBGshp7ie2Evvge7S7lywyg7b/SGqcvWq/jYcmd0EbXdb7hBfdqSQwTtGTPg==}
     engines: {node: '>= 10'}
     cpu: [x64]
     os: [linux]
+    libc: [musl]
 
-  '@next/swc-win32-arm64-msvc@15.1.2':
-    resolution: {integrity: sha512-wvg7MlfnaociP7k8lxLX4s2iBJm4BrNiNFhVUY+Yur5yhAJHfkS8qPPeDEUH8rQiY0PX3u/P7Q/wcg6Mv6GSAA==}
+  '@next/swc-win32-arm64-msvc@15.1.9':
+    resolution: {integrity: sha512-crfbUkAd9PVg9nGfyjSzQbz82dPvc4pb1TeP0ZaAdGzTH6OfTU9kxidpFIogw0DYIEadI7hRSvuihy2NezkaNQ==}
     engines: {node: '>= 10'}
     cpu: [arm64]
     os: [win32]
 
-  '@next/swc-win32-x64-msvc@15.1.2':
-    resolution: {integrity: sha512-D3cNA8NoT3aWISWmo7HF5Eyko/0OdOO+VagkoJuiTk7pyX3P/b+n8XA/MYvyR+xSVcbKn68B1rY9fgqjNISqzQ==}
+  '@next/swc-win32-x64-msvc@15.1.9':
+    resolution: {integrity: sha512-SBB0oA4E2a0axUrUwLqXlLkSn+bRx9OWU6LheqmRrO53QEAJP7JquKh3kF0jRzmlYOWFZtQwyIWJMEJMtvvDcQ==}
     engines: {node: '>= 10'}
     cpu: [x64]
     os: [win32]
 
   '@nextui-org/accordion@2.2.5':
     resolution: {integrity: sha512-u7OXe6W+4JO1REbfC/zyO2B0/bGav6GL17VJa1qp8lT6uQMt3Cn7+vUe28XpIkeTnJv+WMkzWYs2+V/moYq1oQ==}
+    deprecated: This package has been deprecated. Please use @heroui/accordion instead.
     peerDependencies:
       '@nextui-org/system': '>=2.4.0'
       '@nextui-org/theme': '>=2.4.0'
@@ -382,6 +399,7 @@ packages:
 
   '@nextui-org/alert@2.2.7':
     resolution: {integrity: sha512-HOIroKCa3z6hE58lAgF+JS8vsNFblOXcuMJwB+92t19q+jkoDCgo7pkPVqi4Hm4MRY2GpUQp+iAGZklA2P4n4Q==}
+    deprecated: This package has been deprecated. Please use @heroui/alert instead.
     peerDependencies:
       '@nextui-org/system': '>=2.4.0'
       '@nextui-org/theme': '>=2.4.0'
@@ -396,6 +414,7 @@ packages:
 
   '@nextui-org/autocomplete@2.3.7':
     resolution: {integrity: sha512-bfGM59cKgDQCkKS9TR5zGD3aMNiHD1jLDh9uUciW0ij51CoqRBgvinIjOgocwHDJ0y5GbvijNK9djfYV9RYpSg==}
+    deprecated: This package has been deprecated. Please use @heroui/autocomplete instead.
     peerDependencies:
       '@nextui-org/system': '>=2.4.0'
       '@nextui-org/theme': '>=2.4.0'
@@ -405,6 +424,7 @@ packages:
 
   '@nextui-org/avatar@2.2.4':
     resolution: {integrity: sha512-YXEStFlK0/tMK31vzdEMvIYfUUGpHqqmwY1HA17dfKw0iL5UWMWK2lqN+QvBzfQfPTtbvDPW0ZcmyjOYHzx7Aw==}
+    deprecated: This package has been deprecated. Please use @heroui/avatar instead.
     peerDependencies:
       '@nextui-org/system': '>=2.4.0'
       '@nextui-org/theme': '>=2.4.0'
@@ -413,6 +433,7 @@ packages:
 
   '@nextui-org/badge@2.2.3':
     resolution: {integrity: sha512-Q1OYR3Kt1VReo/vmNESXea/sIgdQTTav4PgHfESAk6PD9UkBNmT8Xbil1E2glAbglSU3WpqL/uOKEpQANpHVzw==}
+    deprecated: This package has been deprecated. Please use @heroui/badge instead.
     peerDependencies:
       '@nextui-org/system': '>=2.4.0'
       '@nextui-org/theme': '>=2.4.0'
@@ -421,6 +442,7 @@ packages:
 
   '@nextui-org/breadcrumbs@2.2.4':
     resolution: {integrity: sha512-C+UyoYt1VFosD3leOrU1C3EsauUmjg+ZJEDCsO8WOlxvo2McEx0jqz9VmAqHCWrsIkPyZGxLfaiuhU8+T2AA6Q==}
+    deprecated: This package has been deprecated. Please use @heroui/breadcrumbs instead.
     peerDependencies:
       '@nextui-org/system': '>=2.4.0'
       '@nextui-org/theme': '>=2.4.0'
@@ -429,6 +451,7 @@ packages:
 
   '@nextui-org/button@2.2.7':
     resolution: {integrity: sha512-3o7uAD7nFAUKJkg2PZ5ktJR8qqMrjQgzewXBWfz62RWya/uTFXzqwljy0JYGwq3tfvbmBzA1GGsAZdj5wUEymw==}
+    deprecated: This package has been deprecated. Please use @heroui/button instead.
     peerDependencies:
       '@nextui-org/system': '>=2.4.0'
       '@nextui-org/theme': '>=2.4.0'
@@ -438,6 +461,7 @@ packages:
 
   '@nextui-org/calendar@2.2.7':
     resolution: {integrity: sha512-eZ4rmBFqJjmqg0n9F0QlfdfKQgZi4Z63kY0j6NCJ0f7fVtV61GHLNoZjVaaL1HDaMgcH3B7hVUvKtQOgKyzpkw==}
+    deprecated: This package has been deprecated. Please use @heroui/calendar instead.
     peerDependencies:
       '@nextui-org/system': '>=2.4.0'
       '@nextui-org/theme': '>=2.4.0'
@@ -447,6 +471,7 @@ packages:
 
   '@nextui-org/card@2.2.7':
     resolution: {integrity: sha512-66GB3+Zw6T1LD2JVMSypSvp8zeiWxb7r+00SmRdN13vf5twUepC1HkfRGOLs0yTqjiSRBSnA0veXl9z23dszbw==}
+    deprecated: This package has been deprecated. Please use @heroui/card instead.
     peerDependencies:
       '@nextui-org/system': '>=2.4.0'
       '@nextui-org/theme': '>=2.4.0'
@@ -456,6 +481,7 @@ packages:
 
   '@nextui-org/checkbox@2.3.6':
     resolution: {integrity: sha512-QiJuRNllmRACf2rDrA6/hT8o46PjC3P6ttzJxz1OeUH6ME8MUY+EyH0S+C4C+cWoBv4UC2JS5S5QXalQ0WSViw==}
+    deprecated: This package has been deprecated. Please use @heroui/checkbox instead.
     peerDependencies:
       '@nextui-org/system': '>=2.4.0'
       '@nextui-org/theme': '>=2.4.0'
@@ -464,6 +490,7 @@ packages:
 
   '@nextui-org/chip@2.2.4':
     resolution: {integrity: sha512-7fii39lPei8o/3TwdmB8e8W/ZS0FdsQxSHQKXDQpB4meS3Q7CC9dxV1MtwiniE3SXOnSQY7ChvGmu6wkGRFOOA==}
+    deprecated: This package has been deprecated. Please use @heroui/chip instead.
     peerDependencies:
       '@nextui-org/system': '>=2.4.0'
       '@nextui-org/theme': '>=2.4.0'
@@ -472,6 +499,7 @@ packages:
 
   '@nextui-org/code@2.2.4':
     resolution: {integrity: sha512-p39bvfI/8sPbau5v+JHZG4CVirVeXCrHXm25qpbwPhgm2TxcuPftuoJb5JQNF4x0j0ONLaHnz7Ilr/Ai2vo12w==}
+    deprecated: This package has been deprecated. Please use @heroui/code instead.
     peerDependencies:
       '@nextui-org/theme': '>=2.4.0'
       react: '>=18 || >=19.0.0-rc.0'
@@ -479,6 +507,7 @@ packages:
 
   '@nextui-org/date-input@2.3.6':
     resolution: {integrity: sha512-xLgDXAtyrgX1LbGOw3egKV2armcNeNQAnsdycTjy5nxDkcU6PqtJ7G3Oe28/MW7l0qTxUT7/JNnrbKCtxiap/w==}
+    deprecated: This package has been deprecated. Please use @heroui/date-input instead.
     peerDependencies:
       '@nextui-org/system': '>=2.4.0'
       '@nextui-org/theme': '>=2.4.0'
@@ -487,6 +516,7 @@ packages:
 
   '@nextui-org/date-picker@2.3.7':
     resolution: {integrity: sha512-AgUMw+pvlB6d5+LXQMZDxZhjzNFtCP/ONIZlK+kH/+X6N1JL5s7avfK0TSlFfV1x8yng6xtWBNl1vjy/ymLHpA==}
+    deprecated: This package has been deprecated. Please use @heroui/date-picker instead.
     peerDependencies:
       '@nextui-org/system': '>=2.4.0'
       '@nextui-org/theme': '>=2.4.0'
@@ -496,6 +526,7 @@ packages:
 
   '@nextui-org/divider@2.2.4':
     resolution: {integrity: sha512-fjFeHS9x4I1TgMBKS3uuBP9XXTV+I71+Wj5jJzTf5c0bqqvTQpL3WsrfuxIT0Tfmi5gpPRafSeTBt5vOPCkdgA==}
+    deprecated: This package has been deprecated. Please use @heroui/divider instead.
     peerDependencies:
       '@nextui-org/theme': '>=2.4.0'
       react: '>=18 || >=19.0.0-rc.0'
@@ -508,6 +539,7 @@ packages:
 
   '@nextui-org/drawer@2.2.5':
     resolution: {integrity: sha512-T3J1B/IX+ZPdllsNZbGoKry/jPKlniRyFGEfvY/yPpR88sEwDMMkAZVosZAx5Q+2KOiweq2jia+diGlFz+D59Q==}
+    deprecated: This package has been deprecated. Please use @heroui/drawer instead.
     peerDependencies:
       '@nextui-org/system': '>=2.4.0'
       '@nextui-org/theme': '>=2.4.0'
@@ -516,6 +548,7 @@ packages:
 
   '@nextui-org/dropdown@2.3.7':
     resolution: {integrity: sha512-7AWurG9ImHqpJzrhlZLtEbEdBTSze7wzaz1dXLiupdfkE8NV3KVT/2sBv+WqlddlMWxEedEiaGrZWhvODOkkdQ==}
+    deprecated: This package has been deprecated. Please use @heroui/dropdown instead.
     peerDependencies:
       '@nextui-org/system': '>=2.4.0'
       '@nextui-org/theme': '>=2.4.0'
@@ -525,6 +558,7 @@ packages:
 
   '@nextui-org/form@2.1.6':
     resolution: {integrity: sha512-bQ4TkmHcuAEvu2UKoRIYXwvZmjaAxhY8sFYqaX9Ma1Jis1tHeu9ScxhFXDKBN1q7RiNoRdWU6o9lBcFrvHEB6w==}
+    deprecated: This package has been deprecated. Please use @heroui/form instead.
     peerDependencies:
       '@nextui-org/system': '>=2.4.0'
       '@nextui-org/theme': '>=2.4.0'
@@ -540,6 +574,7 @@ packages:
 
   '@nextui-org/image@2.2.3':
     resolution: {integrity: sha512-erd+c7uA4FRoOOdwS6di97VVJSBbs8mXv9cOY2kZHU830e2//TKlNaE4nC7xR9ApFEAtfXjoRzSyUCIlyXmD9Q==}
+    deprecated: This package has been deprecated. Please use @heroui/image instead.
     peerDependencies:
       '@nextui-org/system': '>=2.4.0'
       '@nextui-org/theme': '>=2.4.0'
@@ -548,6 +583,7 @@ packages:
 
   '@nextui-org/input-otp@2.1.6':
     resolution: {integrity: sha512-I1f3qJy63N1s+RfyACGs5OYbMvb8glsBaarJ6qrMxjY1k54AIRf0gFGHvR6uDKIDZhUBzGDXo7KvXxJbvkdnHg==}
+    deprecated: This package has been deprecated. Please use @heroui/input-otp instead.
     peerDependencies:
       '@nextui-org/system': '>=2.4.0'
       '@nextui-org/theme': '>=2.4.0'
@@ -556,6 +592,7 @@ packages:
 
   '@nextui-org/input@2.4.6':
     resolution: {integrity: sha512-HuDwTarQ6N13CrXNkX/CmvxhdojjI+K5REaB7q9wkkOIs955+0zmdhuZkkt5vfQCmnDes7pY+73vt47NLA8Tqg==}
+    deprecated: This package has been deprecated. Please use @heroui/input instead.
     peerDependencies:
       '@nextui-org/system': '>=2.4.0'
       '@nextui-org/theme': '>=2.4.0'
@@ -564,6 +601,7 @@ packages:
 
   '@nextui-org/kbd@2.2.4':
     resolution: {integrity: sha512-hggGQPTiQ2EwU67kdz/dVW6DS4KcMRgbm0ak+3qfHePfvteCHtuCPyI6CgOhymGpQuVoDTYLzKUBXuu5ow65Og==}
+    deprecated: This package has been deprecated. Please use @heroui/kbd instead.
     peerDependencies:
       '@nextui-org/theme': '>=2.4.0'
       react: '>=18 || >=19.0.0-rc.0'
@@ -571,6 +609,7 @@ packages:
 
   '@nextui-org/link@2.2.5':
     resolution: {integrity: sha512-ZYDr9lZEmcXLP+fWgiYJi0sabkfCGCWWMdLUiC7fDWyXxLRmCD0AyA0UGP6FMfPAFI96YvUDQEs8HrbNGVXLIQ==}
+    deprecated: This package has been deprecated. Please use @heroui/link instead.
     peerDependencies:
       '@nextui-org/system': '>=2.4.0'
       '@nextui-org/theme': '>=2.4.0'
@@ -579,6 +618,7 @@ packages:
 
   '@nextui-org/listbox@2.3.7':
     resolution: {integrity: sha512-U6YDqGGeuRwQg73Im0iJ6s/Ry+phOq+OXWE3PHxqNMaL6UyoEIWyitsf8Va1/VeCjAL2Ad5sdMo29jh+lZh8fA==}
+    deprecated: This package has been deprecated. Please use @heroui/listbox instead.
     peerDependencies:
       '@nextui-org/system': '>=2.4.0'
       '@nextui-org/theme': '>=2.4.0'
@@ -587,6 +627,7 @@ packages:
 
   '@nextui-org/menu@2.2.7':
     resolution: {integrity: sha512-VWj11/Deti07eVH6YM2d+PdAONbrP5CtawCHCo13xDy6szvcSdFxNzLtcZzCpPVQ2BN35RM5Fon/VSXr1LGVgw==}
+    deprecated: This package has been deprecated. Please use @heroui/menu instead.
     peerDependencies:
       '@nextui-org/system': '>=2.4.0'
       '@nextui-org/theme': '>=2.4.0'
@@ -595,6 +636,7 @@ packages:
 
   '@nextui-org/modal@2.2.5':
     resolution: {integrity: sha512-Zp4YqLPBYyiIGcCofVQCZ7kqFXk/k+vAFZ/eulbK0lGpxCQeCZDgdXW+a4jsjVz4MXBMrZoPU90plKpr4BeVxA==}
+    deprecated: This package has been deprecated. Please use @heroui/modal instead.
     peerDependencies:
       '@nextui-org/system': '>=2.4.0'
       '@nextui-org/theme': '>=2.4.0'
@@ -604,6 +646,7 @@ packages:
 
   '@nextui-org/navbar@2.2.5':
     resolution: {integrity: sha512-nyFoq3i/Ru8nHKWxJLuQb2/N4wLuv9wa5C/4Hio99mMaSTlhN+dxa+vtlJBwlyxPr6/eTR1fBkgbi/ZZ1VBdkA==}
+    deprecated: This package has been deprecated. Please use @heroui/navbar instead.
     peerDependencies:
       '@nextui-org/system': '>=2.4.0'
       '@nextui-org/theme': '>=2.4.0'
@@ -613,6 +656,7 @@ packages:
 
   '@nextui-org/pagination@2.2.6':
     resolution: {integrity: sha512-JD467tBam5EQse34Q/bm8sf4LSFze4atZkCGZNZZP6rAcoNMpxXOJxVoo5DWflqYeaukInYYueyOarxnXn54HA==}
+    deprecated: This package has been deprecated. Please use @heroui/pagination instead.
     peerDependencies:
       '@nextui-org/system': '>=2.4.0'
       '@nextui-org/theme': '>=2.4.0'
@@ -621,6 +665,7 @@ packages:
 
   '@nextui-org/popover@2.3.7':
     resolution: {integrity: sha512-mntRQXrQt/fnNU5V8aQ/awnWEwTWfZCmPIOSYQWa8+r+5puZlICSR8m8N72jLr/6VBd7wX0Scv6XjGvrehheiQ==}
+    deprecated: This package has been deprecated. Please use @heroui/popover instead.
     peerDependencies:
       '@nextui-org/system': '>=2.4.0'
       '@nextui-org/theme': '>=2.4.0'
@@ -630,6 +675,7 @@ packages:
 
   '@nextui-org/progress@2.2.4':
     resolution: {integrity: sha512-2XwzIEwUvgVLvGHq2Neo3UFyzSm/FKFj55LUGCWFQ+SiZ1JRnMZDXUOCnIzZwhDmnfCL1TOp2a0EHj05ewxwsw==}
+    deprecated: This package has been deprecated. Please use @heroui/progress instead.
     peerDependencies:
       '@nextui-org/system': '>=2.4.0'
       '@nextui-org/theme': '>=2.4.0'
@@ -638,6 +684,7 @@ packages:
 
   '@nextui-org/radio@2.3.6':
     resolution: {integrity: sha512-zBr1LESZu8VrZZ1xj8tMdRd7HTXFfDPYeyqcxaNpqOI/ZZNHLpvoSxta9aKxDf3TbLFCt5WQz70S25DCGsljUQ==}
+    deprecated: This package has been deprecated. Please use @heroui/radio instead.
     peerDependencies:
       '@nextui-org/system': '>=2.4.0'
       '@nextui-org/theme': '>=2.4.0'
@@ -656,6 +703,7 @@ packages:
 
   '@nextui-org/react@2.6.8':
     resolution: {integrity: sha512-w6skiTItbrzjvHl+v4bHCYNkPjPpFz0UPM/s4vZZmaky6sxihguq+mdCcSe/qkXdhmSn7b+aY9E0ygQaMvibvw==}
+    deprecated: This package has been deprecated. Please use @heroui/react instead.
     peerDependencies:
       framer-motion: '>=11.5.6 || >=12.0.0-alpha.1'
       react: '>=18 || >=19.0.0-rc.0'
@@ -663,6 +711,7 @@ packages:
 
   '@nextui-org/ripple@2.2.5':
     resolution: {integrity: sha512-GNYcRbVrUtdkbHKyFGRb0W8dyudH6hYY6YxYtlE5I82YwN1FovLvTRajDBbd3Bh2qNIcyUoFlmbt4h/6mM8uOQ==}
+    deprecated: This package has been deprecated. Please use @heroui/ripple instead.
     peerDependencies:
       '@nextui-org/system': '>=2.4.0'
       '@nextui-org/theme': '>=2.4.0'
@@ -672,6 +721,7 @@ packages:
 
   '@nextui-org/scroll-shadow@2.3.3':
     resolution: {integrity: sha512-sI68rEt/CLEVhM+TPdk1QM7h9j4bK6oWaY4xYKCOC4UtMTUMaCdWt5kqHKwX+xr4iQTPBjMCGTduGSoG9RvBgQ==}
+    deprecated: This package has been deprecated. Please use @heroui/scroll-shadow instead.
     peerDependencies:
       '@nextui-org/system': '>=2.4.0'
       '@nextui-org/theme': '>=2.4.0'
@@ -680,6 +730,7 @@ packages:
 
   '@nextui-org/select@2.4.7':
     resolution: {integrity: sha512-MpplLt7kWVownuvX9wQMruy9wL3Rt2GcVUteRd6wriNwj/pP3wY7OnXOgih1aNWtbVM2+PpCpgummgau2AdaAg==}
+    deprecated: This package has been deprecated. Please use @heroui/select instead.
     peerDependencies:
       '@nextui-org/system': '>=2.4.0'
       '@nextui-org/theme': '>=2.4.0'
@@ -697,6 +748,7 @@ packages:
 
   '@nextui-org/skeleton@2.2.3':
     resolution: {integrity: sha512-G12blc41mCZBjOObteyqhQr4MZhEKgZGhJMVYVXr5yw+HiS9jY1LJIBPLOxs8PFo2GcYj9JVQN6rru8W9Eqxmg==}
+    deprecated: This package has been deprecated. Please use @heroui/skeleton instead.
     peerDependencies:
       '@nextui-org/system': '>=2.4.0'
       '@nextui-org/theme': '>=2.4.0'
@@ -705,6 +757,7 @@ packages:
 
   '@nextui-org/slider@2.4.5':
     resolution: {integrity: sha512-vQXcV+Zri5+5Yfug89ffcY33XgzEP91ObsLy2r9we0H784SwQYgjk41OzAPs7gkFAnWGP1TW22jALJh3S82+YA==}
+    deprecated: This package has been deprecated. Please use @heroui/slider instead.
     peerDependencies:
       '@nextui-org/system': '>=2.4.0'
       '@nextui-org/theme': '>=2.4.0'
@@ -713,6 +766,7 @@ packages:
 
   '@nextui-org/snippet@2.2.8':
     resolution: {integrity: sha512-zawFPrTAPi2HHxn+k9OLRvE3JoRa0YzdtIdcplAujv4T5g4zz4H+cfOKJKA6c6sCmhYHM5yBBv6q8EubmuzgTA==}
+    deprecated: This package has been deprecated. Please use @heroui/snippet instead.
     peerDependencies:
       '@nextui-org/system': '>=2.4.0'
       '@nextui-org/theme': '>=2.4.0'
@@ -722,6 +776,7 @@ packages:
 
   '@nextui-org/spacer@2.2.4':
     resolution: {integrity: sha512-RMkC2O3I+W6qwsax5Dge8CzF2tJIDxOiC84yiQxfwRHWVe1qPXbLRu1nM5lbvjAI/4aS9NegUQ3aYnFqZwvojQ==}
+    deprecated: This package has been deprecated. Please use @heroui/spacer instead.
     peerDependencies:
       '@nextui-org/theme': '>=2.4.0'
       react: '>=18 || >=19.0.0-rc.0'
@@ -729,6 +784,7 @@ packages:
 
   '@nextui-org/spinner@2.2.4':
     resolution: {integrity: sha512-QdCRD64+fjWmi5byO9sR3D4xbkFNh9cB01KnoR1/u7+7m/WWNFOhUkYbdkB2e53oQlNXxh0Mw02U346tC8B+5g==}
+    deprecated: This package has been deprecated. Please use @heroui/spinner instead.
     peerDependencies:
       '@nextui-org/theme': '>=2.4.0'
       react: '>=18 || >=19.0.0-rc.0'
@@ -736,6 +792,7 @@ packages:
 
   '@nextui-org/switch@2.2.6':
     resolution: {integrity: sha512-YlFOvc/WnkQeldTvtTUVF7KXx8LUz6sSJJoP+xhJZtPZcfcyQlApRTvc9LpVG+eyqfLWY9ng4n85BDR2rHzoOQ==}
+    deprecated: This package has been deprecated. Please use @heroui/switch instead.
     peerDependencies:
       '@nextui-org/system': '>=2.4.0'
       '@nextui-org/theme': '>=2.4.0'
@@ -757,6 +814,7 @@ packages:
 
   '@nextui-org/table@2.2.6':
     resolution: {integrity: sha512-0XZaxcsYMkIcWRbTGq9cW51pWHL6czdKUHAlj1tkRPXEcRbuUxkOWVccsz83pn2vyb56ftDA4nm1qeivcO+PkA==}
+    deprecated: This package has been deprecated. Please use @heroui/table instead.
     peerDependencies:
       '@nextui-org/system': '>=2.4.0'
       '@nextui-org/theme': '>=2.4.0'
@@ -765,6 +823,7 @@ packages:
 
   '@nextui-org/tabs@2.2.5':
     resolution: {integrity: sha512-lEQVO1iwnYv75+tIwwVVyUZlg2FyA9RPdXJXZWIJkCYP8xMUzPe3KFKvZkaT4UFny+typIW0pMpRrP8gJSubWg==}
+    deprecated: This package has been deprecated. Please use @heroui/tabs instead.
     peerDependencies:
       '@nextui-org/system': '>=2.4.0'
       '@nextui-org/theme': '>=2.4.0'
@@ -779,6 +838,7 @@ packages:
 
   '@nextui-org/tooltip@2.2.5':
     resolution: {integrity: sha512-6P28S2p18uNpLHIi7trrHImtrkaxpWBimtqf3u+NZc33dYG44iBV4BfuOvp1TCFwCW+Dv5k1XLK+AMr54o1FYw==}
+    deprecated: This package has been deprecated. Please use @heroui/tooltip instead.
     peerDependencies:
       '@nextui-org/system': '>=2.4.0'
       '@nextui-org/theme': '>=2.4.0'
@@ -885,6 +945,7 @@ packages:
 
   '@nextui-org/user@2.2.4':
     resolution: {integrity: sha512-dQVYSm26h9KzDqWjuKablBlDaa+IO8KKQXSvT84BFMPGBN8UY8FXZGeeopNmWHeF6hJBkK1Jn4HU+2K8GKo99Q==}
+    deprecated: This package has been deprecated. Please use @heroui/user instead.
     peerDependencies:
       '@nextui-org/system': '>=2.4.0'
       '@nextui-org/theme': '>=2.4.0'
@@ -2082,6 +2143,7 @@ packages:
 
   glob@10.4.5:
     resolution: {integrity: sha512-7Bv8RF0k6xjo7d4A/PxYLbUCfb6c+Vpd2/mB2yRDlew7Jb5hEXiCD9ibfO7wpk8i4sevK6DFny9h7EYbM3/sHg==}
+    deprecated: Old versions of glob are not supported, and contain widely publicized security vulnerabilities, which have been fixed in the current version. Please update. Support for old versions may be purchased (at exorbitant rates) by contacting i@izs.me
     hasBin: true
 
   globals@14.0.0:
@@ -2487,8 +2549,8 @@ packages:
       react: ^16.8 || ^17 || ^18 || ^19 || ^19.0.0-rc
       react-dom: ^16.8 || ^17 || ^18 || ^19 || ^19.0.0-rc
 
-  next@15.1.2:
-    resolution: {integrity: sha512-nLJDV7peNy+0oHlmY2JZjzMfJ8Aj0/dd3jCwSZS8ZiO5nkQfcZRqDrRN3U5rJtqVTQneIOGZzb6LCNrk7trMCQ==}
+  next@15.1.11:
+    resolution: {integrity: sha512-UiVJaOGhKST58AadwbFUZThlNBmYhKqaCs8bVtm4plTxsgKq0mJ0zTsp7t7j/rzsbAEj9WcAMdZCztjByi4EoQ==}
     engines: {node: ^18.18.0 || ^19.8.0 || >= 20.0.0}
     hasBin: true
     peerDependencies:
@@ -3413,34 +3475,34 @@ snapshots:
       '@jridgewell/resolve-uri': 3.1.2
       '@jridgewell/sourcemap-codec': 1.5.0
 
-  '@next/env@15.1.2': {}
+  '@next/env@15.1.11': {}
 
   '@next/eslint-plugin-next@15.1.2':
     dependencies:
       fast-glob: 3.3.1
 
-  '@next/swc-darwin-arm64@15.1.2':
+  '@next/swc-darwin-arm64@15.1.9':
     optional: true
 
-  '@next/swc-darwin-x64@15.1.2':
+  '@next/swc-darwin-x64@15.1.9':
     optional: true
 
-  '@next/swc-linux-arm64-gnu@15.1.2':
+  '@next/swc-linux-arm64-gnu@15.1.9':
     optional: true
 
-  '@next/swc-linux-arm64-musl@15.1.2':
+  '@next/swc-linux-arm64-musl@15.1.9':
     optional: true
 
-  '@next/swc-linux-x64-gnu@15.1.2':
+  '@next/swc-linux-x64-gnu@15.1.9':
     optional: true
 
-  '@next/swc-linux-x64-musl@15.1.2':
+  '@next/swc-linux-x64-musl@15.1.9':
     optional: true
 
-  '@next/swc-win32-arm64-msvc@15.1.2':
+  '@next/swc-win32-arm64-msvc@15.1.9':
     optional: true
 
-  '@next/swc-win32-x64-msvc@15.1.2':
+  '@next/swc-win32-x64-msvc@15.1.9':
     optional: true
 
   '@nextui-org/accordion@2.2.5(@nextui-org/system@2.4.4(@nextui-org/theme@2.4.3(tailwindcss@3.4.17))(framer-motion@11.15.0(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(@nextui-org/theme@2.4.3(tailwindcss@3.4.17))(framer-motion@11.15.0(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(react-dom@19.0.0(react@19.0.0))(react@19.0.0)':
@@ -6612,9 +6674,9 @@ snapshots:
       react: 19.0.0
       react-dom: 19.0.0(react@19.0.0)
 
-  next@15.1.2(react-dom@19.0.0(react@19.0.0))(react@19.0.0):
+  next@15.1.11(react-dom@19.0.0(react@19.0.0))(react@19.0.0):
     dependencies:
-      '@next/env': 15.1.2
+      '@next/env': 15.1.11
       '@swc/counter': 0.1.3
       '@swc/helpers': 0.5.15
       busboy: 1.6.0
@@ -6624,14 +6686,14 @@ snapshots:
       react-dom: 19.0.0(react@19.0.0)
       styled-jsx: 5.1.6(react@19.0.0)
     optionalDependencies:
-      '@next/swc-darwin-arm64': 15.1.2
-      '@next/swc-darwin-x64': 15.1.2
-      '@next/swc-linux-arm64-gnu': 15.1.2
-      '@next/swc-linux-arm64-musl': 15.1.2
-      '@next/swc-linux-x64-gnu': 15.1.2
-      '@next/swc-linux-x64-musl': 15.1.2
-      '@next/swc-win32-arm64-msvc': 15.1.2
-      '@next/swc-win32-x64-msvc': 15.1.2
+      '@next/swc-darwin-arm64': 15.1.9
+      '@next/swc-darwin-x64': 15.1.9
+      '@next/swc-linux-arm64-gnu': 15.1.9
+      '@next/swc-linux-arm64-musl': 15.1.9
+      '@next/swc-linux-x64-gnu': 15.1.9
+      '@next/swc-linux-x64-musl': 15.1.9
+      '@next/swc-win32-arm64-msvc': 15.1.9
+      '@next/swc-win32-x64-msvc': 15.1.9
       sharp: 0.33.5
     transitivePeerDependencies:
       - '@babel/core'
@@ -7304,7 +7366,7 @@ snapshots:
     dependencies:
       browserslist: 4.23.3
       escalade: 3.1.2
-      picocolors: 1.0.1
+      picocolors: 1.1.1
 
   uri-js@4.4.1:
     dependencies:
