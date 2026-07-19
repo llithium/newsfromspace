@@ -9,11 +9,15 @@ import { formatDate } from "@/lib/utils";
 import { spaceFlightNewsAPI, LaunchLibraryAPI } from "src/lib/variables";
 import { LaunchesData } from "../launches/Launches";
 import { ArticlesAndBlogs } from "../articles/Articles";
+import { cleanSummary, isUpcomingLaunch, selectNextLaunch } from "@/lib/utils";
 
-export const dynamic = "force-dynamic";
+export const revalidate = 60;
 
 export const metadata: Metadata = {
-  title: "Mission Control · News From Space",
+  title: "Mission Control",
+  description:
+    "Live launch windows, mission status, and the next flights off Earth.",
+  alternates: { canonical: "/mission-control" },
 };
 
 export default async function MissionControlPage() {
@@ -27,16 +31,19 @@ export default async function MissionControlPage() {
       ),
     ]);
 
-  const launches = launchData.results || [];
-  const next = launches[0];
+  const launches = (launchData.results || []).filter((launch) =>
+    isUpcomingLaunch(launch),
+  );
+  const next = selectNextLaunch(launches);
   const manifest = launches.slice(0, 5);
   const dispatches = (articleData.results || []).slice(0, 4);
 
   // derived stats
   const now = Date.now();
-  const within48h = launches.filter(
-    (l) => new Date(l.window_start).getTime() - now < 48 * 3600 * 1000,
-  ).length;
+  const within48h = launches.filter((l) => {
+    const delta = new Date(l.window_start).getTime() - now;
+    return delta >= 0 && delta < 48 * 3600 * 1000;
+  }).length;
   const goCount = launches.filter((l) => l.status?.abbrev === "Go").length;
   const liveUpdates = launches.reduce(
     (sum, l) => sum + (l.updates?.length || 0),
@@ -50,7 +57,8 @@ export default async function MissionControlPage() {
       <div className="ops-intro">
         <div>
           <div className="kicker">
-            <span className="bar" style={{ maxWidth: 40 }}></span>Live Operations
+            <span className="bar" style={{ maxWidth: 40 }}></span>Live
+            Operations
           </div>
           <h1>Mission Control</h1>
         </div>
@@ -107,19 +115,22 @@ export default async function MissionControlPage() {
               </span>
             )}
             {next.vidURLs?.[0]?.url && (
-              <a href={next.vidURLs[0].url} target="_blank" rel="noreferrer">
-                <button className="watch" style={{ marginTop: 0 }}>
-                  ▶ Watch Live
-                </button>
+              <a
+                className="watch"
+                href={next.vidURLs[0].url}
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{ marginTop: 0 }}
+              >
+                ▶ Watch Live
               </a>
             )}
-            <Link href={`/launches/${next.id}`}>
-              <button
-                className="btn ghost"
-                style={{ width: "100%", justifyContent: "center" }}
-              >
-                Mission dossier →
-              </button>
+            <Link
+              className="btn ghost"
+              style={{ width: "100%", justifyContent: "center" }}
+              href={`/launches/${next.id}`}
+            >
+              Mission dossier →
             </Link>
           </div>
         </div>
@@ -134,7 +145,11 @@ export default async function MissionControlPage() {
           {manifest.map((m) => {
             const pill = statusPill(m.status?.abbrev);
             return (
-              <Link key={m.id} href={`/launches/${m.id}`} className="block-link">
+              <Link
+                key={m.id}
+                href={`/launches/${m.id}`}
+                className="block-link"
+              >
                 <div className="mrow">
                   <div>
                     <div className="v">{m.name}</div>
@@ -158,8 +173,8 @@ export default async function MissionControlPage() {
             );
           })}
           <div style={{ marginTop: 18 }}>
-            <Link href="/launches">
-              <button className="btn ghost">Full manifest →</button>
+            <Link className="btn ghost" href="/launches">
+              Full manifest →
             </Link>
           </div>
         </div>
@@ -171,13 +186,10 @@ export default async function MissionControlPage() {
           {dispatches.map((d) => (
             <Link key={d.id} href={`/articles/${d.id}`} className="block-link">
               <div className="drow">
-                <Photo
-                  src={d.image_url}
-                  caption={d.news_site}
-                  className="ph"
-                />
+                <Photo src={d.image_url} caption={d.news_site} className="ph" />
                 <div>
                   <h3>{d.title}</h3>
+                  <p>{cleanSummary(d.summary)}</p>
                   <div className="byline" style={{ marginTop: 7 }}>
                     <span className="src">{d.news_site}</span>
                     <span>{formatDate(d.published_at)}</span>
@@ -187,8 +199,8 @@ export default async function MissionControlPage() {
             </Link>
           ))}
           <div style={{ marginTop: 18 }}>
-            <Link href="/articles">
-              <button className="btn ghost">All dispatches →</button>
+            <Link className="btn ghost" href="/articles">
+              All dispatches →
             </Link>
           </div>
         </div>

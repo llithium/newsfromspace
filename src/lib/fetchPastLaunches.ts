@@ -1,11 +1,9 @@
 import { LaunchesData } from "../app/launches/Launches";
+import { fetchJson } from "./api";
 
 export async function fetchPastLaunches(pageParam: string) {
-  try {
-    const apiResponse = await fetch(pageParam, { cache: "no-cache" });
-    const pastLaunches: LaunchesData = await apiResponse.json();
-    return pastLaunches;
-  } catch (error) {
-    throw new Error("API request failed");
-  }
+  return fetchJson<LaunchesData>(pageParam, {
+    label: "Past launches request",
+    revalidate: 300,
+  });
 }

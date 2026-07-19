@@ -1,6 +1,7 @@
 "use client";
 import { pageLimit } from "src/lib/variables";
 import { usePathname, useRouter } from "next/navigation";
+import { buildPageUrl } from "@/lib/utils";
 
 const PageButtons = ({
   count,
@@ -16,9 +17,7 @@ const PageButtons = ({
   const totalPages = Math.max(1, Math.ceil(count / parseInt(pageLimit)));
 
   const go = (p: number) => {
-    router.push(
-      search ? `${pathname}?q=${search}&page=${p}` : `${pathname}?page=${p}`,
-    );
+    router.push(buildPageUrl(pathname, p, search));
   };
 
   const atStart = page <= 1;

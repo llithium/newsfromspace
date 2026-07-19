@@ -4,10 +4,37 @@ import Providers from "./providers";
 import AppNavbar from "./AppNavbar";
 import Footer from "./Footer";
 import { Newsreader, Space_Grotesk } from "next/font/google";
+import { siteURL } from "@/lib/variables";
 
 export const metadata: Metadata = {
-  title: "News From Space",
+  metadataBase: new URL(siteURL),
+  title: {
+    default: "News From Space",
+    template: "%s · News From Space",
+  },
   description: "Spaceflight related news from around the world",
+  alternates: { canonical: "/" },
+  openGraph: {
+    type: "website",
+    siteName: "News From Space",
+    title: "News From Space",
+    description:
+      "A front page for spaceflight, science, and the industry of leaving Earth.",
+    url: "/",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "News From Space",
+    description:
+      "A front page for spaceflight, science, and the industry of leaving Earth.",
+  },
+  icons: {
+    icon: [
+      { url: "/icon.svg", type: "image/svg+xml" },
+      { url: "/favicon.ico" },
+    ],
+    apple: "/apple-icon.png",
+  },
 };
 
 const serif = Newsreader({
@@ -37,9 +64,14 @@ export default function RootLayout({
       suppressHydrationWarning
     >
       <body>
+        <a className="skip-link" href="#main-content">
+          Skip to content
+        </a>
         <Providers>
           <AppNavbar />
-          {children}
+          <div id="main-content" tabIndex={-1}>
+            {children}
+          </div>
           <Footer />
         </Providers>
       </body>

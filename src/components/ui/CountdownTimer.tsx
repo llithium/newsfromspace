@@ -54,6 +54,15 @@ const CountdownTimer = ({
     seconds,
     completed,
   }: CountdownRenderProps) => {
+    if (completed) {
+      return (
+        <span
+          className={`countdown-expired${className ? ` ${className}` : ""}`}
+        >
+          Window elapsed
+        </span>
+      );
+    }
     if (variant === "card" || variant === "bay") {
       return (
         <Segments
@@ -66,7 +75,6 @@ const CountdownTimer = ({
       );
     }
     // inline
-    if (completed) return <span className={className}>Liftoff</span>;
     const text =
       days > 0
         ? `${days}d ${pad(hours)}h`

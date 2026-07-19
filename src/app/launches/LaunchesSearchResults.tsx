@@ -5,6 +5,7 @@ import { fetchUpcomingLaunches } from "../../lib/fetchUpcomingLaunches";
 import { LaunchLibraryAPI, pageLimit } from "src/lib/variables";
 import PageButtons from "src/components/ui/PageButtons";
 import LaunchRows from "./LaunchRows";
+import { withSearchParam } from "@/lib/utils";
 
 export default function LaunchesSearchResults({ page }: { page: number }) {
   const searchParams = useSearchParams();
@@ -13,8 +14,11 @@ export default function LaunchesSearchResults({ page }: { page: number }) {
     queryKey: ["launchesSearch", search, `page ${page}`],
     queryFn: () =>
       fetchUpcomingLaunches(
-        LaunchLibraryAPI +
-          `/launch/upcoming/?mode=detailed&limit=${pageLimit}&offset=${(page - 1) * parseInt(pageLimit)}&search=${search}`,
+        withSearchParam(
+          LaunchLibraryAPI +
+            `/launch/upcoming/?mode=detailed&limit=${pageLimit}&offset=${(page - 1) * parseInt(pageLimit)}`,
+          search,
+        ),
       ),
     staleTime: 15 * 60 * 1000,
   });

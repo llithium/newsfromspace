@@ -9,7 +9,8 @@ export default function Footer() {
             News <span className="from">from</span> Space
           </div>
           <div className="tagline">
-            A front page for spaceflight, science, and the industry of leaving Earth.
+            A front page for spaceflight, science, and the industry of leaving
+            Earth.
           </div>
         </div>
         <div className="cols">
@@ -24,25 +25,31 @@ export default function Footer() {
             <h4>Launches</h4>
             <Link href="/launches">Upcoming</Link>
             <Link href="/launches/past">Past</Link>
-            <Link href="/mission-control">Providers</Link>
-            <Link href="/mission-control">Spaceports</Link>
+            <Link href="/mission-control">Mission Control</Link>
           </div>
           <div className="col">
             <h4>About</h4>
-            <Link href="https://thespacedevs.com/snapi" target="_blank">
+            <Link
+              href="https://thespacedevs.com/snapi"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               Sources &amp; APIs
             </Link>
-            <Link href="https://thespacedevs.com/llapi" target="_blank">
+            <Link
+              href="https://thespacedevs.com/llapi"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               Launch Library 2
             </Link>
             <Link href="/blogs">The Logbook</Link>
-            <Link href="/articles">RSS</Link>
+            <Link href="/rss.xml">RSS</Link>
           </div>
         </div>
       </div>
       <div className="credit">
-       News From Space · Data via Spaceflight News API &amp; Launch
-        Library 2
+        News From Space · Data via Spaceflight News API &amp; Launch Library 2
       </div>
     </footer>
   );

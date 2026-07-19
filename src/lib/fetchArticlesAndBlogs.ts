@@ -1,11 +1,9 @@
 import { ArticlesAndBlogs } from "../app/articles/Articles";
+import { fetchJson } from "./api";
 
 export async function fetchArticlesAndBlogs(pageParam: string) {
-  try {
-    const apiResponse = await fetch(pageParam, { cache: "no-cache" });
-    const articlesAndBlogs: ArticlesAndBlogs = await apiResponse.json();
-    return articlesAndBlogs;
-  } catch (error) {
-    throw new Error("API request failed");
-  }
+  return fetchJson<ArticlesAndBlogs>(pageParam, {
+    label: "News request",
+    revalidate: 300,
+  });
 }

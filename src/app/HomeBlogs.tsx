@@ -16,12 +16,13 @@ const HomeBlogs = async () => {
           className="block-link cell story"
           href={b.url}
           target="_blank"
-          rel="noreferrer"
+          rel="noopener noreferrer"
         >
           <Photo
             src={b.image_url}
             caption={b.news_site}
             className={i % 2 ? "alt" : undefined}
+            decorative
           />
           <h2 className="hl" style={{ fontSize: 19 }}>
             {b.title}

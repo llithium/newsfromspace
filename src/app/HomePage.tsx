@@ -5,45 +5,27 @@ import HomeArticles from "./HomeArticles";
 import HomeBlogs from "./HomeBlogs";
 import HomeLaunches from "./HomeLaunches";
 import HomeMore from "./HomeMore";
-import { Launch } from "./articles/Articles";
-
-export const dynamic = "force-dynamic";
+import type { ArticlesAndBlogs, Launch } from "./articles/Articles";
+import type { LaunchesData } from "./launches/Launches";
+import { fetchJson } from "@/lib/api";
 
 export async function fetchUpcomingLaunchesHomePage() {
-  const res = await fetch(
+  return fetchJson<LaunchesData>(
     LaunchLibraryAPI + `/launch/upcoming/?mode=detailed&limit=6&offset=0`,
-    { cache: "no-cache" },
+    { label: "Homepage launches request", revalidate: 60 },
   );
-  if (!res.ok) {
-    throw new Error(
-      `Failed to fetch data for upcoming launches ${(res.status, res.statusText)}`,
-    );
-  }
-  return res.json();
 }
 export async function fetchLatestArticles() {
-  const res = await fetch(
+  return fetchJson<ArticlesAndBlogs>(
     spaceFlightNewsAPI + `/articles/?mode=detailed&limit=10&offset=0`,
-    { cache: "no-cache" },
+    { label: "Homepage articles request", revalidate: 300 },
   );
-  if (!res.ok) {
-    throw new Error(
-      `Failed to fetch data for latest articles ${(res.status, res.statusText)}`,
-    );
-  }
-  return res.json();
 }
 export async function fetchLatestBlogs() {
-  const res = await fetch(
+  return fetchJson<ArticlesAndBlogs>(
     spaceFlightNewsAPI + `/blogs/?mode=detailed&limit=6&offset=0`,
-    { cache: "no-cache" },
+    { label: "Homepage blogs request", revalidate: 300 },
   );
-  if (!res.ok) {
-    throw new Error(
-      `Failed to fetch data for latest blogs ${(res.status, res.statusText)}`,
-    );
-  }
-  return res.json();
 }
 
 const CellSpinner = () => (

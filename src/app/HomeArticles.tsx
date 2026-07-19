@@ -2,7 +2,7 @@ import Link from "next/link";
 import { fetchLatestArticles } from "./HomePage";
 import Photo from "@/components/ui/Photo";
 import { ArticlesAndBlogs } from "./articles/Articles";
-import { formatDate } from "@/lib/utils";
+import { cleanSummary, formatDate } from "@/lib/utils";
 
 // Renders two front-page grid cells: the left "Brief" rail and the center
 // "Lead Story" well — both from a single latest-articles fetch.
@@ -24,11 +24,17 @@ const HomeArticles = async () => {
                     <span className="bar"></span>The Brief
                   </div>
                 )}
-                {i === 0 && <Photo src={a.image_url} caption={a.news_site} />}
+                {i === 0 && (
+                  <Photo
+                    src={a.image_url}
+                    caption={a.news_site}
+                    alt={a.title}
+                  />
+                )}
                 <h2 className="hl" style={{ fontSize: i === 0 ? 24 : 19 }}>
                   {a.title}
                 </h2>
-                <div className="sub">{a.summary}</div>
+                <div className="sub">{cleanSummary(a.summary)}</div>
                 <div className="byline">
                   <span className="src">{a.news_site}</span>
                   <span>{formatDate(a.published_at)}</span>
@@ -44,12 +50,17 @@ const HomeArticles = async () => {
         {lead && (
           <Link className="block-link" href={`/articles/${lead.id}`}>
             <div className="kicker">
-              <span className="bar"></span>Lead Story · Industry
+              <span className="bar"></span>Lead Story
               <span className="bar"></span>
             </div>
             <h1 className="headline">{lead.title}</h1>
-            <p className="dek">{lead.summary}</p>
-            <Photo src={lead.image_url} caption={lead.news_site} />
+            <p className="dek">{cleanSummary(lead.summary)}</p>
+            <Photo
+              src={lead.image_url}
+              caption={lead.news_site}
+              alt={lead.title}
+              priority
+            />
             <div className="byline">
               <span className="src">{lead.news_site}</span>
               <span>{formatDate(lead.published_at)}</span>

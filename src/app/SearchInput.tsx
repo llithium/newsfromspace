@@ -2,6 +2,7 @@
 import { Input } from "@nextui-org/react";
 import { usePathname, useSearchParams } from "next/navigation";
 import { useRouter } from "next/navigation";
+import { buildSearchUrl } from "@/lib/utils";
 
 const SearchInput = () => {
   const pathname = usePathname();
@@ -9,26 +10,12 @@ const SearchInput = () => {
   const searchParams = useSearchParams();
   const searchValue = searchParams.get("q");
   const search = (formData: FormData) => {
-    switch (pathname) {
-      case "/articles":
-        router.push(`/articles/?q=${formData.get("search")}`);
-        break;
-      case "/blogs":
-        router.push(`/blogs/?q=${formData.get("search")}`);
-        break;
-      case "/launches":
-        router.push(`/launches/?q=${formData.get("search")}`);
-        break;
-      case "/launches/past":
-        router.push(`/launches/past/?q=${formData.get("search")}`);
-        break;
-      default:
-        break;
-    }
+    router.push(buildSearchUrl(pathname, String(formData.get("search") ?? "")));
   };
   return (
     <form className="w-full" action={search}>
       <Input
+        aria-label="Search this section"
         className="w-full"
         name="search"
         radius="none"
@@ -39,9 +26,7 @@ const SearchInput = () => {
           inputWrapper:
             "h-full rounded-none border border-line bg-transparent font-normal text-ink3 shadow-none data-[hover=true]:bg-transparent group-data-[focus=true]:bg-transparent",
         }}
-        placeholder={
-          searchParams && searchValue ? searchValue : "Search the cosmos…"
-        }
+        placeholder={searchValue || "Search the cosmos…"}
         size="sm"
         startContent={
           <svg

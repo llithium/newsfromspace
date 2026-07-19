@@ -27,17 +27,22 @@ const SEARCHABLE = ["/articles", "/blogs", "/launches", "/launches/past"];
 
 export default function AppNavbar() {
   const pathname = usePathname();
-  const [date, setDate] = useState("");
+  const [date, setDate] = useState({ long: "", short: "" });
 
   useEffect(() => {
-    setDate(
-      new Date().toLocaleDateString("en-US", {
+    const now = new Date();
+    setDate({
+      long: now.toLocaleDateString("en-US", {
         weekday: "long",
         year: "numeric",
         month: "long",
         day: "numeric",
       }),
-    );
+      short: now.toLocaleDateString("en-US", {
+        month: "short",
+        day: "numeric",
+      }),
+    });
   }, []);
 
   const isActive = (key: string) =>
@@ -53,10 +58,17 @@ export default function AppNavbar() {
       <div className="util">
         <div className="wrap">
           <div className="live">
-            <span className="dot"></span> Live · Tracking the next window
+            <span className="dot" aria-hidden="true"></span>
+            <span className="wide-label">Live · Tracking the next window</span>
+            <span className="short-label">Launch tracking</span>
           </div>
           <div className="r">
-            <span suppressHydrationWarning>{date}</span>
+            <span className="wide-label" suppressHydrationWarning>
+              {date.long}
+            </span>
+            <span className="short-label" suppressHydrationWarning>
+              {date.short}
+            </span>
             <ThemeSwitcher />
           </div>
         </div>
@@ -74,15 +86,18 @@ export default function AppNavbar() {
 
       {/* nav */}
       <nav className="primary">
-        <div className="wrap">
+        <div className="wrap nav-desktop">
           {PAGES.map((p) => {
             if (p.has) {
               return (
                 <Dropdown key={p.key}>
                   <DropdownTrigger>
                     <button
-                      className={`navlink${isActive(p.key) ? " active" : ""}`}
+                      className={["navlink", isActive(p.key) ? "active" : ""]
+                        .filter(Boolean)
+                        .join(" ")}
                       aria-label="Launches menu"
+                      aria-current={isActive(p.key) ? "page" : undefined}
                     >
                       {p.label}
                       <span style={{ marginLeft: 6, color: "var(--ink3)" }}>
@@ -108,11 +123,16 @@ export default function AppNavbar() {
               <Link
                 key={p.key}
                 href={p.href}
-                className={`navlink${p.mission ? " mission" : ""}${
-                  isActive(p.key) ? " active" : ""
-                }`}
+                className={[
+                  "navlink",
+                  p.mission ? "mission" : "",
+                  isActive(p.key) ? "active" : "",
+                ]
+                  .filter(Boolean)
+                  .join(" ")}
+                aria-current={isActive(p.key) ? "page" : undefined}
               >
-                {p.mission && <span className="ld"></span>}
+                {p.mission && <span className="ld" aria-hidden="true"></span>}
                 {p.label}
               </Link>
             );
@@ -126,6 +146,51 @@ export default function AppNavbar() {
             </div>
           )}
         </div>
+        <div className="wrap nav-mobile">
+          <Dropdown>
+            <DropdownTrigger>
+              <button
+                className="mobile-sections"
+                aria-label="Open sections menu"
+              >
+                Sections <span aria-hidden="true">⌄</span>
+              </button>
+            </DropdownTrigger>
+            <DropdownMenu
+              aria-label="Sections"
+              itemClasses={{ title: "font-grotesk" }}
+            >
+              <DropdownItem as={Link} href="/articles" key="articles">
+                Articles
+              </DropdownItem>
+              <DropdownItem as={Link} href="/launches" key="upcoming">
+                Upcoming launches
+              </DropdownItem>
+              <DropdownItem as={Link} href="/launches/past" key="past">
+                Past launches
+              </DropdownItem>
+              <DropdownItem as={Link} href="/blogs" key="blogs">
+                Blogs
+              </DropdownItem>
+            </DropdownMenu>
+          </Dropdown>
+          <Link
+            href="/mission-control"
+            className={["mobile-mission", isActive("mission") ? "active" : ""]
+              .filter(Boolean)
+              .join(" ")}
+            aria-current={isActive("mission") ? "page" : undefined}
+          >
+            <span className="ld" aria-hidden="true"></span> Mission Control
+          </Link>
+        </div>
+        {showSearch ? (
+          <div className="wrap mobile-search">
+            <Suspense>
+              <SearchInput />
+            </Suspense>
+          </div>
+        ) : null}
       </nav>
     </>
   );

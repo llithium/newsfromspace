@@ -4,7 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 import Link from "next/link";
 import Photo from "@/components/ui/Photo";
 import { fetchArticlesAndBlogs } from "../../lib/fetchArticlesAndBlogs";
-import { formatDate } from "@/lib/utils";
+import { cleanSummary, formatDate } from "@/lib/utils";
 import { spaceFlightNewsAPI, pageLimit } from "src/lib/variables";
 import PageButtons from "src/components/ui/PageButtons";
 
@@ -29,7 +29,12 @@ export default function Articles({ page }: { page: number }) {
       {featured && (
         <Link className="block-link" href={`/articles/${featured.id}`}>
           <div className="feat">
-            <Photo src={featured.image_url} caption={featured.news_site} />
+            <Photo
+              src={featured.image_url}
+              caption={featured.news_site}
+              alt={featured.title}
+              priority
+            />
             <div className="lead-meta">
               <div className="kicker">Featured · Latest</div>
               <h2
@@ -39,7 +44,7 @@ export default function Articles({ page }: { page: number }) {
                 {featured.title}
               </h2>
               <p className="dek" style={{ fontSize: 18 }}>
-                {featured.summary}
+                {cleanSummary(featured.summary)}
               </p>
               <div className="byline">
                 <span className="src">{featured.news_site}</span>
@@ -60,13 +65,17 @@ export default function Articles({ page }: { page: number }) {
             href={`/articles/${article.id}`}
           >
             <div className="item">
-              <Photo src={article.image_url} caption={article.news_site} />
+              <Photo
+                src={article.image_url}
+                caption={article.news_site}
+                decorative
+              />
               <div className="body">
                 <h2 className="hl" style={{ fontSize: 21 }}>
                   {article.title}
                 </h2>
                 <div className="sub" style={{ fontSize: 15 }}>
-                  {article.summary}
+                  {cleanSummary(article.summary)}
                 </div>
                 <div className="byline">
                   <span className="src">{article.news_site}</span>

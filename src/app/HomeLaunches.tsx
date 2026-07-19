@@ -4,7 +4,7 @@ import CountdownTimer from "@/components/ui/CountdownTimer";
 import Photo from "@/components/ui/Photo";
 import { LaunchesData } from "./launches/Launches";
 import { statusPill } from "@/lib/status";
-import { formatDate } from "@/lib/utils";
+import { formatDate, isUpcomingLaunch, selectNextLaunch } from "@/lib/utils";
 
 const metaColor = (cls: string) =>
   cls === "go" || cls === "success"
@@ -16,10 +16,13 @@ const metaColor = (cls: string) =>
 // Renders the right "rail" cell: live countdown card, upcoming list, secondary.
 const HomeLaunches = async () => {
   const data: LaunchesData = await fetchUpcomingLaunchesHomePage();
-  const results = data.results || [];
-  const next = results[0];
-  const list = results.slice(1, 5);
-  const secondary = results[5] || results[1];
+  const results = (data.results || []).filter((launch) =>
+    isUpcomingLaunch(launch),
+  );
+  const next = selectNextLaunch(results);
+  const list = results.filter((launch) => launch.id !== next?.id).slice(0, 4);
+  const secondary =
+    results.filter((launch) => launch.id !== next?.id)[4] || list[0];
   const pill = next ? statusPill(next.status?.abbrev) : null;
 
   return (
@@ -43,8 +46,21 @@ const HomeLaunches = async () => {
               </span>
             )}
           </div>
-          <Link className="block-link" href={`/launches/${next.id}`}>
-            <button className="watch">▶ Watch Live</button>
+          {next.vidURLs?.[0]?.url ? (
+            <a
+              className="watch"
+              href={next.vidURLs[0].url}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              ▶ Watch Live
+            </a>
+          ) : null}
+          <Link
+            className="btn ghost mission-detail"
+            href={`/launches/${next.id}`}
+          >
+            Mission details →
           </Link>
         </div>
       )}
@@ -78,6 +94,7 @@ const HomeLaunches = async () => {
                 src={secondary.image}
                 caption={secondary.launch_service_provider?.name}
                 className="alt"
+                decorative
               />
               <h2 className="hl" style={{ fontSize: 19, marginTop: 12 }}>
                 {secondary.name}

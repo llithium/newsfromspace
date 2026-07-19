@@ -1,6 +1,7 @@
 import Photo from "@/components/ui/Photo";
 import PageButtons from "src/components/ui/PageButtons";
 import { Result } from "../articles/Articles";
+import { cleanSummary } from "@/lib/utils";
 
 function startOfDay(d: Date) {
   const x = new Date(d);
@@ -75,12 +76,12 @@ export default function BlogTimeline({
                     })}
                   </div>
                   <h2>{e.title}</h2>
-                  <p>{e.summary}</p>
+                  <p>{cleanSummary(e.summary)}</p>
                   <div style={{ marginTop: 14 }}>
                     <a
                       href={e.url}
                       target="_blank"
-                      rel="noreferrer"
+                      rel="noopener noreferrer"
                       className="btn ghost"
                       style={{ padding: "7px 14px" }}
                     >
@@ -92,6 +93,7 @@ export default function BlogTimeline({
                   src={e.image_url}
                   caption={e.news_site}
                   className={i % 2 ? "alt ph" : "ph"}
+                  decorative
                 />
               </article>
             ))}

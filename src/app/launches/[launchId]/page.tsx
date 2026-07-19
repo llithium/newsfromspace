@@ -6,39 +6,41 @@ import {
 import fetchLaunch from "../../../lib/fetchLaunch";
 import { Metadata } from "next";
 import { Result } from "../../articles/Articles";
-import { notFound } from "next/navigation";
 import { spaceFlightNewsAPI, LaunchLibraryAPI } from "src/lib/variables";
 import LaunchInformationPage, { Launch } from "./Launch";
+import { fetchJson } from "@/lib/api";
 
-export async function generateMetadata(
-  props: {
-    params: Promise<{ launchId: string }>;
-  }
-): Promise<Metadata> {
+export async function generateMetadata(props: {
+  params: Promise<{ launchId: string }>;
+}): Promise<Metadata> {
   const params = await props.params;
   // read route params
   const launchId = params.launchId;
 
   // fetch data
-  const launch: Launch = await fetch(
-    LaunchLibraryAPI + `/launch/${launchId}`,
-  ).then((res) => {
-    if (!res.ok) {
-      return;
-    }
-    return res.json();
-  });
+  const launch = await fetchJson<Launch>(
+    LaunchLibraryAPI + `/launch/${encodeURIComponent(launchId)}`,
+    { label: "Launch metadata request", revalidate: 60 },
+  ).catch(() => undefined);
 
   return {
-    title: (launch && launch.name) || "",
+    title: launch?.name || "Launch",
+    description: launch?.mission?.description || launch?.status?.description,
+    alternates: { canonical: `/launches/${launchId}` },
+    openGraph: launch
+      ? {
+          title: launch.name,
+          description:
+            launch.mission?.description || launch.status?.description,
+          images: launch.image ? [{ url: launch.image }] : undefined,
+        }
+      : undefined,
   };
 }
 
-export default async function Page(
-  props: {
-    params: Promise<{ launchId: string }>;
-  }
-) {
+export default async function Page(props: {
+  params: Promise<{ launchId: string }>;
+}) {
   const params = await props.params;
   const queryClient = new QueryClient();
 
@@ -49,13 +51,10 @@ export default async function Page(
   });
 
   async function fetchRelated(launchId: string) {
-    const res = await fetch(
+    return fetchJson<RelatedArticles>(
       spaceFlightNewsAPI + `/articles/?launch=${launchId}`,
-    );
-    if (!res.ok) {
-      notFound();
-    }
-    return res.json();
+      { label: "Related launch articles request", revalidate: 300 },
+    ).catch(() => ({ count: 0, next: null, previous: null, results: [] }));
   }
 
   const relatedData: RelatedArticles = await fetchRelated(params.launchId);

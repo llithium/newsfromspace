@@ -37,7 +37,9 @@ export default function Providers({ children }: { children: React.ReactNode }) {
         <QueryClientProvider client={queryClient}>
           <Toaster position="bottom-center" />
           {children}
-          <ReactQueryDevtools initialIsOpen={false} />
+          {process.env.NODE_ENV === "development" ? (
+            <ReactQueryDevtools initialIsOpen={false} />
+          ) : null}
         </QueryClientProvider>
       </NextThemesProvider>
     </NextUIProvider>

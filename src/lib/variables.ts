@@ -4,3 +4,6 @@ export const spaceFlightNewsAPI = "https://api.spaceflightnewsapi.net/v4";
 export const LaunchLibraryAPI =
   process?.env?.NEXT_PUBLIC_LAUNCH_API ||
   "https://lldev.thespacedevs.com/2.2.0";
+
+export const siteURL =
+  process?.env?.NEXT_PUBLIC_SITE_URL || "https://newsfromspace.vercel.app";

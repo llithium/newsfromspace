@@ -1,11 +1,9 @@
 import { LaunchesData } from "../app/launches/Launches";
+import { fetchJson } from "./api";
 
 export async function fetchUpcomingLaunches(pageParam: string) {
-  try {
-    const apiResponse = await fetch(pageParam, { cache: "no-cache" });
-    const LaunchesUpcoming: LaunchesData = await apiResponse.json();
-    return LaunchesUpcoming;
-  } catch (error) {
-    throw new Error("API request failed");
-  }
+  return fetchJson<LaunchesData>(pageParam, {
+    label: "Upcoming launches request",
+    revalidate: 60,
+  });
 }

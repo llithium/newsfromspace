@@ -10,6 +10,7 @@ import ArticlesSearchResults from "./ArticlesSearchResults";
 import { spaceFlightNewsAPI, pageLimit } from "src/lib/variables";
 import { Suspense } from "react";
 import { Metadata } from "next";
+import { normalizePage, normalizeSearch, withSearchParam } from "@/lib/utils";
 
 const SOURCES = [
   "NASA",
@@ -26,8 +27,12 @@ export async function generateMetadata(props: {
   const searchParams = await props.searchParams;
   return {
     title:
-      (searchParams.q && searchParams.q + " · News From Space") ||
-      "Articles · News From Space",
+      (normalizeSearch(searchParams.q) &&
+        `${normalizeSearch(searchParams.q)} search`) ||
+      "Articles",
+    description:
+      "The latest reporting on launches, science, policy, and the space industry.",
+    alternates: { canonical: "/articles" },
   };
 }
 
@@ -36,7 +41,8 @@ function ArticlesIntro({ q }: { q?: string }) {
     <>
       <div className="page-intro">
         <div className="kicker">
-          <span className="bar" style={{ maxWidth: 40 }}></span>The Dispatch Desk
+          <span className="bar" style={{ maxWidth: 40 }}></span>The Dispatch
+          Desk
         </div>
         <h1>Articles</h1>
         <p className="sub">
@@ -46,13 +52,16 @@ function ArticlesIntro({ q }: { q?: string }) {
       </div>
 
       <div className="filters">
-        <Link className={`chip${!q ? " on" : ""}`} href="/articles">
+        <Link
+          className={["chip", !q ? "on" : ""].filter(Boolean).join(" ")}
+          href="/articles"
+        >
           All sources
         </Link>
         {SOURCES.map((s) => (
           <Link
             key={s}
-            className={`chip${q === s ? " on" : ""}`}
+            className={["chip", q === s ? "on" : ""].filter(Boolean).join(" ")}
             href={`/articles?q=${encodeURIComponent(s)}`}
           >
             {s}
@@ -70,7 +79,8 @@ export default async function Page(props: {
 }) {
   const searchParams = await props.searchParams;
   const queryClient = new QueryClient();
-  const page = parseInt(searchParams.page) || 1;
+  const page = normalizePage(searchParams.page);
+  const q = normalizeSearch(searchParams.q);
 
   await queryClient.prefetchQuery({
     queryKey: ["articles", `page ${page}`],
@@ -80,18 +90,21 @@ export default async function Page(props: {
           `/articles/?limit=${pageLimit}&offset=${(page - 1) * parseInt(pageLimit)}`,
       ),
   });
-  if (searchParams.q) {
+  if (q) {
     await queryClient.prefetchQuery({
-      queryKey: ["articlesSearch", searchParams.q, `page ${page}`],
+      queryKey: ["articlesSearch", q, `page ${page}`],
       queryFn: () =>
         fetchArticlesAndBlogs(
-          spaceFlightNewsAPI +
-            `/articles/?limit=${pageLimit}&offset=${(page - 1) * parseInt(pageLimit)}&search=${searchParams.q}`,
+          withSearchParam(
+            spaceFlightNewsAPI +
+              `/articles/?limit=${pageLimit}&offset=${(page - 1) * parseInt(pageLimit)}`,
+            q,
+          ),
         ),
     });
     return (
       <main className="wrap">
-        <ArticlesIntro q={searchParams.q} />
+        <ArticlesIntro q={q} />
         <HydrationBoundary state={dehydrate(queryClient)}>
           <Suspense>
             <ArticlesSearchResults page={page} />

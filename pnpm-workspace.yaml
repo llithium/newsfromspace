@@ -1,0 +1,9 @@
+packages:
+  - "."
+
+allowBuilds:
+  sharp: set this to true or false
+
+overrides:
+  "@types/react": "19.0.2"
+  "@types/react-dom": "19.0.2"

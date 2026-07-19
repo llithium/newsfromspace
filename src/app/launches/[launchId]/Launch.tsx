@@ -102,8 +102,13 @@ export default function LaunchInformationPage({
           </div>
           {watchUrl && (
             <div style={{ marginTop: 20 }}>
-              <a href={watchUrl} target="_blank" rel="noreferrer">
-                <button className="btn accent">▶ Watch Live</button>
+              <a
+                className="btn accent"
+                href={watchUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                ▶ Watch Live
               </a>
             </div>
           )}
@@ -119,7 +124,9 @@ export default function LaunchInformationPage({
             <Photo src={config?.image_url} className="ph" />
             <div>
               <h3>{config?.full_name || data.name}</h3>
-              <p>{config?.description || "No vehicle description available."}</p>
+              <p>
+                {config?.description || "No vehicle description available."}
+              </p>
               <div className="stats">
                 {config?.maiden_flight && (
                   <span>
@@ -217,7 +224,7 @@ export default function LaunchInformationPage({
                 <a
                   href={lsp.info_url}
                   target="_blank"
-                  rel="noreferrer"
+                  rel="noopener noreferrer"
                   style={{ color: "var(--accent-ink)" }}
                 >
                   Site ↗
@@ -266,7 +273,7 @@ export default function LaunchInformationPage({
                 key={v.url}
                 href={v.url}
                 target="_blank"
-                rel="noreferrer"
+                rel="noopener noreferrer"
                 className="block-link"
               >
                 <Photo

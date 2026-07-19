@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import Photo from "@/components/ui/Photo";
 import { fetchArticlesAndBlogs } from "../../lib/fetchArticlesAndBlogs";
-import { formatDate } from "@/lib/utils";
+import { cleanSummary, formatDate, withSearchParam } from "@/lib/utils";
 import { spaceFlightNewsAPI, pageLimit } from "src/lib/variables";
 import PageButtons from "src/components/ui/PageButtons";
 
@@ -16,8 +16,11 @@ export default function ArticlesSearchResults({ page }: { page: number }) {
     queryKey: ["articlesSearch", search, `page ${page}`],
     queryFn: () =>
       fetchArticlesAndBlogs(
-        spaceFlightNewsAPI +
-          `/articles/?limit=${pageLimit}&offset=0&search=${search}`,
+        withSearchParam(
+          spaceFlightNewsAPI +
+            `/articles/?limit=${pageLimit}&offset=${(page - 1) * parseInt(pageLimit)}`,
+          search,
+        ),
       ),
   });
 
@@ -34,13 +37,17 @@ export default function ArticlesSearchResults({ page }: { page: number }) {
               href={`/articles/${article.id}`}
             >
               <div className="item">
-                <Photo src={article.image_url} caption={article.news_site} />
+                <Photo
+                  src={article.image_url}
+                  caption={article.news_site}
+                  decorative
+                />
                 <div className="body">
                   <h2 className="hl" style={{ fontSize: 21 }}>
                     {article.title}
                   </h2>
                   <div className="sub" style={{ fontSize: 15 }}>
-                    {article.summary}
+                    {cleanSummary(article.summary)}
                   </div>
                   <div className="byline">
                     <span className="src">{article.news_site}</span>

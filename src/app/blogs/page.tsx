@@ -9,28 +9,30 @@ import { Suspense } from "react";
 import { Metadata } from "next";
 import BlogsSearchResults from "./BlogsSearchResults";
 import Blogs from "./Blogs";
+import { normalizePage, normalizeSearch, withSearchParam } from "@/lib/utils";
 
-export async function generateMetadata(
-  props: {
-    searchParams: Promise<{ [key: string]: string | undefined }>;
-  }
-): Promise<Metadata> {
+export async function generateMetadata(props: {
+  searchParams: Promise<{ [key: string]: string | undefined }>;
+}): Promise<Metadata> {
   const searchParams = await props.searchParams;
   return {
     title:
-      (searchParams.q && searchParams.q + " · News From Space") ||
-      "Blogs · News From Space",
+      (normalizeSearch(searchParams.q) &&
+        `${normalizeSearch(searchParams.q)} search`) ||
+      "Blogs",
+    description:
+      "Field notes and daily updates from space agencies and missions.",
+    alternates: { canonical: "/blogs" },
   };
 }
 
-export default async function Page(
-  props: {
-    searchParams: Promise<{ page: string; q: string }>;
-  }
-) {
+export default async function Page(props: {
+  searchParams: Promise<{ page: string; q: string }>;
+}) {
   const searchParams = await props.searchParams;
   const queryClient = new QueryClient();
-  const page = parseInt(searchParams.page) || 1;
+  const page = normalizePage(searchParams.page);
+  const q = normalizeSearch(searchParams.q);
 
   await queryClient.prefetchQuery({
     queryKey: ["blogs", `page ${page}`],
@@ -40,13 +42,16 @@ export default async function Page(
           `/blogs/?limit=${pageLimit}&offset=${(page - 1) * parseInt(pageLimit)}`,
       ),
   });
-  if (searchParams.q) {
+  if (q) {
     await queryClient.prefetchQuery({
-      queryKey: ["blogsSearch", searchParams.q, `page ${page}`],
+      queryKey: ["blogsSearch", q, `page ${page}`],
       queryFn: () =>
         fetchArticlesAndBlogs(
-          spaceFlightNewsAPI +
-            `/blogs/?limit=${pageLimit}&offset=${(page - 1) * parseInt(pageLimit)}&search=${searchParams.q}`,
+          withSearchParam(
+            spaceFlightNewsAPI +
+              `/blogs/?limit=${pageLimit}&offset=${(page - 1) * parseInt(pageLimit)}`,
+            q,
+          ),
         ),
     });
     return (

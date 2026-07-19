@@ -5,29 +5,29 @@ import Photo from "@/components/ui/Photo";
 import { formatDate } from "@/lib/utils";
 import { spaceFlightNewsAPI } from "src/lib/variables";
 import { Result } from "../Articles";
+import { fetchJson } from "@/lib/api";
+import { cleanSummary } from "@/lib/utils";
 
-export const dynamic = "force-dynamic";
+export const revalidate = 300;
 
 interface Article extends Result {
   authors?: { name: string }[];
 }
 
 async function getArticle(id: string): Promise<Article | undefined> {
-  const res = await fetch(spaceFlightNewsAPI + `/articles/${id}/`, {
-    cache: "no-cache",
-  });
-  if (!res.ok) return undefined;
-  return res.json();
+  return fetchJson<Article>(
+    spaceFlightNewsAPI + `/articles/${encodeURIComponent(id)}/`,
+    { label: "Article request", revalidate: 300 },
+  ).catch(() => undefined);
 }
 
 async function getRelated(): Promise<Result[]> {
-  const res = await fetch(
+  return fetchJson<{ results?: Result[] }>(
     spaceFlightNewsAPI + `/articles/?mode=detailed&limit=4&offset=0`,
-    { cache: "no-cache" },
-  );
-  if (!res.ok) return [];
-  const data = await res.json();
-  return data.results || [];
+    { label: "Related articles request", revalidate: 300 },
+  )
+    .then((data) => data.results || [])
+    .catch(() => []);
 }
 
 export async function generateMetadata(props: {
@@ -35,8 +35,20 @@ export async function generateMetadata(props: {
 }): Promise<Metadata> {
   const { articleId } = await props.params;
   const article = await getArticle(articleId);
+  const description = article ? cleanSummary(article.summary) : undefined;
   return {
-    title: article ? `${article.title} · News From Space` : "News From Space",
+    title: article?.title || "Article",
+    description,
+    alternates: { canonical: `/articles/${articleId}` },
+    openGraph: article
+      ? {
+          type: "article",
+          title: article.title,
+          description,
+          publishedTime: new Date(article.published_at).toISOString(),
+          images: article.image_url ? [{ url: article.image_url }] : undefined,
+        }
+      : undefined,
   };
 }
 
@@ -57,6 +69,7 @@ export default async function ArticlePage(props: {
   const words = (article.summary || "").split(/\s+/).filter(Boolean).length;
   const readTime = Math.max(1, Math.round(words / 200));
   const authors = article.authors?.map((a) => a.name).join(", ");
+  const summary = cleanSummary(article.summary);
 
   return (
     <main className="wrap">
@@ -72,7 +85,7 @@ export default async function ArticlePage(props: {
             {article.news_site} · Dispatch
           </div>
           <h1>{article.title}</h1>
-          <p className="standfirst">{article.summary}</p>
+          <p className="standfirst">{summary}</p>
           <div className="meta">
             <span className="src">{article.news_site}</span>
             {authors && <span>By {authors}</span>}
@@ -83,16 +96,21 @@ export default async function ArticlePage(props: {
       </article>
 
       <div className="hero-img">
-        <Photo src={article.image_url} caption={article.news_site} />
+        <Photo
+          src={article.image_url}
+          caption={article.news_site}
+          alt={article.title}
+          priority
+        />
         <div className="credit">Photograph · {article.news_site}</div>
       </div>
 
       <div className="prose">
-        <p className="drop">{article.summary}</p>
+        <p className="drop">{summary}</p>
         <p>
           This dispatch is summarised from {article.news_site}. The full report,
-          with the complete reporting and any media, is available at the original
-          source.
+          with the complete reporting and any media, is available at the
+          original source.
         </p>
       </div>
 
@@ -101,8 +119,13 @@ export default async function ArticlePage(props: {
           ← Back to the desk
         </Link>
         <span className="spacer"></span>
-        <a href={article.url} target="_blank" rel="noreferrer">
-          <button className="btn accent">Read at source ↗</button>
+        <a
+          className="btn accent"
+          href={article.url}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Read at source ↗
         </a>
       </div>
 
